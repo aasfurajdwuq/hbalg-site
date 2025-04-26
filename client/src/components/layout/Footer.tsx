@@ -1,7 +1,6 @@
 import { Link } from "wouter";
 import LanguageSwitcher from "@/components/shared/LanguageSwitcher";
 import { useLanguage } from "@/lib/i18n";
-import { FaWheatAwn } from "react-icons/fa6";
 import { FaMapMarkerAlt, FaPhoneAlt, FaEnvelope, FaFacebookF, FaTwitter, FaLinkedinIn, FaInstagram } from "react-icons/fa";
 import { africaIcon } from "@/assets/image-imports";
 
@@ -30,7 +29,11 @@ const Footer = () => {
           <div>
             <div className="flex items-center mb-4">
               <div className="w-8 h-8 bg-wheat flex items-center justify-center rounded-full mr-2">
-                <FaWheatAwn className="text-earth-dark" />
+                <img 
+                  src={africaIcon} 
+                  alt="Algeria Agricultural Map" 
+                  className="w-5 h-5" 
+                />
               </div>
               <div className="flex flex-col">
                 <span className="text-lg font-bold">Harvest Brothers</span>
@@ -38,13 +41,6 @@ const Footer = () => {
               </div>
             </div>
             <p className="text-stone-dark mb-4">Sustainable Desert Agriculture</p>
-            <div className="mb-4">
-              <img 
-                src={africaIcon} 
-                alt="Algeria Agricultural Map" 
-                className="w-16 h-auto" 
-              />
-            </div>
             <div className="flex space-x-4">
               <a href="#" className="text-stone-dark hover:text-wheat transition" aria-label="Facebook">
                 <FaFacebookF />
