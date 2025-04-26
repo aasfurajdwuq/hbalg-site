@@ -64,6 +64,12 @@ const WheatField = ({ inView }) => {
 
 // 3D Rotating Card Component
 const RotatingServiceCard = ({ icon, title, description, color, accentColor, index, inView, detailUrl }) => {
+  const [isFlipped, setIsFlipped] = useState(false);
+  
+  const handleCardClick = () => {
+    setIsFlipped(!isFlipped);
+  };
+  
   return (
     <motion.div
       className="relative w-full h-[400px] perspective-1000"
@@ -77,12 +83,15 @@ const RotatingServiceCard = ({ icon, title, description, color, accentColor, ind
     >
       <motion.div
         className="absolute inset-0 rounded-2xl shadow-xl preserve-3d cursor-pointer"
-        whileHover={{ 
-          rotateY: 180,
-          scale: 1.02,
-          boxShadow: "0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)"
+        animate={{ 
+          rotateY: isFlipped ? 180 : 0,
+          scale: isFlipped ? 1.02 : 1,
+          boxShadow: isFlipped 
+            ? "0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)" 
+            : "0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05)"
         }}
         transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+        onClick={handleCardClick}
       >
         {/* Front of Card */}
         <div 
@@ -96,7 +105,7 @@ const RotatingServiceCard = ({ icon, title, description, color, accentColor, ind
           <p className="text-white/80 text-center">{description}</p>
           
           <div className="absolute bottom-6 left-0 right-0 text-center text-white/70 text-sm">
-            Hover to learn more
+            Click to learn more
           </div>
         </div>
         
@@ -134,17 +143,20 @@ const RotatingServiceCard = ({ icon, title, description, color, accentColor, ind
             </li>
           </ul>
           
-          <Link href={detailUrl}>
-            <motion.button
-              className="mt-auto py-3 px-6 bg-white text-gray-900 rounded-lg font-medium"
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-            >
-              Learn More
-            </motion.button>
-          </Link>
+          <div className="mt-auto text-center text-white/70 text-sm">
+            Click to flip back
+          </div>
         </div>
       </motion.div>
+      
+      {/* Separate Learn More link outside the card */}
+      <div className="absolute bottom-[-40px] left-0 right-0 text-center">
+        <Link href={detailUrl}>
+          <span className="text-green-700 hover:text-green-800 transition-colors font-medium">
+            View Full Details
+          </span>
+        </Link>
+      </div>
     </motion.div>
   );
 };
