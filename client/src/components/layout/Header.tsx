@@ -60,9 +60,9 @@ const Header = () => {
           <div className="hidden md:flex items-center space-x-6">
             {navLinks.map((link, index) => (
               <Link key={index} href={link.href}>
-                <div className={`${location === link.href ? "text-wheat-dark" : "text-charcoal"} ${index > 4 ? "text-sm text-stone-dark" : "font-medium"} hover:text-wheat-dark transition cursor-pointer`}>
+                <a className={`${location === link.href ? "text-wheat-dark" : "text-charcoal"} ${index > 4 ? "text-sm text-stone-dark" : "font-medium"} hover:text-wheat-dark transition`}>
                   {link.label}
-                </div>
+                </a>
               </Link>
             ))}
           </div>
@@ -90,9 +90,9 @@ const Header = () => {
             <div className="flex flex-col space-y-3 pt-2 pb-3">
               {navLinks.map((link, index) => (
                 <Link key={index} href={link.href}>
-                  <div className={`${location === link.href ? "text-wheat-dark" : "text-charcoal"} ${index > 4 ? "text-sm" : "font-medium"} hover:text-wheat-dark transition px-4 py-2 hover:bg-stone-light rounded cursor-pointer`}>
+                  <a className={`${location === link.href ? "text-wheat-dark" : "text-charcoal"} ${index > 4 ? "text-sm" : "font-medium"} hover:text-wheat-dark transition px-4 py-2 hover:bg-stone-light rounded`}>
                     {link.label}
-                  </div>
+                  </a>
                 </Link>
               ))}
             </div>
