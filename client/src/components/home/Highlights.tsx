@@ -2,6 +2,25 @@ import { useRef } from "react";
 import { useLanguage } from "@/lib/i18n";
 import { motion, useInView } from "framer-motion";
 import { FaSeedling, FaLeaf, FaGlobeAfrica, FaCarrot, FaAppleAlt, FaWater } from "react-icons/fa";
+import { Link } from "wouter";
+
+// Helper function to convert highlight names to URL paths
+const getServicePath = (name: string): string => {
+  switch (name) {
+    case "Premium Crops":
+      return "saharan-crops";
+    case "Research":
+      return "agricultural-research";
+    case "Advanced Irrigation":
+    case "Water Management":
+      return "irrigation-systems";
+    case "Diversity":
+    case "Sustainable":
+    case "Global":
+    default:
+      return "";
+  }
+};
 
 // Apple-inspired highlight items showcasing diverse agricultural expertise
 const highlights = [
@@ -171,22 +190,24 @@ const Highlights = () => {
               </motion.div>
               
               {/* Apple-style learn more arrow with enhanced animation */}
-              <motion.div 
-                className="mt-6 flex items-center text-sm font-medium cursor-pointer"
-                style={{ color: highlight.color }}
-                whileHover={{ x: 5 }}
-                transition={{ type: "spring", stiffness: 400, damping: 10 }}
-              >
-                <span>Learn more</span>
-                <motion.div
-                  initial={{ x: 0 }}
-                  whileHover={{ x: [0, 5, 0], transition: { repeat: Infinity, duration: 1 } }}
+              <Link href={`/services/${getServicePath(highlight.name)}`}>
+                <motion.div 
+                  className="mt-6 flex items-center text-sm font-medium cursor-pointer"
+                  style={{ color: highlight.color }}
+                  whileHover={{ x: 5 }}
+                  transition={{ type: "spring", stiffness: 400, damping: 10 }}
                 >
-                  <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 ml-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-                  </svg>
+                  <span>Learn more</span>
+                  <motion.div
+                    initial={{ x: 0 }}
+                    whileHover={{ x: [0, 5, 0], transition: { repeat: Infinity, duration: 1 } }}
+                  >
+                    <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 ml-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                    </svg>
+                  </motion.div>
                 </motion.div>
-              </motion.div>
+              </Link>
             </motion.div>
           ))}
         </motion.div>
