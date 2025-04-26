@@ -1,11 +1,10 @@
-import { useState, useRef } from "react";
+import { useRef, useState } from "react";
 import { Helmet } from "react-helmet";
 import { motion, useScroll, useTransform, useInView, AnimatePresence } from "framer-motion";
 import { useLanguage } from "@/lib/i18n";
-import { FaWheatAwn } from "react-icons/fa6";
-import { FaLandmark, FaChartLine, FaWater, FaSeedling, FaLeaf } from "react-icons/fa";
+import { FaChartLine, FaMoneyBillWave, FaHandshake, FaSeedling } from "react-icons/fa";
 
-// WheatField Animation Component
+// Wheat Field Animation Component
 const WheatField = ({ inView }) => {
   // Create array of wheat stalks with varied properties
   const wheatStalks = Array.from({ length: 40 }, (_, i) => ({
@@ -52,7 +51,9 @@ const WheatField = ({ inView }) => {
             animate={inView ? { opacity: 1 } : { opacity: 0 }}
             transition={{ delay: stalk.delay + 0.5, duration: 0.3 }}
           >
-            <FaWheatAwn className="text-amber-400 w-full h-full" />
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" className="w-full h-full text-amber-400" fill="currentColor">
+              <path d="M12 2L9.19795 7.4721L3.3999 8.52786L7.59987 12.7279L6.59795 18.5279L12 15.8721L17.4021 18.5279L16.4001 12.7279L20.6001 8.52786L14.8021 7.4721L12 2Z" />
+            </svg>
           </motion.div>
         </motion.div>
       ))}
@@ -104,7 +105,7 @@ const RotatingServiceCard = ({ icon, title, description, color, accentColor, ind
           style={{ backgroundColor: accentColor }}
         >
           <h3 className="text-2xl font-bold mb-4 text-white">{title}</h3>
-          <p className="text-white/90 mb-4">Detailed Service Description:</p>
+          <p className="text-white/90 mb-4">Investment Benefits:</p>
           <ul className="text-white/80 space-y-2 mb-6">
             <li className="flex items-start">
               <div className="w-6 h-6 rounded-full flex items-center justify-center bg-white/20 mr-2 flex-shrink-0 mt-0.5">
@@ -112,7 +113,7 @@ const RotatingServiceCard = ({ icon, title, description, color, accentColor, ind
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" />
                 </svg>
               </div>
-              <span>Premium service with expert implementation</span>
+              <span>Premium returns with exceptional annual yield</span>
             </li>
             <li className="flex items-start">
               <div className="w-6 h-6 rounded-full flex items-center justify-center bg-white/20 mr-2 flex-shrink-0 mt-0.5">
@@ -120,7 +121,7 @@ const RotatingServiceCard = ({ icon, title, description, color, accentColor, ind
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" />
                 </svg>
               </div>
-              <span>Customized to your specific agricultural needs</span>
+              <span>Sustainable agricultural projects with long-term growth</span>
             </li>
             <li className="flex items-start">
               <div className="w-6 h-6 rounded-full flex items-center justify-center bg-white/20 mr-2 flex-shrink-0 mt-0.5">
@@ -128,7 +129,7 @@ const RotatingServiceCard = ({ icon, title, description, color, accentColor, ind
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" />
                 </svg>
               </div>
-              <span>Sustainable practices that enhance productivity</span>
+              <span>Diversified portfolio with agricultural stability</span>
             </li>
           </ul>
           
@@ -137,7 +138,7 @@ const RotatingServiceCard = ({ icon, title, description, color, accentColor, ind
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
           >
-            Request Service
+            Learn More
           </motion.button>
         </div>
       </motion.div>
@@ -145,97 +146,46 @@ const RotatingServiceCard = ({ icon, title, description, color, accentColor, ind
   );
 };
 
-// Irrigation Animation
-const IrrigationAnimation = ({ inView }) => {
-  const dots = Array.from({ length: 40 }, (_, i) => ({
-    delay: Math.random() * 2,
-    duration: Math.random() * 3 + 2,
-    size: Math.random() * 4 + 2,
-    left: Math.random() * 100
-  }));
+// Growth Animation Component
+const GrowthAnimation = ({ inView }) => {
+  const growthBars = [
+    { height: 40, color: "#4CAF50", value: "2023" },
+    { height: 60, color: "#66BB6A", value: "2024" },
+    { height: 80, color: "#81C784", value: "2025" },
+    { height: 100, color: "#A5D6A7", value: "2026" }
+  ];
 
   return (
-    <div className="relative h-60 w-full overflow-hidden bg-blue-50 rounded-2xl">
-      {/* Soil line */}
-      <div className="absolute bottom-0 left-0 right-0 h-20 bg-amber-900/20" />
+    <div className="relative h-60 w-full overflow-hidden bg-gray-50 rounded-2xl p-4">
+      <h3 className="font-bold mb-6 text-center">Investment Growth</h3>
       
-      {/* Plant */}
-      <motion.div
-        className="absolute bottom-20 left-1/2 transform -translate-x-1/2 w-1 bg-green-700"
-        initial={{ height: 0 }}
-        animate={inView ? { height: 100 } : { height: 0 }}
-        transition={{ duration: 1.5, delay: 0.5 }}
-      >
-        {/* Leaves */}
-        <motion.div 
-          className="absolute top-1/4 -left-4 w-4 h-2 bg-green-600"
-          initial={{ scaleX: 0 }}
-          animate={inView ? { scaleX: 1 } : { scaleX: 0 }}
-          transition={{ duration: 0.6, delay: 1 }}
-        />
-        <motion.div 
-          className="absolute top-2/4 left-1 w-4 h-2 bg-green-600"
-          initial={{ scaleX: 0 }}
-          animate={inView ? { scaleX: 1 } : { scaleX: 0 }}
-          transition={{ duration: 0.6, delay: 1.2 }}
-        />
-        <motion.div 
-          className="absolute top-3/4 -left-3 w-3 h-2 bg-green-600"
-          initial={{ scaleX: 0 }}
-          animate={inView ? { scaleX: 1 } : { scaleX: 0 }}
-          transition={{ duration: 0.6, delay: 1.4 }}
-        />
-        
-        {/* Plant top */}
-        <motion.div
-          className="absolute -top-6 -left-3 text-green-600"
-          initial={{ opacity: 0, scale: 0 }}
-          animate={inView ? { opacity: 1, scale: 1 } : { opacity: 0, scale: 0 }}
-          transition={{ duration: 0.8, delay: 1.6 }}
-        >
-          <FaSeedling className="w-8 h-8" />
-        </motion.div>
-      </motion.div>
+      <div className="absolute bottom-12 left-0 right-0 h-px bg-gray-200" />
       
-      {/* Water droplets */}
-      {dots.map((dot, i) => (
-        <motion.div
-          key={i}
-          className="absolute rounded-full bg-blue-500 opacity-70"
-          style={{
-            width: `${dot.size}px`,
-            height: `${dot.size}px`,
-            left: `${dot.left}%`,
-            top: '-10px'
-          }}
-          initial={{ y: -20 }}
-          animate={inView ? {
-            y: ['0%', '500%'],
-            opacity: [0.7, 0]
-          } : { y: -20 }}
-          transition={{
-            duration: dot.duration,
-            delay: dot.delay,
-            repeat: Infinity,
-            ease: "easeIn"
-          }}
-        />
-      ))}
-      
-      {/* Sprinkler */}
-      <div className="absolute top-10 left-1/2 transform -translate-x-1/2">
-        <motion.div
-          animate={inView ? {
-            rotateZ: [0, 180, 360],
-          } : { rotateZ: 0 }}
-          transition={{
-            duration: 8,
-            repeat: Infinity,
-            ease: "linear"
-          }}
-        >
-          <FaWater className="text-blue-600 w-8 h-8" />
-        </motion.div>
+      <div className="flex items-end justify-around h-[60%] px-4">
+        {growthBars.map((bar, i) => (
+          <div key={i} className="flex flex-col items-center">
+            <motion.div
+              className="w-8 rounded-t-md relative"
+              style={{ backgroundColor: bar.color }}
+              initial={{ height: 0 }}
+              animate={inView ? { height: bar.height } : { height: 0 }}
+              transition={{ 
+                duration: 1,
+                delay: 0.5 + (i * 0.2),
+              }}
+            >
+              <motion.div
+                className="absolute -top-8 text-sm font-medium text-gray-700 whitespace-nowrap"
+                initial={{ opacity: 0 }}
+                animate={inView ? { opacity: 1 } : { opacity: 0 }}
+                transition={{ delay: 1 + (i * 0.2) }}
+              >
+                {Math.round(bar.height * 0.3)}% ROI
+              </motion.div>
+            </motion.div>
+            <div className="mt-2 text-xs text-gray-500">{bar.value}</div>
+          </div>
+        ))}
       </div>
     </div>
   );
@@ -249,63 +199,16 @@ const Services = () => {
   // References for scroll animations
   const headerRef = useRef(null);
   const servicesRef = useRef(null);
-  const irrigationRef = useRef(null);
+  const growthRef = useRef(null);
   const wheatFieldRef = useRef(null);
   const advancedServicesRef = useRef(null);
   
   // Check if elements are in view
   const isHeaderInView = useInView(headerRef, { once: true });
   const isServicesInView = useInView(servicesRef, { once: true });
-  const isIrrigationInView = useInView(irrigationRef, { once: true });
+  const isGrowthInView = useInView(growthRef, { once: true });
   const isWheatFieldInView = useInView(wheatFieldRef, { once: true });
   const isAdvancedServicesInView = useInView(advancedServicesRef, { once: true, amount: 0.3 });
-
-  // Services data with enhanced visuals
-  const services = [
-    {
-      id: "cultivation",
-      icon: <FaWheatAwn className="text-4xl text-white" />,
-      title: "Premium Wheat Cultivation",
-      description: "Sustainable Saharan wheat production with our proprietary growing methods and cutting-edge irrigation technology.",
-      color: "#3E7C17", // Dark green
-      accentColor: "#2E5A0C" // Darker green
-    },
-    {
-      id: "leasing",
-      icon: <FaLandmark className="text-4xl text-white" />,
-      title: "Agricultural Land Leasing",
-      description: "Strategic farmland opportunities in Algeria's prime growing regions with established infrastructure and support.",
-      color: "#7D5A50", // Earth tone
-      accentColor: "#5D4037" // Darker earth tone
-    },
-    {
-      id: "consultancy",
-      icon: <FaChartLine className="text-4xl text-white" />,
-      title: "Agricultural Consultancy",
-      description: "Expert advice on desert agriculture, water management, and crop optimization from our team of specialists.",
-      color: "#73AB84", // Sage green
-      accentColor: "#558B6E" // Darker sage
-    }
-  ];
-
-  // Advanced technologies
-  const technologies = [
-    {
-      icon: <motion.div whileHover={{ rotate: 360 }} transition={{ duration: 1 }}><FaWater className="text-4xl text-blue-500" /></motion.div>,
-      title: "Precision Irrigation",
-      description: "Our micro-irrigation systems deliver water and nutrients directly to plant roots, reducing water usage by up to 60% compared to traditional methods."
-    },
-    {
-      icon: <motion.div whileHover={{ scale: 1.2 }} transition={{ duration: 0.5 }}><FaSeedling className="text-4xl text-green-500" /></motion.div>,
-      title: "Optimized Seed Selection",
-      description: "We've developed drought-resistant wheat varieties specifically adapted to thrive in the challenging Saharan environment."
-    },
-    {
-      icon: <motion.div whileHover={{ y: -10 }} transition={{ duration: 0.5 }}><FaLeaf className="text-4xl text-emerald-500" /></motion.div>,
-      title: "Sustainable Farming",
-      description: "Our regenerative farming practices restore soil health while maximizing yields and ensuring long-term productivity."
-    }
-  ];
 
   // Parallax effect for header
   const { scrollYProgress } = useScroll({
@@ -315,12 +218,59 @@ const Services = () => {
   
   const headerY = useTransform(scrollYProgress, [0, 1], [0, 150]);
   const headerOpacity = useTransform(scrollYProgress, [0, 0.5], [1, 0]);
+  
+  // Investment opportunity services
+  const investmentServices = [
+    {
+      id: "premium",
+      icon: <FaChartLine className="text-4xl text-white" />,
+      title: "Premium ROI",
+      description: "Achieve exceptional returns of 18% annually through our strategic agricultural investments in premium Saharan wheat.",
+      color: "#3E7C17", // Dark green
+      accentColor: "#2E5A0C" // Darker green
+    },
+    {
+      id: "partnership",
+      icon: <FaHandshake className="text-4xl text-white" />,
+      title: "Strategic Partnerships",
+      description: "Join our exclusive network of investors with flexible options from equity partnerships to revenue-sharing agreements.",
+      color: "#7D5A50", // Earth tone
+      accentColor: "#5D4037" // Darker earth tone
+    },
+    {
+      id: "sustainability",
+      icon: <FaSeedling className="text-4xl text-white" />,
+      title: "Sustainable Growth",
+      description: "Invest in environmentally conscious agriculture that delivers long-term returns while preserving natural resources.",
+      color: "#73AB84", // Sage green
+      accentColor: "#558B6E" // Darker sage
+    }
+  ];
+
+  // Advanced investment benefits
+  const investmentBenefits = [
+    {
+      icon: <motion.div whileHover={{ rotate: 360 }} transition={{ duration: 1 }}><FaMoneyBillWave className="text-4xl text-green-500" /></motion.div>,
+      title: "Steady Cash Flow",
+      description: "Our agricultural investments provide regular income distributions, creating reliable cash flow for our investment partners."
+    },
+    {
+      icon: <motion.div whileHover={{ scale: 1.2 }} transition={{ duration: 0.5 }}><FaChartLine className="text-4xl text-blue-500" /></motion.div>,
+      title: "Portfolio Diversification",
+      description: "Agricultural assets have historically shown low correlation with traditional financial markets, offering true portfolio diversification."
+    },
+    {
+      icon: <motion.div whileHover={{ y: -10 }} transition={{ duration: 0.5 }}><FaHandshake className="text-4xl text-amber-500" /></motion.div>,
+      title: "Custom Investment Structures",
+      description: "We offer flexible investment vehicles designed to meet your specific financial objectives and risk tolerance."
+    }
+  ];
 
   return (
     <>
       <Helmet>
-        <title>Agricultural Services | Harvest Brothers</title>
-        <meta name="description" content="Explore our premium agricultural services including sustainable wheat cultivation, land leasing, and expert consultancy." />
+        <title>Investment Opportunities | Harvest Brothers</title>
+        <meta name="description" content="Explore premium investment opportunities in Saharan agriculture with exceptional ROI and sustainable long-term growth." />
       </Helmet>
       
       {/* Interactive Parallax Header */}
@@ -337,8 +287,8 @@ const Services = () => {
         >
           <div className="absolute inset-0 bg-gradient-to-b from-black/70 to-black/40 z-10" />
           <img 
-            src="https://images.unsplash.com/photo-1629723448738-f58cb81805f1?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=90" 
-            alt="Wheat field" 
+            src="https://images.unsplash.com/photo-1444858291040-58f756a3bdd6?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=90" 
+            alt="Premium wheat investment" 
             className="w-full h-full object-cover"
           />
         </motion.div>
@@ -350,7 +300,7 @@ const Services = () => {
             transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
             className="text-4xl md:text-6xl font-bold mb-6 tracking-tight"
           >
-            Agricultural Excellence
+            Investment Opportunities
           </motion.h1>
           <motion.p
             initial={{ opacity: 0, y: 30 }}
@@ -358,7 +308,7 @@ const Services = () => {
             transition={{ delay: 0.2, duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
             className="text-xl md:text-2xl font-light max-w-3xl mx-auto"
           >
-            Premium services for modern desert agriculture
+            Exceptional returns through sustainable agricultural investments
           </motion.p>
         </div>
         
@@ -407,14 +357,14 @@ const Services = () => {
             transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
             className="text-center mb-16"
           >
-            <h2 className="text-4xl font-bold mb-6 tracking-tight">Our Services</h2>
+            <h2 className="text-4xl font-bold mb-6 tracking-tight">Investment Options</h2>
             <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-              Comprehensive agricultural solutions backed by years of expertise in desert farming
+              Diverse agricultural investment opportunities with exceptional returns and tangible impact
             </p>
           </motion.div>
           
           <div className="grid grid-cols-1 md:grid-cols-3 gap-10">
-            {services.map((service, index) => (
+            {investmentServices.map((service, index) => (
               <RotatingServiceCard 
                 key={service.id}
                 icon={service.icon}
@@ -430,50 +380,50 @@ const Services = () => {
         </div>
       </section>
       
-      {/* Irrigation Animation Section */}
-      <section ref={irrigationRef} className="py-20 bg-gray-50">
+      {/* Growth Animation Section */}
+      <section ref={growthRef} className="py-20 bg-gray-50">
         <div className="container mx-auto px-4">
           <div className="flex flex-col md:flex-row items-center gap-12">
             <div className="md:w-1/2">
               <motion.h2
                 initial={{ opacity: 0, y: 20 }}
-                animate={isIrrigationInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
+                animate={isGrowthInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
                 transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
                 className="text-3xl font-bold mb-6 tracking-tight"
               >
-                Revolutionary Water Management
+                Exceptional Returns on Investment
               </motion.h2>
               
               <motion.p
                 initial={{ opacity: 0, y: 20 }}
-                animate={isIrrigationInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
+                animate={isGrowthInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
                 transition={{ delay: 0.2, duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
                 className="text-lg text-gray-600 mb-6"
               >
-                Our proprietary irrigation systems have transformed desert agriculture, enabling sustainable farming in one of the world's most challenging environments.
+                Our premium Saharan wheat operations consistently deliver market-beating returns while maintaining sustainable farming practices and supporting local communities.
               </motion.p>
               
               <motion.ul
                 className="space-y-4"
                 initial={{ opacity: 0 }}
-                animate={isIrrigationInView ? { opacity: 1 } : { opacity: 0 }}
+                animate={isGrowthInView ? { opacity: 1 } : { opacity: 0 }}
                 transition={{ delay: 0.4, duration: 0.8 }}
               >
                 {[
-                  "60% reduction in water usage compared to traditional methods",
-                  "AI-powered sensors that optimize water delivery in real-time",
-                  "Solar-powered pumps that eliminate the need for fossil fuels",
-                  "Closed-loop filtration system that recycles and purifies water"
+                  "18% average annual returns over the past 5 years",
+                  "Projected growth to 25% returns as operations scale",
+                  "Low volatility compared to traditional financial markets",
+                  "Inflation-protected investment with tangible agricultural assets"
                 ].map((item, i) => (
                   <motion.li 
                     key={i}
                     initial={{ opacity: 0, x: -20 }}
-                    animate={isIrrigationInView ? { opacity: 1, x: 0 } : { opacity: 0, x: -20 }}
+                    animate={isGrowthInView ? { opacity: 1, x: 0 } : { opacity: 0, x: -20 }}
                     transition={{ delay: 0.6 + (i * 0.1), duration: 0.6 }}
                     className="flex items-start"
                   >
-                    <div className="w-6 h-6 rounded-full bg-blue-100 flex items-center justify-center mr-3 flex-shrink-0 mt-0.5">
-                      <svg className="w-3 h-3 text-blue-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <div className="w-6 h-6 rounded-full bg-green-100 flex items-center justify-center mr-3 flex-shrink-0 mt-0.5">
+                      <svg className="w-3 h-3 text-green-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" />
                       </svg>
                     </div>
@@ -484,13 +434,13 @@ const Services = () => {
             </div>
             
             <div className="md:w-1/2">
-              <IrrigationAnimation inView={isIrrigationInView} />
+              <GrowthAnimation inView={isGrowthInView} />
             </div>
           </div>
         </div>
       </section>
       
-      {/* Advanced Technologies Section */}
+      {/* Advanced Investment Benefits Section */}
       <section ref={advancedServicesRef} className="py-20 bg-white">
         <div className="container mx-auto px-4 max-w-6xl">
           <motion.div
@@ -499,14 +449,14 @@ const Services = () => {
             transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
             className="text-center mb-16"
           >
-            <h2 className="text-4xl font-bold mb-6 tracking-tight">Advanced Agricultural Technologies</h2>
+            <h2 className="text-4xl font-bold mb-6 tracking-tight">Investment Benefits</h2>
             <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-              Cutting-edge solutions that define the future of desert farming
+              Beyond exceptional returns, our investment opportunities offer unique advantages
             </p>
           </motion.div>
           
           <div className="grid grid-cols-1 md:grid-cols-3 gap-10">
-            {technologies.map((tech, index) => (
+            {investmentBenefits.map((benefit, index) => (
               <motion.div
                 key={index}
                 initial={{ opacity: 0, y: 30 }}
@@ -523,10 +473,10 @@ const Services = () => {
                 className="bg-white rounded-2xl p-8 shadow-md transition-all duration-300"
               >
                 <div className="mb-6">
-                  {tech.icon}
+                  {benefit.icon}
                 </div>
-                <h3 className="text-2xl font-bold mb-4">{tech.title}</h3>
-                <p className="text-gray-600">{tech.description}</p>
+                <h3 className="text-2xl font-bold mb-4">{benefit.title}</h3>
+                <p className="text-gray-600">{benefit.description}</p>
               </motion.div>
             ))}
           </div>
@@ -543,7 +493,7 @@ const Services = () => {
             transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
             className="text-4xl font-bold mb-6 tracking-tight"
           >
-            Ready to Transform Your Agricultural Operations?
+            Ready to Grow Your Wealth with Us?
           </motion.h2>
           
           <motion.p
@@ -553,7 +503,7 @@ const Services = () => {
             transition={{ delay: 0.2, duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
             className="text-xl font-light max-w-3xl mx-auto mb-10"
           >
-            Our team of experts is ready to help you implement cutting-edge agricultural solutions tailored to your specific needs.
+            Join our community of investors who are experiencing exceptional returns while making a positive impact on sustainable agriculture.
           </motion.p>
           
           <motion.button
@@ -565,7 +515,7 @@ const Services = () => {
             whileTap={{ scale: 0.95 }}
             className="bg-white text-green-800 py-4 px-10 rounded-full font-bold text-lg shadow-lg"
           >
-            Schedule a Consultation
+            Schedule an Investment Consultation
           </motion.button>
         </div>
       </section>
