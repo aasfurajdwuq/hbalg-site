@@ -467,7 +467,7 @@ const About = () => {
                     <div className="md:w-1/2">
                       <h3 className="text-3xl font-bold mb-6">Community Impact</h3>
                       <p className="text-xl text-gray-700 mb-6">
-                        We've created over 100+ jobs in rural Algerian communities, providing competitive wages, comprehensive healthcare, and educational opportunities for employees and their families.
+                        Our operations support sustainable agricultural development in rural Algerian communities, positively impacting the local economy while promoting knowledge transfer and capacity building.
                       </p>
                       <p className="text-xl text-gray-700">
                         Through our community outreach initiatives, we support local infrastructure development and provide educational resources that help build stronger, more resilient communities throughout the region.
