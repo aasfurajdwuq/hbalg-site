@@ -29,14 +29,32 @@ const fr = {
   },
   home: {
     meta: {
-      title: "Harvest Brothers | Culture de Blé Saharien Premium",
-      description: "Harvest Brothers propose une culture durable de blé saharien de qualité supérieure avec des pratiques agricoles innovantes et une distribution mondiale."
+      title: "Harvest Brothers | Investissement Agricole Saharien Premium",
+      description: "Harvest Brothers propose des investissements agricoles durables avec des pratiques innovantes et une distribution mondiale."
     },
     hero: {
       headline: "Des champs algériens... pour le monde.",
-      subheadline: "Culture durable de blé saharien de qualité supérieure.",
+      subheadline: "Agriculture saharienne durable de qualité supérieure.",
       contactCTA: "Contactez-nous",
       investorCTA: "Informations Investisseurs"
+    },
+    about: {
+      title: "Pionniers de l'Agriculture Désertique",
+      description: "Fondée en 2022, Harvest Brothers révolutionne l'agriculture dans la région saharienne d'Algérie grâce à des technologies innovantes et des pratiques durables.",
+      point1: "3 200 hectares de terres cultivées utilisant des systèmes d'irrigation avancés",
+      point2: "5-10% de ROI pour les investisseurs avec rapports et gestion transparents",
+      point3: "Création de plus de 100 emplois tout en mettant en œuvre des pratiques agricoles durables",
+      cta: "En savoir plus sur nous"
+    },
+    investors: {
+      title: "Opportunité d'Investissement Exceptionnelle",
+      description: "Rejoignez notre entreprise en pleine croissance avec des rendements compétitifs et un impact mesurable.",
+      stats: {
+        return: "Rendement annuel moyen de 7,5%",
+        hectares: "3 200 hectares en culture",
+        investment: "10 millions € d'investissement total sécurisé"
+      },
+      cta: "Devenir investisseur"
     }
   },
   highlights: {
@@ -66,15 +84,15 @@ const fr = {
     },
     title: "Qui Sommes-Nous",
     imageAlt: "Agriculteurs algériens travaillant dans des champs de blé",
-    paragraph1: "Harvest Brothers est une entreprise agricole familiale qui a transformé l'agriculture traditionnelle en Algérie grâce à des pratiques innovantes et durables.",
-    paragraph2: "Depuis plus d'une décennie, nous cultivons du blé saharien de qualité supérieure qui répond aux normes de qualité mondiales tout en soutenant les communautés locales et en préservant nos ressources naturelles.",
-    paragraph3: "Notre engagement envers l'excellence nous pousse à améliorer constamment nos méthodes, garantissant que chaque grain représente ce que l'Algérie a de meilleur à offrir.",
+    paragraph1: "Harvest Brothers est une entreprise agricole familiale qui transforme l'agriculture traditionnelle en Algérie grâce à des pratiques innovantes et durables.",
+    paragraph2: "Depuis notre fondation en 2022, nous avons été pionniers dans l'agriculture saharienne de qualité supérieure qui répond aux normes de qualité mondiales tout en soutenant les communautés locales et en préservant nos ressources naturelles.",
+    paragraph3: "Notre engagement envers l'excellence nous pousse à améliorer constamment nos méthodes, garantissant que tout ce que nous cultivons représente ce que l'Algérie a de meilleur à offrir.",
     learnMore: "En Savoir Plus",
     whoWeAre: {
       title: "Qui Sommes-Nous",
-      paragraph1: "Harvest Brothers a été fondée en 2012 par une famille aux racines profondes dans l'agriculture algérienne, combinant connaissances traditionnelles et pratiques durables modernes pour révolutionner la culture du blé dans la région saharienne.",
-      paragraph2: "Aujourd'hui, nous gérons plus de 500 hectares de terres agricoles de premier choix à Timimoun, où nos méthodes d'irrigation innovantes et notre gestion minutieuse des terres ont créé un écosystème florissant pour des variétés de blé premium.",
-      missionStatement: "Notre mission est de produire du blé de la plus haute qualité tout en préservant les ressources naturelles et en soutenant les communautés qui rendent notre travail possible."
+      paragraph1: "Harvest Brothers a été fondée en 2022 par une famille aux racines profondes dans l'agriculture algérienne, combinant connaissances traditionnelles et pratiques durables modernes pour révolutionner l'agriculture dans la région saharienne.",
+      paragraph2: "Aujourd'hui, nous gérons plus de 3 200 hectares de terres agricoles de premier choix en Algérie, où nos méthodes d'irrigation innovantes et notre gestion minutieuse des terres ont créé un écosystème florissant pour une agriculture durable.",
+      missionStatement: "Notre mission est de produire des produits agricoles de la plus haute qualité tout en préservant les ressources naturelles et en soutenant les communautés qui rendent notre travail possible."
     },
     ourPeople: {
       title: "Notre Équipe",

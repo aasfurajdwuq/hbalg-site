@@ -84,15 +84,15 @@ const en = {
     },
     title: "Who We Are",
     imageAlt: "Algerian farmers working in wheat fields",
-    paragraph1: "Harvest Brothers is a family-owned agricultural enterprise that has transformed traditional farming in Algeria through innovative, sustainable practices.",
-    paragraph2: "For over a decade, we've cultivated premium Sahara wheat that meets global quality standards while supporting local communities and preserving our natural resources.",
-    paragraph3: "Our commitment to excellence drives us to constantly improve our methods, ensuring that every grain represents the finest that Algeria has to offer.",
+    paragraph1: "Harvest Brothers is a family-owned agricultural enterprise that is transforming traditional farming in Algeria through innovative, sustainable practices.",
+    paragraph2: "Since our founding in 2022, we've been pioneering premium Sahara agriculture that meets global quality standards while supporting local communities and preserving our natural resources.",
+    paragraph3: "Our commitment to excellence drives us to constantly improve our methods, ensuring that everything we grow represents the finest that Algeria has to offer.",
     learnMore: "Learn More",
     whoWeAre: {
       title: "Who We Are",
-      paragraph1: "Harvest Brothers was founded in 2012 by a family with deep roots in Algerian agriculture, combining traditional knowledge with modern sustainable practices to revolutionize wheat cultivation in the Sahara region.",
-      paragraph2: "Today, we manage over 500 hectares of prime agricultural land in Timimoun, where our innovative irrigation methods and careful land management have created a thriving ecosystem for premium wheat varieties.",
-      missionStatement: "Our mission is to produce the highest quality wheat while preserving natural resources and supporting the communities that make our work possible."
+      paragraph1: "Harvest Brothers was founded in 2022 by a family with deep roots in Algerian agriculture, combining traditional knowledge with modern sustainable practices to revolutionize agriculture in the Sahara region.",
+      paragraph2: "Today, we manage over 3,200 hectares of prime agricultural land in Algeria, where our innovative irrigation methods and careful land management have created a thriving ecosystem for sustainable farming.",
+      missionStatement: "Our mission is to produce the highest quality agricultural products while preserving natural resources and supporting the communities that make our work possible."
     },
     ourPeople: {
       title: "Our People",
