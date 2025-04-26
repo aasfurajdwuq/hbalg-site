@@ -10,21 +10,13 @@ const HeroSection = () => {
   const [isLoaded, setIsLoaded] = useState(false);
   const videoRef = useRef<HTMLVideoElement>(null);
 
-  // Define the typewriter phrases and subtitles
+  // Define the typewriter phrases
   const headingPhrases = [
     "Harvest Brothers",
     "Seeds of Algeria",
     "From Algerian Fields, for the World",
     "Best in Algeria",
-    "Harvest Brothers"
-  ];
-  
-  const subtitlePhrases = [
-    "Premium agricultural investments with exceptional returns",
-    "Cultivating prosperity in North Africa's fertile regions",
-    "Global distribution of quality Algerian produce",
-    "Award-winning agricultural enterprise since 2022",
-    "Join our mission for sustainable growth and prosperity"
+    "Turning Sahara into Fields of Opportunity"
   ];
 
   useEffect(() => {
@@ -114,7 +106,6 @@ const HeroSection = () => {
           >
             <TypewriterMultiple 
               phrases={headingPhrases}
-              subtitles={subtitlePhrases}
               typingSpeed={60}
               pauseTime={4000}
               className="max-w-4xl mx-auto"

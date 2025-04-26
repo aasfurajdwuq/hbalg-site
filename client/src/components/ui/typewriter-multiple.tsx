@@ -6,21 +6,17 @@ interface TypewriterMultipleProps {
   typingSpeed?: number;
   pauseTime?: number;
   className?: string;
-  subtitles?: string[];
 }
 
 export const TypewriterMultiple = ({
   phrases,
   typingSpeed = 50,
   pauseTime = 2000,
-  className = '',
-  subtitles = []
+  className = ''
 }: TypewriterMultipleProps) => {
   const [displayedText, setDisplayedText] = useState('');
   const [currentPhraseIndex, setCurrentPhraseIndex] = useState(0);
-  const [currentSubtitleIndex, setCurrentSubtitleIndex] = useState(0);
   const [isDeleting, setIsDeleting] = useState(false);
-  const [isSubtitleChanging, setIsSubtitleChanging] = useState(false);
   const typingTimerRef = useRef<NodeJS.Timeout | null>(null);
 
   useEffect(() => {
@@ -37,18 +33,8 @@ export const TypewriterMultiple = ({
         // Done deleting, change to next phrase
         setIsDeleting(false);
         
-        // Start subtitle transition
-        setIsSubtitleChanging(true);
-        
         const nextIndex = (currentPhraseIndex + 1) % phrases.length;
         setCurrentPhraseIndex(nextIndex);
-        
-        // After a slight delay, change the subtitle
-        const timer = setTimeout(() => {
-          setCurrentSubtitleIndex(nextIndex);
-          setIsSubtitleChanging(false);
-        }, 300);
-        return () => clearTimeout(timer);
       }
     } else {
       // Adding text
@@ -95,23 +81,7 @@ export const TypewriterMultiple = ({
         </motion.span>
       </motion.h1>
       
-      {/* Subtitle with smooth transitions */}
-      <div className="h-28 md:h-32 relative">
-        {subtitles.map((subtitle, index) => (
-          <motion.p
-            key={index}
-            className="text-2xl md:text-3xl lg:text-4xl text-white/90 font-light absolute left-0 right-0 px-4"
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ 
-              opacity: currentSubtitleIndex === index ? 1 : 0,
-              y: currentSubtitleIndex === index ? 0 : 20
-            }}
-            transition={{ duration: 0.5, ease: "easeOut" }}
-          >
-            {subtitle}
-          </motion.p>
-        ))}
-      </div>
+
     </div>
   );
 };
