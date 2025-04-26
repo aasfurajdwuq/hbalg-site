@@ -44,7 +44,13 @@ const fr = {
       point1: "3 200 hectares de terres cultivées utilisant des systèmes d'irrigation avancés",
       point2: "5-10% de ROI pour les investisseurs avec rapports et gestion transparents",
       point3: "Soutien à l'économie locale par l'innovation agricole et le transfert de technologie",
-      cta: "En savoir plus sur nous"
+      cta: "En savoir plus sur nous",
+      stats: {
+        hectares: "3 200",
+        hectaresLabel: "Hectares Cultivés",
+        jobs: "100+",
+        jobsLabel: "Emplois Créés"
+      }
     },
     investors: {
       title: "Opportunité d'Investissement Exceptionnelle",

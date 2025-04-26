@@ -44,7 +44,13 @@ const en = {
       point1: "3,200 hectares of cultivated farmland using advanced irrigation systems",
       point2: "5-10% ROI for investors with transparent reporting and management",
       point3: "Supporting local economy through agricultural innovation and technology transfer",
-      cta: "Learn more about us"
+      cta: "Learn more about us",
+      stats: {
+        hectares: "3,200",
+        hectaresLabel: "Hectares Cultivated",
+        jobs: "100+",
+        jobsLabel: "Jobs Created"
+      }
     },
     investors: {
       title: "Exceptional Investment Opportunity",
