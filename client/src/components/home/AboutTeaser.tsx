@@ -42,24 +42,20 @@ const AnimatedGrain = () => {
   );
 };
 
-// Green wheat stalk icon component
-const WheatStalks = ({ count = 3, spacing = 10, height = 50, delay = 0, inView }) => {
+// Animation for financial growth charts
+const FinancialGrowth = ({ delay = 0, inView }) => {
   return (
-    <div className="flex">
-      {Array.from({ length: count }).map((_, i) => (
+    <div className="flex h-[150px] items-end space-x-4 justify-center">
+      {[35, 55, 45, 65, 75, 60, 85].map((height, i) => (
         <motion.div 
           key={i}
-          className="relative flex-shrink-0"
-          style={{ marginRight: i < count - 1 ? spacing : 0 }}
+          className="w-8 relative rounded-t-md bg-gradient-to-t from-green-600 to-green-400"
+          style={{ height: 0 }}
           initial={{ height: 0, opacity: 0 }}
           animate={inView ? { 
-            height, 
+            height: `${height}%`, 
             opacity: 1,
-            rotateZ: [
-              -2, 
-              2, 
-              -2
-            ] 
+            y: [0, -5, 0]
           } : { height: 0, opacity: 0 }}
           transition={{ 
             height: { 
@@ -71,26 +67,30 @@ const WheatStalks = ({ count = 3, spacing = 10, height = 50, delay = 0, inView }
               duration: 0.3, 
               delay: delay + (i * 0.1) + 0.2 
             },
-            rotateZ: { 
+            y: { 
               repeat: Infinity, 
-              duration: 2 + i * 0.5, 
+              duration: 3 + i * 0.3, 
               ease: "easeInOut",
-              delay: delay + (i * 0.1) + 0.5
+              delay: delay + (i * 0.1) + 0.5,
+              repeatType: "reverse"
             }
           }}
         >
-          <div className="absolute bottom-0 w-1 origin-bottom bg-green-600" style={{ height: '100%' }} />
-          
-          {/* Wheat head */}
           <motion.div
-            className="absolute -left-3 -top-6 text-amber-500"
+            className="absolute -top-8 left-1/2 transform -translate-x-1/2 bg-amber-500 rounded-full px-2 py-1 text-xs text-white font-bold"
             initial={{ opacity: 0, scale: 0 }}
             animate={inView ? { opacity: 1, scale: 1 } : { opacity: 0, scale: 0 }}
-            transition={{ delay: delay + (i * 0.1) + 0.8, duration: 0.5 }}
+            transition={{ delay: delay + (i * 0.1) + 0.5, duration: 0.3 }}
           >
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
-              <path d="M12 2L9.19795 7.4721L3.3999 8.52786L7.59987 12.7279L6.59795 18.5279L12 15.8721L17.4021 18.5279L16.4001 12.7279L20.6001 8.52786L14.8021 7.4721L12 2Z" />
-            </svg>
+            {`${height}%`}
+          </motion.div>
+          <motion.div
+            className="absolute -bottom-6 w-full text-center text-xs text-gray-500"
+            initial={{ opacity: 0 }}
+            animate={inView ? { opacity: 1 } : { opacity: 0 }}
+            transition={{ delay: delay + (i * 0.1) + 0.5, duration: 0.3 }}
+          >
+            {['Q1', 'Q2', 'Q3', 'Q4', 'Q1', 'Q2', 'Q3'][i]}
           </motion.div>
         </motion.div>
       ))}
@@ -208,9 +208,17 @@ const AboutTeaser = () => {
               <div className="absolute top-12 right-12 w-24 h-24 rounded-full bg-gradient-to-br from-green-100/40 to-green-200/40 blur-lg" />
             </motion.div>
             
-            {/* Wheat stalks decoration */}
-            <div className="absolute bottom-16 left-1/2 transform -translate-x-1/2">
-              <WheatStalks count={7} spacing={14} height={120} delay={0.5} inView={isInView} />
+            {/* Financial growth chart animation */}
+            <div className="absolute bottom-12 left-1/2 transform -translate-x-1/2 w-full">
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
+                transition={{ duration: 0.8, delay: 0.3 }}
+                className="text-center mb-4 font-bold text-green-800"
+              >
+                Investment Growth (2022-2024)
+              </motion.div>
+              <FinancialGrowth delay={0.3} inView={isInView} />
             </div>
             
             {/* 3D Floating Stats Boxes */}
