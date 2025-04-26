@@ -43,7 +43,7 @@ const Header = () => {
         <nav className="flex justify-between items-center py-4">
           {/* Logo and Site Title */}
           <Link href="/">
-            <a className="flex items-center group">
+            <div className="flex items-center group cursor-pointer">
               <img 
                 src={iconLogo} 
                 alt="Harvest Brothers Logo" 
@@ -53,7 +53,7 @@ const Header = () => {
                 <span className="text-lg font-bold text-charcoal">{t("site.title")}</span>
                 <span className="text-xs font-arabic text-earth" lang="ar">{t("site.titleArabic")}</span>
               </div>
-            </a>
+            </div>
           </Link>
           
           {/* Desktop Navigation */}

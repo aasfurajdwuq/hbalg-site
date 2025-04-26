@@ -12,7 +12,8 @@ import {
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { useStaggeredAnimation } from "@/lib/animations";
-import { FaWheatAwn, FaLandmark, FaChartLine } from "react-icons/fa";
+import { FaWheatAwn } from "react-icons/fa6";
+import { FaLandmark, FaChartLine } from "react-icons/fa";
 
 const Services = () => {
   const { t } = useLanguage();
