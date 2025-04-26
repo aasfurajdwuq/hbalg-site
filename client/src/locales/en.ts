@@ -43,7 +43,7 @@ const en = {
       description: "Founded in 2022, Harvest Brothers is revolutionizing agriculture in Algeria's Sahara region through innovative technologies and sustainable practices.",
       point1: "3,200 hectares of cultivated farmland using advanced irrigation systems",
       point2: "5-10% ROI for investors with transparent reporting and management",
-      point3: "Created over 100 jobs while implementing sustainable farming practices",
+      point3: "Supporting local economy through agricultural innovation and technology transfer",
       cta: "Learn more about us"
     },
     investors: {
