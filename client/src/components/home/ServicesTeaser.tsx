@@ -33,17 +33,7 @@ const ServiceCard = ({ title, description, icon, index, inView }) => {
         {icon}
       </div>
       <h3 className={`text-xl font-bold mb-2 ${color.text}`}>{title}</h3>
-      <p className="text-gray-600 mb-4">{description}</p>
-      
-      <motion.div
-        whileHover={{ x: 5 }}
-        className={`flex items-center text-sm font-medium ${color.text}`}
-      >
-        <span>Learn more</span>
-        <svg className="ml-1 w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7m0 0l-7 7m7-7H3" />
-        </svg>
-      </motion.div>
+      <p className="text-gray-600">{description}</p>
     </motion.div>
   );
 };
@@ -153,7 +143,7 @@ const ServicesTeaser = () => {
           {/* Apple-inspired investment opportunity cards */}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {investmentOpportunities.map((opportunity, index) => (
-              <Link key={index} href={opportunity.url}>
+              <div key={index}>
                 <ServiceCard 
                   title={opportunity.title}
                   description={opportunity.description}
@@ -161,7 +151,7 @@ const ServicesTeaser = () => {
                   index={index}
                   inView={isInView}
                 />
-              </Link>
+              </div>
             ))}
           </div>
           

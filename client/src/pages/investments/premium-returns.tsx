@@ -267,29 +267,17 @@ const PremiumReturns = () => {
               <div 
                 className="absolute inset-0 bg-gradient-to-r from-green-900/80 to-green-700/80 flex items-center justify-center"
               >
-                <motion.div 
-                  className="text-center px-4"
-                  style={{ opacity, scale }}
-                >
-                  <motion.h1 
-                    className="text-4xl md:text-6xl font-bold text-white mb-4"
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={isHeroInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
-                    transition={{ duration: 0.8, delay: 0.5 }}
-                  >
-                    Premium Returns
-                  </motion.h1>
-                  
-                  <motion.p
-                    className="text-xl text-white/90 max-w-2xl mx-auto"
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={isHeroInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
-                    transition={{ duration: 0.8, delay: 0.7 }}
-                  >
-                    Exceptional 5-10% average annual returns on agricultural investments
-                  </motion.p>
-                </motion.div>
               </div>
+            </div>
+            
+            {/* Hero heading - similar to Advanced Irrigation Systems */}
+            <div className="pt-12 pb-6 text-center">
+              <h1 className="text-4xl md:text-6xl font-bold text-green-800 mb-4">
+                Premium Returns
+              </h1>
+              <p className="text-xl text-gray-600 max-w-2xl mx-auto">
+                Exceptional 5-10% average annual returns on agricultural investments
+              </p>
             </div>
             
             {/* Main content */}
