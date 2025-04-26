@@ -25,6 +25,8 @@ interface InvestorFormData extends ContactFormData {
 
 export async function sendContactEmail(data: ContactFormData): Promise<boolean> {
   try {
+    console.log('Attempting to send contact email with data:', JSON.stringify(data));
+    
     const msg = {
       to: RECIPIENT_EMAIL,
       from: FROM_EMAIL,
@@ -44,17 +46,25 @@ Message: ${data.message}
       `,
     };
 
-    await sgMail.send(msg);
-    console.log('Contact email sent successfully');
+    console.log('Prepared email message:', JSON.stringify(msg, null, 2));
+    
+    const result = await sgMail.send(msg);
+    console.log('SendGrid API response:', JSON.stringify(result));
+    console.log('Contact email sent successfully to', RECIPIENT_EMAIL);
     return true;
   } catch (error) {
     console.error('Error sending contact email:', error);
+    if (error.response) {
+      console.error('SendGrid API error details:', error.response.body);
+    }
     return false;
   }
 }
 
 export async function sendInvestorEmail(data: InvestorFormData): Promise<boolean> {
   try {
+    console.log('Attempting to send investor email with data:', JSON.stringify(data));
+    
     const msg = {
       to: RECIPIENT_EMAIL,
       from: FROM_EMAIL,
@@ -78,11 +88,17 @@ ${data.company ? `<p><strong>Company:</strong> ${data.company}</p>` : ''}
       `,
     };
 
-    await sgMail.send(msg);
-    console.log('Investor email sent successfully');
+    console.log('Prepared investor email message:', JSON.stringify(msg, null, 2));
+    
+    const result = await sgMail.send(msg);
+    console.log('SendGrid API response for investor email:', JSON.stringify(result));
+    console.log('Investor email sent successfully to', RECIPIENT_EMAIL);
     return true;
   } catch (error) {
     console.error('Error sending investor email:', error);
+    if (error.response) {
+      console.error('SendGrid API error details for investor email:', error.response.body);
+    }
     return false;
   }
 }
