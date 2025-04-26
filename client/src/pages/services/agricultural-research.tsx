@@ -347,12 +347,15 @@ const AgriculturalResearchDetail = () => {
             </Helmet>
             
             {/* Close button */}
-            <button 
-              onClick={() => setIsModalOpen(false)}
-              className="absolute top-4 right-4 z-50 w-10 h-10 rounded-full bg-white/90 shadow-lg flex items-center justify-center text-gray-700 hover:bg-gray-100 transition-colors"
-            >
-              <FaTimes className="text-lg" />
-            </button>
+            <Link href="/services">
+              <button 
+                onClick={() => setIsModalOpen(false)}
+                className="absolute top-4 right-4 z-50 w-10 h-10 rounded-full bg-white/90 shadow-lg flex items-center justify-center text-gray-700 hover:bg-gray-100 transition-colors"
+                aria-label="Close and return to services"
+              >
+                <FaTimes className="text-lg" />
+              </button>
+            </Link>
             
             {/* Hero section */}
             <div ref={heroRef} className="relative h-[40vh] overflow-hidden">
