@@ -314,9 +314,11 @@ const Investors = () => {
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.6, duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
             >
-              <button className="bg-white text-green-800 py-4 px-8 rounded-full font-medium shadow-lg hover:bg-opacity-90 transition-all duration-300">
-                Get Investment Proposal
-              </button>
+              <a href="#contact-form">
+                <button className="bg-white text-green-800 py-4 px-8 rounded-full font-medium shadow-lg hover:bg-opacity-90 transition-all duration-300">
+                  Get Investment Proposal
+                </button>
+              </a>
             </motion.div>
           </div>
         </div>
@@ -515,7 +517,7 @@ const Investors = () => {
       </section>
       
       {/* Contact Form */}
-      <section ref={contactRef} className="py-20 bg-gradient-to-r from-green-800 to-amber-700 text-white">
+      <section id="contact-form" ref={contactRef} className="py-20 bg-gradient-to-r from-green-800 to-amber-700 text-white">
         <div className="container mx-auto px-4">
           <div className="max-w-3xl mx-auto">
             <motion.div

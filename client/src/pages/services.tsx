@@ -554,7 +554,7 @@ const Services = () => {
             Join our community of investors who are experiencing exceptional returns while making a positive impact on sustainable agriculture.
           </motion.p>
           
-          <Link href="/investors">
+          <Link href="/investors#contact-form">
             <motion.button
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
