@@ -145,7 +145,7 @@ const ContactTeaser = () => {
               transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
             >
               <h2 className="text-3xl md:text-4xl font-bold mb-6 tracking-tight">
-                {t("home.contact.title")}
+                Contact Us
               </h2>
             </motion.div>
             
@@ -155,7 +155,7 @@ const ContactTeaser = () => {
               transition={{ duration: 0.8, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
             >
               <p className="text-xl font-light mb-8">
-                {t("home.contact.description")}
+                Get in touch with our team for investment opportunities, partnerships, or to learn more about Harvest Brothers.
               </p>
             </motion.div>
             
@@ -220,7 +220,7 @@ const ContactTeaser = () => {
                   whileTap={{ scale: 0.95 }}
                   className="bg-white text-green-800 py-3 px-8 rounded-full inline-flex items-center transition-colors duration-300"
                 >
-                  <span className="font-medium">{t("home.contact.cta")}</span>
+                  <span className="font-medium">Contact Us</span>
                   <svg className="ml-2 w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7m0 0l-7 7m7-7H3" />
                   </svg>
@@ -236,7 +236,16 @@ const ContactTeaser = () => {
             transition={{ duration: 1, delay: 0.3 }}
             className="relative bg-white/10 backdrop-blur-sm rounded-2xl h-96 overflow-hidden"
           >
-            <AnimatedLocationPin inView={isInView} />
+            <iframe 
+              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d112983.42025869848!2d0.16982836422128894!3d29.261222436429697!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x11b5f81fe48eb999%3A0xa1e9bbc42f42a4b1!2sTimimoun%2C%20Algeria!5e0!3m2!1sen!2sus!4v1681234567890!5m2!1sen!2sus" 
+              width="100%" 
+              height="100%" 
+              style={{ border: 0 }} 
+              allowFullScreen={false} 
+              loading="lazy" 
+              referrerPolicy="no-referrer-when-downgrade"
+              title="Timimoun, Algeria Map"
+            />
           </motion.div>
         </div>
       </div>
