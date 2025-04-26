@@ -16,6 +16,9 @@ import DiversePortfolio from "@/pages/services/diverse-portfolio";
 import SustainablePractices from "@/pages/services/sustainable-practices";
 import GlobalDistribution from "@/pages/services/global-distribution";
 import Investors from "@/pages/investors";
+import PremiumReturns from "@/pages/investments/premium-returns";
+import StrategicPartnerships from "@/pages/investments/strategic-partnerships";
+import SustainableGrowth from "@/pages/investments/sustainable-growth";
 import Contact from "@/pages/contact";
 import Legal from "@/pages/legal";
 import { useLanguage } from "./lib/i18n";
@@ -32,6 +35,9 @@ function Router() {
       <Route path="/services/diverse-portfolio" component={DiversePortfolio} />
       <Route path="/services/sustainable-practices" component={SustainablePractices} />
       <Route path="/services/global-distribution" component={GlobalDistribution} />
+      <Route path="/investments/premium-returns" component={PremiumReturns} />
+      <Route path="/investments/strategic-partnerships" component={StrategicPartnerships} />
+      <Route path="/investments/sustainable-growth" component={SustainableGrowth} />
       <Route path="/investors" component={Investors} />
       <Route path="/contact" component={Contact} />
       <Route path="/legal" component={Legal} />

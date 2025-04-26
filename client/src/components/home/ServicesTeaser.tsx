@@ -106,17 +106,20 @@ const ServicesTeaser = () => {
     {
       icon: <FaChartLine className="text-xl text-green-700" />,
       title: "Premium Returns",
-      description: "Consistently delivering 5-10% average annual returns (7% average) to our investors, outperforming traditional agricultural investments while creating sustainable value."
+      description: "Consistently delivering 5-10% average annual returns (7% average) to our investors, outperforming traditional agricultural investments while creating sustainable value.",
+      url: "/investments/premium-returns"
     },
     {
       icon: <FaHandshake className="text-xl text-amber-700" />,
-      title: "Partnership Models",
-      description: "Flexible investment structures available, from equity partnerships to revenue-sharing agreements tailored to your goals."
+      title: "Strategic Partnerships",
+      description: "Flexible investment structures available, from equity partnerships to revenue-sharing agreements tailored to your goals.",
+      url: "/investments/strategic-partnerships"
     },
     {
       icon: <FaLeaf className="text-xl text-blue-700" />,
       title: "Sustainable Growth",
-      description: "Our eco-friendly practices ensure long-term growth while positively impacting the environment and local communities."
+      description: "Our eco-friendly practices ensure long-term growth while positively impacting the environment and local communities.",
+      url: "/investments/sustainable-growth"
     }
   ];
 
@@ -150,7 +153,7 @@ const ServicesTeaser = () => {
           {/* Apple-inspired investment opportunity cards */}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {investmentOpportunities.map((opportunity, index) => (
-              <Link key={index} href="/investors">
+              <Link key={index} href={opportunity.url}>
                 <ServiceCard 
                   title={opportunity.title}
                   description={opportunity.description}
