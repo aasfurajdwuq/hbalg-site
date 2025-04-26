@@ -8,10 +8,10 @@ import { FaChartLine, FaLeaf, FaHandshake, FaUsers } from "react-icons/fa";
 // Animated Chart Component
 const AnimatedChart = ({ inView }) => {
   const chartBars = [
-    { height: 70, color: "#4CAF50", label: "2023", value: "7.0%" },
-    { height: 75, color: "#66BB6A", label: "2024", value: "7.1%" },
-    { height: 78, color: "#81C784", label: "2025", value: "7.2%" },
-    { height: 80, color: "#A5D6A7", label: "2026 (Projected)", value: "7.3%" }
+    { height: 60, color: "#4CAF50", label: "2023", value: "6.0%" },
+    { height: 75, color: "#66BB6A", label: "2024", value: "7.5%" },
+    { height: 85, color: "#81C784", label: "2025", value: "8.5%" },
+    { height: 95, color: "#A5D6A7", label: "2026 (Projected)", value: "9.5%" }
   ];
 
   return (

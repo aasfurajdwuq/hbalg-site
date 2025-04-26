@@ -288,7 +288,7 @@ const Services = () => {
             opacity: headerOpacity
           }}
         >
-          <div className="absolute inset-0 bg-gradient-to-b from-black/70 to-black/40 z-10" />
+          <div className="absolute inset-0 bg-black z-10" />
           <img 
             src="https://images.unsplash.com/photo-1444858291040-58f756a3bdd6?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=90" 
             alt="Premium wheat investment" 
