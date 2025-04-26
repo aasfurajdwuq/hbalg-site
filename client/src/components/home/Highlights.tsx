@@ -3,42 +3,42 @@ import { useLanguage } from "@/lib/i18n";
 import { motion, useInView } from "framer-motion";
 import { FaSeedling, FaLeaf, FaGlobeAfrica, FaCarrot, FaAppleAlt, FaWater } from "react-icons/fa";
 
-// Apple-inspired highlight items showcasing diverse crops
+// Apple-inspired highlight items showcasing diverse agricultural expertise
 const highlights = [
   {
     icon: FaSeedling,
-    color: "#D6B85A", // Wheat gold
-    name: "Wheat",
-    title: "Premium Saharan Wheat",
-    subtitle: "Our signature crop with exceptional yield",
-    details: "Cultivated using innovative techniques that maximize growth in arid conditions, our wheat varieties have been specially bred for the Saharan region.",
+    color: "#D6B85A", // Gold
+    name: "Premium Crops",
+    title: "Premium Saharan Crops",
+    subtitle: "Our signature harvests with exceptional yield",
+    details: "Cultivated using innovative techniques that maximize growth in arid conditions, our crop varieties have been specially selected for the Saharan region.",
     delay: 0
   },
   {
     icon: FaCarrot,
-    color: "#E67E22", // Carrot orange
-    name: "Root Vegetables",
-    title: "Premium Potatoes & Carrots",
-    subtitle: "High-yield root vegetables",
-    details: "Our potatoes and root vegetables thrive in the mineral-rich soil of our farms, producing exceptional harvests with superior taste profiles.",
+    color: "#E67E22", // Orange
+    name: "Research",
+    title: "Agricultural Research",
+    subtitle: "Developing high-yield cultivation methods",
+    details: "Our research teams develop crops that thrive in the mineral-rich soil of our farms, producing exceptional harvests with superior quality and nutrition profiles.",
     delay: 0.1
   },
   {
     icon: FaWater,
-    color: "#1ABC9C", // Watermelon teal
-    name: "Watermelon",
-    title: "Succulent Watermelons",
-    subtitle: "Juicy desert-grown melons",
-    details: "Our watermelons benefit from the intense Saharan sun, developing exceptional sweetness and flavor while utilizing our water-efficient growing techniques.",
+    color: "#1ABC9C", // Teal
+    name: "Water Management",
+    title: "Advanced Irrigation Systems",
+    subtitle: "Desert-optimized water management",
+    details: "Our crops benefit from innovative irrigation technologies, developing exceptional growth while utilizing our water-efficient cultivation techniques.",
     delay: 0.2
   },
   {
     icon: FaAppleAlt,
-    color: "#C0392B", // Apple red
-    name: "Fruits",
-    title: "Diverse Fruit Cultivation",
-    subtitle: "Desert-adapted fruit varieties",
-    details: "We're pioneering the cultivation of specialized fruit varieties adapted to thrive in desert conditions with minimal water requirements.",
+    color: "#C0392B", // Red
+    name: "Diversity",
+    title: "Diverse Agricultural Portfolio",
+    subtitle: "Desert-adapted cultivation varieties",
+    details: "We're pioneering the cultivation of specialized crop varieties adapted to thrive in desert conditions with minimal water requirements.",
     delay: 0.3
   },
   {
@@ -89,7 +89,7 @@ const Highlights = () => {
           className="text-center mb-16"
         >
           <h2 className="text-4xl md:text-5xl font-bold tracking-tight mb-4">Diverse Agricultural Cultivation</h2>
-          <p className="text-xl text-gray-600 max-w-3xl mx-auto">Growing premium crops from wheat to watermelon through innovation, sustainability, and world-class farming techniques.</p>
+          <p className="text-xl text-gray-600 max-w-3xl mx-auto">Growing premium crops through innovation, sustainability, and world-class farming techniques optimized for desert conditions.</p>
         </motion.div>
         
         {/* Apple-style highlight items with more advanced grid */}

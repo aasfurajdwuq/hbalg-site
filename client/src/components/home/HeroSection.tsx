@@ -116,7 +116,7 @@ const HeroSection = () => {
             animate="visible"
             className="text-xl md:text-2xl lg:text-3xl text-white/90 mb-10 max-w-3xl mx-auto font-light"
           >
-            <p className="mb-3">Innovative farming of wheat, potatoes, watermelon and more</p>
+            <p className="mb-3">Innovative farming with advanced agricultural techniques</p>
             <motion.p 
               initial={{ opacity: 0.7 }}
               animate={{ opacity: [0.7, 1, 0.7] }}

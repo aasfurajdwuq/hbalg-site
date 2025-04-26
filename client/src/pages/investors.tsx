@@ -481,14 +481,14 @@ const Investors = () => {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             <TestimonialCard 
               quote="My investment in Harvest Brothers has consistently outperformed my traditional portfolio. Their transparent reporting and sustainable practices give me confidence in both the financial and ecological returns."
-              author="Michael Johnson"
+              author="Mohammed Al-Fasi"
               company="Private Investor"
               delay={0}
               inView={isTestimonialsInView}
             />
             <TestimonialCard 
               quote="As someone deeply concerned about climate change, I was looking for investments that aligned with my values. Harvest Brothers delivers exceptional returns while regenerating the land—exactly what I was searching for."
-              author="Sarah Williams"
+              author="Amina Khalidi"
               company="Green Capital Partners"
               delay={0.2}
               inView={isTestimonialsInView}
