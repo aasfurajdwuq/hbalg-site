@@ -502,26 +502,26 @@ const About = () => {
           >
             <h2 className="text-4xl font-bold mb-6 tracking-tight">Our Leadership</h2>
             <p className="text-xl text-gray-300 max-w-3xl mx-auto">
-              Combining generations of agricultural expertise with innovative technology and sustainable vision.
+              A dedicated team of executives committed to exceptional customer service, financial management, and sustainable growth.
             </p>
           </motion.div>
           
           <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
             {[
               {
-                name: "Mohammed Khalil",
+                name: "Karim",
                 title: "Founder & CEO",
                 bio: "Pioneer in sustainable desert agriculture with 25+ years experience transforming arid lands into productive farmland."
               },
               {
-                name: "Amina Benali",
-                title: "Head of Agricultural Innovation",
-                bio: "Agricultural scientist specializing in drought-resistant crops and water-efficient farming techniques."
+                name: "Adam Benali",
+                title: "Vice President",
+                bio: "With 5 years of exceptional customer service experience, oversees all operations and ensures the highest standards while supervising all team members."
               },
               {
-                name: "Youcef Bouaziz",
-                title: "Sustainability Director",
-                bio: "Environmental engineer focused on renewable energy integration and carbon-neutral agricultural operations."
+                name: "Slimane Bouaziz",
+                title: "Finance Director",
+                bio: "Financial specialist responsible for managing investments, budgeting, and ensuring the sustainable financial growth of all agricultural operations."
               }
             ].map((person, i) => (
               <motion.div 
