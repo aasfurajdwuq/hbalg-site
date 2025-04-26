@@ -8,10 +8,10 @@ import { FaChartLine, FaLeaf, FaHandshake, FaUsers } from "react-icons/fa";
 // Animated Chart Component
 const AnimatedChart = ({ inView }) => {
   const chartBars = [
-    { height: 70, color: "#4CAF50", label: "2023", value: "247%" },
-    { height: 85, color: "#66BB6A", label: "2024", value: "312%" },
-    { height: 95, color: "#81C784", label: "2025", value: "368%" },
-    { height: 90, color: "#A5D6A7", label: "2026 (Projected)", value: "415%" }
+    { height: 70, color: "#4CAF50", label: "2023", value: "7.0%" },
+    { height: 75, color: "#66BB6A", label: "2024", value: "7.1%" },
+    { height: 78, color: "#81C784", label: "2025", value: "7.2%" },
+    { height: 80, color: "#A5D6A7", label: "2026 (Projected)", value: "7.3%" }
   ];
 
   return (
@@ -113,7 +113,7 @@ const ROICalculator = ({ inView }) => {
   
   const calculateROI = () => {
     // Projected annual return: 5-10%
-    const annualReturn = 0.075; // Using middle of range
+    const annualReturn = 0.07; // Using 7% average
     return Math.round(investment * Math.pow(1 + annualReturn, years));
   };
   
@@ -334,7 +334,7 @@ const Investors = () => {
         <div className="container mx-auto px-4">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-10">
             {[
-              { value: 7.5, suffix: "%", label: "Average Annual Return", icon: <FaChartLine className="text-amber-500 text-5xl mb-4" /> },
+              { value: 7, suffix: "%", label: "Average Annual Return", icon: <FaChartLine className="text-amber-500 text-5xl mb-4" /> },
               { value: 500, suffix: "+", label: "Hectares Under Management", icon: <FaLeaf className="text-green-500 text-5xl mb-4" /> },
               { value: 10, suffix: "M", label: "Total Investment Managed", icon: <FaHandshake className="text-blue-500 text-5xl mb-4" /> }
             ].map((stat, i) => (
