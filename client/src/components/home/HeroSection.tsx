@@ -3,11 +3,29 @@ import { Link } from "wouter";
 import { motion } from "framer-motion";
 import { useLanguage } from "@/lib/i18n";
 import { iconLogo } from "@/assets/image-imports";
+import { TypewriterMultiple } from "@/components/ui/typewriter-multiple";
 
 const HeroSection = () => {
   const { t } = useLanguage();
   const [isLoaded, setIsLoaded] = useState(false);
   const videoRef = useRef<HTMLVideoElement>(null);
+
+  // Define the typewriter phrases and subtitles
+  const headingPhrases = [
+    "Premium Algerian Agriculture Investments",
+    "Sustainable Desert Farming Technology",
+    "High-Yield Agricultural Opportunities",
+    "Advanced Irrigation Solutions",
+    "Eco-Friendly Farming Innovation"
+  ];
+  
+  const subtitlePhrases = [
+    "Innovative farming with advanced agricultural techniques",
+    "Transforming arid lands into productive ecosystems",
+    "Secure investments with 5-10% annual returns",
+    "Join our mission for sustainable food production",
+    "Supporting communities while growing your wealth"
+  ];
 
   useEffect(() => {
     setIsLoaded(true);
@@ -87,43 +105,20 @@ const HeroSection = () => {
             <img src={iconLogo} alt="Harvest Brothers" className="h-24 w-auto" />
           </motion.div>
           
-          {/* Headline with Apple-style animation and floating 3D effect */}
-          <motion.h1 
+          {/* TypewriterMultiple component with changing phrases */}
+          <motion.div
             variants={headlineVariants}
             initial="hidden"
             animate="visible"
-            whileInView={{ 
-              rotateX: [0, 1, 0, -1, 0], 
-              rotateY: [0, 1, 0, -1, 0],
-              z: [0, 10, 0, -10, 0]
-            }}
-            transition={{ 
-              duration: 10, 
-              repeat: Infinity, 
-              repeatType: "loop",
-              ease: "easeInOut" 
-            }}
-            className="text-4xl md:text-6xl lg:text-7xl font-bold mb-4 text-white tracking-tight transform-gpu"
-            style={{ perspective: "1000px" }}
+            className="mb-10"
           >
-            Premium Algerian Agriculture Investments
-          </motion.h1>
-          
-          {/* Subheading with Apple-style animation and dynamic text */}
-          <motion.div
-            variants={subheadVariants}
-            initial="hidden"
-            animate="visible"
-            className="text-xl md:text-2xl lg:text-3xl text-white/90 mb-10 max-w-3xl mx-auto font-light"
-          >
-            <p className="mb-3">Innovative farming with advanced agricultural techniques</p>
-            <motion.p 
-              initial={{ opacity: 0.7 }}
-              animate={{ opacity: [0.7, 1, 0.7] }}
-              transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
-            >
-              Join our growing enterprise with exceptional investor returns
-            </motion.p>
+            <TypewriterMultiple 
+              phrases={headingPhrases}
+              subtitles={subtitlePhrases}
+              typingSpeed={40}
+              pauseTime={3000}
+              className="max-w-3xl mx-auto"
+            />
           </motion.div>
           
           {/* CTA buttons with advanced animation effects */}
