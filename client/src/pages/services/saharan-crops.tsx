@@ -251,7 +251,7 @@ const DriftingSun = () => {
 };
 
 // Main Component
-const SaharanCropsDetail = () => {
+const SaharanCrops = () => {
   const { t } = useLanguage();
   
   // Section refs for animations
@@ -488,4 +488,4 @@ const SaharanCropsDetail = () => {
   );
 };
 
-export default SaharanCropsDetail;
+export default SaharanCrops;

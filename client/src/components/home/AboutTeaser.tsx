@@ -259,8 +259,8 @@ const AboutTeaser = () => {
                 className="bg-white rounded-xl shadow-xl p-5 transform-gpu"
                 style={{ transformStyle: "preserve-3d", perspective: "1000px" }}
               >
-                <div className="font-bold text-3xl text-green-700">{t("home.about.stats.jobs")}</div>
-                <div className="text-sm font-medium text-gray-700">{t("home.about.stats.jobsLabel")}</div>
+                <div className="font-bold text-3xl text-green-700">100+</div>
+                <div className="text-sm font-medium text-gray-700">Jobs Created</div>
               </motion.div>
             </div>
           </div>
