@@ -225,7 +225,7 @@ const Services = () => {
       id: "premium",
       icon: <FaChartLine className="text-4xl text-white" />,
       title: "Premium ROI",
-      description: "Achieve exceptional returns of 10-15% annually through our strategic agricultural investments in premium Saharan wheat.",
+      description: "Achieve exceptional returns of 5-10% annually through our strategic agricultural investments in premium Saharan wheat.",
       color: "#3E7C17", // Dark green
       accentColor: "#2E5A0C" // Darker green
     },
@@ -410,7 +410,7 @@ const Services = () => {
                 transition={{ delay: 0.4, duration: 0.8 }}
               >
                 {[
-                  "10-15% average annual returns since 2022",
+                  "5-10% average annual returns since 2022",
                   "Steady consistent growth with expanding operations",
                   "Low volatility compared to traditional financial markets",
                   "Inflation-protected investment with tangible agricultural assets"
