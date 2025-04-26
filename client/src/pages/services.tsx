@@ -149,10 +149,10 @@ const RotatingServiceCard = ({ icon, title, description, color, accentColor, ind
 // Growth Animation Component
 const GrowthAnimation = ({ inView }) => {
   const growthBars = [
-    { height: 40, color: "#4CAF50", value: "2023" },
-    { height: 60, color: "#66BB6A", value: "2024" },
-    { height: 80, color: "#81C784", value: "2025" },
-    { height: 100, color: "#A5D6A7", value: "2026" }
+    { height: 40, color: "#4CAF50", value: "2022" },
+    { height: 50, color: "#66BB6A", value: "2023" },
+    { height: 60, color: "#81C784", value: "2024" },
+    { height: 75, color: "#A5D6A7", value: "2025" }
   ];
 
   return (
@@ -180,7 +180,7 @@ const GrowthAnimation = ({ inView }) => {
                 animate={inView ? { opacity: 1 } : { opacity: 0 }}
                 transition={{ delay: 1 + (i * 0.2) }}
               >
-                {Math.round(bar.height * 0.3)}% ROI
+                {Math.round(bar.height * 0.2)}% ROI
               </motion.div>
             </motion.div>
             <div className="mt-2 text-xs text-gray-500">{bar.value}</div>
@@ -225,7 +225,7 @@ const Services = () => {
       id: "premium",
       icon: <FaChartLine className="text-4xl text-white" />,
       title: "Premium ROI",
-      description: "Achieve exceptional returns of 18% annually through our strategic agricultural investments in premium Saharan wheat.",
+      description: "Achieve exceptional returns of 10-15% annually through our strategic agricultural investments in premium Saharan wheat.",
       color: "#3E7C17", // Dark green
       accentColor: "#2E5A0C" // Darker green
     },
@@ -410,8 +410,8 @@ const Services = () => {
                 transition={{ delay: 0.4, duration: 0.8 }}
               >
                 {[
-                  "18% average annual returns over the past 5 years",
-                  "Projected growth to 25% returns as operations scale",
+                  "10-15% average annual returns since 2022",
+                  "Steady consistent growth with expanding operations",
                   "Low volatility compared to traditional financial markets",
                   "Inflation-protected investment with tangible agricultural assets"
                 ].map((item, i) => (
