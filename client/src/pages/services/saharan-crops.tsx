@@ -296,11 +296,11 @@ const SaharanCropsDetail = () => {
             </Helmet>
             
             {/* Close button */}
-            <Link href="/services">
+            <Link href="/">
               <button 
                 onClick={() => setIsModalOpen(false)}
                 className="absolute top-4 right-4 z-50 w-10 h-10 rounded-full bg-white/90 shadow-lg flex items-center justify-center text-gray-700 hover:bg-gray-100 transition-colors"
-                aria-label="Close and return to services"
+                aria-label="Close and return to home"
               >
                 <FaTimes className="text-lg" />
               </button>

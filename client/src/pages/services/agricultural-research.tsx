@@ -2,7 +2,7 @@ import React, { useRef, useState } from "react";
 import { Helmet } from "react-helmet";
 import { motion, useInView, useScroll, useTransform, AnimatePresence } from "framer-motion";
 import { Link } from "wouter";
-import { FaFlask, FaMicroscope, FaChartLine, FaLeaf, FaClipboardCheck, FaChevronRight, FaTimes } from "react-icons/fa";
+import { FaFlask, FaMicroscope, FaChartLine, FaLeaf, FaClipboardCheck, FaChevronRight, FaTimes, FaWater } from "react-icons/fa";
 import { useLanguage } from "@/lib/i18n";
 
 // Animated Research Graph
@@ -347,11 +347,11 @@ const AgriculturalResearchDetail = () => {
             </Helmet>
             
             {/* Close button */}
-            <Link href="/services">
+            <Link href="/">
               <button 
                 onClick={() => setIsModalOpen(false)}
                 className="absolute top-4 right-4 z-50 w-10 h-10 rounded-full bg-white/90 shadow-lg flex items-center justify-center text-gray-700 hover:bg-gray-100 transition-colors"
-                aria-label="Close and return to services"
+                aria-label="Close and return to home"
               >
                 <FaTimes className="text-lg" />
               </button>
