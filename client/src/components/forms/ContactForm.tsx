@@ -41,14 +41,15 @@ const ContactForm = () => {
     try {
       await apiRequest("POST", "/api/contact", data);
       toast({
-        title: t("contact.form.success.title"),
-        description: t("contact.form.success.message"),
+        title: t("contact.form.success.title") || "Message Sent!",
+        description: t("contact.form.success.message") || "Your message has been sent successfully to our team at kwph123@aol.com",
       });
       form.reset();
     } catch (error) {
+      console.error("Form submission error:", error);
       toast({
-        title: t("contact.form.error.title"),
-        description: t("contact.form.error.message"),
+        title: t("contact.form.error.title") || "Message Failed",
+        description: t("contact.form.error.message") || "There was a problem sending your message. Please try again later.",
         variant: "destructive",
       });
     } finally {

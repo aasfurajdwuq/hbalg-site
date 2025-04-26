@@ -45,14 +45,15 @@ const InvestorForm = () => {
     try {
       await apiRequest("POST", "/api/investor", data);
       toast({
-        title: t("investors.form.success.title"),
-        description: t("investors.form.success.message"),
+        title: t("investors.form.success.title") || "Investment Request Sent!",
+        description: t("investors.form.success.message") || "Your investment request has been sent successfully to our team at kwph123@aol.com. We will contact you shortly.",
       });
       form.reset();
     } catch (error) {
+      console.error("Form submission error:", error);
       toast({
-        title: t("investors.form.error.title"),
-        description: t("investors.form.error.message"),
+        title: t("investors.form.error.title") || "Request Failed",
+        description: t("investors.form.error.message") || "There was a problem sending your investment request. Please try again later.",
         variant: "destructive",
       });
     } finally {
