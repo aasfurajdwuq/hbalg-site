@@ -1,0 +1,182 @@
+Logo (32×32): custom icon
+
+Site Title: “Harvest Brothers” (Arabic / English)
+
+Nav Links: Home │ About Us │ Services │ Investors │ Contact │ Privacy │ Terms
+
+Language Switcher: auto-detect + dropdown (Arabic, English, French, Urdu, Spanish + any browser locale)
+
+Responsive Nav: collapsible mobile menu
+
+1. Home Page (/)
+Hero Section
+
+Full-screen background: user-supplied farm image
+
+Headline: “From Algerian Fields… for the World.”
+
+Subhead: “Premium, sustainable Sahara wheat cultivation.”
+
+CTAs: “Contact Us” & “Investor Info”
+
+Animation: smooth fade-in on load; typewriter effect on headline
+
+Badge Strip (centered under hero)
+
+![Best in Timimoun Badge](/mnt/data/Best In Timimoun Badge.png)
+
+![Let’s Grow Together Badge](/mnt/data/Let’s Grow Together Badge.png)
+
+![Best in Algeria Badge](/mnt/data/Best In Algeria Badge.png)
+
+Animation: scroll-triggered slide-in
+
+Highlights (3-column grid)
+
+Icon + Title + 1-line for:
+
+Land & Climate (use Algeria-outline icon)
+
+Sustainable Practices (use wheat-icon)
+
+Global Reach (use globe icon)
+
+Interaction: hover flip-card with brief detail
+
+About Teaser
+
+Photo + 3-sentence “Who We Are” blurb
+
+“Learn More →”
+
+Animation: image zoom on hover
+
+Services Teaser
+
+3 cards (cultivation, leasing, consultancy)
+
+“View All Services →”
+
+Investor Teaser
+
+Best in Timimoun badge + one-line pitch
+
+“Our top-ranked farm in Timimoun is setting the standard for Sahara agriculture—partner with us.”
+
+“Become an Investor →”
+
+Animation: pulse on badge
+
+Contact Teaser
+
+Africa-outline icon + “Ready to Grow Together?”
+
+“Contact Us →”
+
+Footer Preview (mini)
+
+Quick links + language dropdown
+
+2. About Us Page (/about)
+Banner: “About Harvest Brothers”
+
+Who We Are: 2-para narrative, mission statement
+
+Our People:
+
+Subhead: “Caring for Our Team”
+
+4-bullet highlights: fair wages, safe working conditions, training programs, community support
+
+Vision & Mission (side-by-side)
+
+Values (icon grid): Integrity, Innovation, Community, Stewardship
+
+Goals: production & expansion roadmap
+
+Animation: on-scroll fade for each section
+
+3. Services Page (/services)
+Banner: “Our Services”
+
+Service Grid (responsive)
+
+Wheat Cultivation: icon + 3-line detail
+
+Land Leasing: icon + 3-line detail
+
+Consultancy: icon + 3-line detail
+
+Learn More: each opens a modal with deeper info
+
+Animation: staggered card reveal
+
+4. Investors Page (/investors)
+Header: “Why Partner with Seeds of Algeria?”
+
+Hero Badge (centered, large):
+![Best in Timimoun Badge](/mnt/data/Best In Timimoun Badge.png)
+
+Motivation Copy:
+
+“Our Best-in-Timimoun practices ensure unmatched quality wheat in the Sahara—your investment fuels sustainable growth.”
+
+Location Icon + Label
+![Africa Outline Icon](/mnt/data/Icon 2 Africa Outline.png)
+
+“Strategic Sahara Location”
+
+Investor Form (animated slide-in):
+
+Fields: Name │ Company │ Email │ Message │ reCAPTCHA
+
+On Submit:
+
+Email full data → kwph123@aol.com
+
+Persist to database (MongoDB/Firebase)
+
+Send receipt email to user with their submission details
+
+5. Contact Page (/contact)
+Banner: “Get in Touch”
+
+Contact Details:
+
+📍 Timimoun, Algeria
+
+📞 +213 662 67 52 91 (Algeria) │ +1 347 446 2141 (USA)
+
+✉️ kwph123@aol.com
+
+🔗 Website URL
+
+Contact Form (animated form fields):
+
+Name │ Email │ Message │ reCAPTCHA
+
+On Submit: same behavior as Investor form
+
+Map Embed: responsive Google Maps iframe
+
+6. Privacy & Terms Pages
+Privacy Policy (/privacy):
+
+Data collected, usage, cookies, third-party services, user rights
+
+Terms of Use (/terms):
+
+Site usage rules, liability, intellectual property, contact for disputes
+
+Both pages: clean two-column layout, anchored navigation, accordion Q&A for readability.
+
+🔶 Global Footer (every page)
+Quick Links: Home │ About │ Services │ Investors │ Contact │ Privacy │ Terms
+
+Social Icons (if any)
+
+Phone & Email repeat (tel: links, mailto:)
+
+Language Switcher (duplicate)
+
+© 2025 Harvest Brothers
