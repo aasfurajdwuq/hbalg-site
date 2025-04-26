@@ -33,8 +33,6 @@ const Header = () => {
     { href: "/services", label: t("nav.services") },
     { href: "/investors", label: t("nav.investors") },
     { href: "/contact", label: t("nav.contact") },
-    { href: "/privacy", label: t("nav.privacy") },
-    { href: "/terms", label: t("nav.terms") },
   ];
 
   return (

@@ -89,7 +89,7 @@ const HeroSection = () => {
             animate="visible"
             className="text-4xl md:text-6xl lg:text-7xl font-bold mb-4 text-white tracking-tight"
           >
-            {t("home.hero.headline")}
+            Premium Saharan Wheat Investment
           </motion.h1>
           
           {/* Subheading with Apple-style animation */}
@@ -99,7 +99,7 @@ const HeroSection = () => {
             animate="visible"
             className="text-xl md:text-2xl lg:text-3xl text-white/90 mb-10 max-w-3xl mx-auto font-light"
           >
-            {t("home.hero.subheadline")}
+            Join our high-growth agricultural enterprise with exceptional investor returns
           </motion.p>
           
           {/* CTA buttons with Apple-style animation */}
@@ -111,12 +111,12 @@ const HeroSection = () => {
           >
             <Link href="/contact">
               <div className="bg-white bg-opacity-20 backdrop-blur-lg text-white font-medium py-4 px-8 rounded-full hover:bg-opacity-30 transition-all duration-300 cursor-pointer border border-white/25">
-                {t("home.hero.contactCTA")}
+                Get in Touch
               </div>
             </Link>
             <Link href="/investors">
               <div className="bg-white text-black font-medium py-4 px-8 rounded-full hover:bg-opacity-90 transition-all duration-300 cursor-pointer">
-                {t("home.hero.investorCTA")}
+                Investment Opportunities
               </div>
             </Link>
           </motion.div>

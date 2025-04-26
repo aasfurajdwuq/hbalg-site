@@ -2,15 +2,14 @@ import { useRef } from "react";
 import { Link } from "wouter";
 import { useLanguage } from "@/lib/i18n";
 import { motion, useInView } from "framer-motion";
-import { FaWheatAwn } from "react-icons/fa6";
-import { FaLandmark, FaChartLine } from "react-icons/fa";
+import { FaChartLine, FaHandshake, FaLeaf } from "react-icons/fa";
 
 // Apple-style Service Card Component
 const ServiceCard = ({ title, description, icon, index, inView }) => {
   const cardColors = [
     { bg: "from-green-50 to-green-200", text: "text-green-700", iconBg: "bg-green-100" },
     { bg: "from-amber-50 to-amber-200", text: "text-amber-700", iconBg: "bg-amber-100" },
-    { bg: "from-gray-50 to-gray-200", text: "text-gray-700", iconBg: "bg-gray-100" },
+    { bg: "from-blue-50 to-blue-200", text: "text-blue-700", iconBg: "bg-blue-100" },
   ];
   
   const color = cardColors[index % cardColors.length];
@@ -102,22 +101,22 @@ const ServicesTeaser = () => {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, amount: 0.2 });
   
-  // Service data
-  const services = [
+  // Investment opportunity data
+  const investmentOpportunities = [
     {
-      icon: <FaWheatAwn className="text-xl text-green-700" />,
-      title: t("services.cultivation.title"),
-      description: t("services.cultivation.description")
+      icon: <FaChartLine className="text-xl text-green-700" />,
+      title: "Premium Returns",
+      description: "Enjoy industry-leading 18% average annual returns through our strategic agricultural investments in premium wheat."
     },
     {
-      icon: <FaLandmark className="text-xl text-amber-700" />,
-      title: t("services.leasing.title"),
-      description: t("services.leasing.description")
+      icon: <FaHandshake className="text-xl text-amber-700" />,
+      title: "Partnership Models",
+      description: "Flexible investment structures available, from equity partnerships to revenue-sharing agreements tailored to your goals."
     },
     {
-      icon: <FaChartLine className="text-xl text-gray-700" />,
-      title: t("services.consultancy.title"),
-      description: t("services.consultancy.description")
+      icon: <FaLeaf className="text-xl text-blue-700" />,
+      title: "Sustainable Growth",
+      description: "Our eco-friendly practices ensure long-term growth while positively impacting the environment and local communities."
     }
   ];
 
@@ -142,20 +141,20 @@ const ServicesTeaser = () => {
               transition={{ delay: 0.3, duration: 0.8 }}
               className="h-1 bg-green-500 mx-auto mb-6"
             />
-            <h2 className="text-4xl font-bold mb-4 tracking-tight">Our Services</h2>
+            <h2 className="text-4xl font-bold mb-4 tracking-tight">Investment Opportunities</h2>
             <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-              Comprehensive agricultural solutions for sustainable farming and investment.
+              Exceptional returns with sustainable impact through premium agricultural investments.
             </p>
           </motion.div>
           
-          {/* Apple-inspired service cards */}
+          {/* Apple-inspired investment opportunity cards */}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {services.map((service, index) => (
-              <Link key={index} href="/services">
+            {investmentOpportunities.map((opportunity, index) => (
+              <Link key={index} href="/investors">
                 <ServiceCard 
-                  title={service.title}
-                  description={service.description}
-                  icon={service.icon}
+                  title={opportunity.title}
+                  description={opportunity.description}
+                  icon={opportunity.icon}
                   index={index}
                   inView={isInView}
                 />
@@ -170,13 +169,13 @@ const ServicesTeaser = () => {
             transition={{ delay: 0.6, duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
             className="text-center mt-16"
           >
-            <Link href="/services">
+            <Link href="/investors">
               <motion.button
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.98 }}
-                className="bg-green-700 hover:bg-green-800 text-white py-3 px-8 rounded-full inline-flex items-center transition-colors duration-300"
+                className="bg-amber-600 hover:bg-amber-700 text-white py-3 px-8 rounded-full inline-flex items-center transition-colors duration-300"
               >
-                <span className="font-medium">{t("home.services.cta")}</span>
+                <span className="font-medium">Explore Investment Options</span>
                 <svg className="ml-2 w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7m0 0l-7 7m7-7H3" />
                 </svg>

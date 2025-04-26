@@ -18,8 +18,7 @@ const Footer = () => {
   
   // Legal links
   const legalLinks = [
-    { href: "/privacy", label: t("nav.privacy") },
-    { href: "/terms", label: t("nav.terms") },
+    { href: "/legal", label: "Terms & Privacy" },
   ];
 
   return (

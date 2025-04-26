@@ -11,8 +11,7 @@ import About from "@/pages/about";
 import Services from "@/pages/services";
 import Investors from "@/pages/investors";
 import Contact from "@/pages/contact";
-import Privacy from "@/pages/privacy";
-import Terms from "@/pages/terms";
+import Legal from "@/pages/legal";
 import { useLanguage } from "./lib/i18n";
 
 function Router() {
@@ -23,8 +22,7 @@ function Router() {
       <Route path="/services" component={Services} />
       <Route path="/investors" component={Investors} />
       <Route path="/contact" component={Contact} />
-      <Route path="/privacy" component={Privacy} />
-      <Route path="/terms" component={Terms} />
+      <Route path="/legal" component={Legal} />
       <Route component={NotFound} />
     </Switch>
   );
