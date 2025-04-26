@@ -112,8 +112,8 @@ const ROICalculator = ({ inView }) => {
   const [years, setYears] = useState(5);
   
   const calculateROI = () => {
-    // Projected annual return: 18%
-    const annualReturn = 0.18;
+    // Projected annual return: 10-15%
+    const annualReturn = 0.125; // Using middle of range
     return Math.round(investment * Math.pow(1 + annualReturn, years));
   };
   
@@ -180,7 +180,7 @@ const ROICalculator = ({ inView }) => {
           >
             ${calculateROI().toLocaleString()}
           </motion.div>
-          <div className="text-sm text-gray-600 mt-2">Based on 18% projected annual yield</div>
+          <div className="text-sm text-gray-600 mt-2">Based on 10-15% projected annual yield</div>
         </motion.div>
       </div>
     </motion.div>
@@ -334,9 +334,9 @@ const Investors = () => {
         <div className="container mx-auto px-4">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-10">
             {[
-              { value: 18, suffix: "%", label: "Average Annual Return", icon: <FaChartLine className="text-amber-500 text-5xl mb-4" /> },
-              { value: 3200, suffix: "", label: "Hectares Under Management", icon: <FaLeaf className="text-green-500 text-5xl mb-4" /> },
-              { value: 42, suffix: "M", label: "Total Investment Managed", icon: <FaHandshake className="text-blue-500 text-5xl mb-4" /> }
+              { value: 12.5, suffix: "%", label: "Average Annual Return", icon: <FaChartLine className="text-amber-500 text-5xl mb-4" /> },
+              { value: 500, suffix: "+", label: "Hectares Under Management", icon: <FaLeaf className="text-green-500 text-5xl mb-4" /> },
+              { value: 10, suffix: "M", label: "Total Investment Managed", icon: <FaHandshake className="text-blue-500 text-5xl mb-4" /> }
             ].map((stat, i) => (
               <motion.div
                 key={i}
@@ -405,7 +405,7 @@ const Investors = () => {
             {[
               {
                 title: "Strong Financial Returns",
-                description: "18% average annual return, significantly outperforming traditional agricultural investments.",
+                description: "10-15% average annual return, significantly outperforming traditional agricultural investments.",
                 icon: <motion.div whileHover={{ scale: 1.1, rotate: 5 }} className="w-16 h-16 rounded-full bg-amber-100 flex items-center justify-center">
                   <svg className="w-8 h-8 text-amber-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />

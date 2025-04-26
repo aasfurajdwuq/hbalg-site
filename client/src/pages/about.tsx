@@ -270,7 +270,7 @@ const About = () => {
               >
                 <div className="grid grid-cols-2 gap-4 mb-8">
                   <div className="bg-amber-50 p-6 rounded-2xl">
-                    <div className="text-amber-800 font-bold text-3xl mb-2">18%</div>
+                    <div className="text-amber-800 font-bold text-3xl mb-2">10-15%</div>
                     <div className="text-amber-700">Higher protein content than standard wheat varieties</div>
                   </div>
                   <div className="bg-green-50 p-6 rounded-2xl">
@@ -392,20 +392,20 @@ const About = () => {
                         <h4 className="text-xl font-bold mb-4">Innovation Timeline</h4>
                         <div className="space-y-4">
                           <div className="flex">
-                            <div className="w-24 font-bold">2015</div>
-                            <div>First proprietary irrigation system implemented</div>
+                            <div className="w-24 font-bold">2022</div>
+                            <div>Company founded with first proprietary irrigation system implemented</div>
                           </div>
                           <div className="flex">
-                            <div className="w-24 font-bold">2018</div>
+                            <div className="w-24 font-bold">2022</div>
                             <div>Saharan-adapted wheat strain developed</div>
                           </div>
                           <div className="flex">
-                            <div className="w-24 font-bold">2021</div>
+                            <div className="w-24 font-bold">2023</div>
                             <div>Solar-powered operations achieve carbon neutrality</div>
                           </div>
                           <div className="flex">
-                            <div className="w-24 font-bold">2023</div>
-                            <div>AI-driven irrigation optimization launched</div>
+                            <div className="w-24 font-bold">2024</div>
+                            <div>Smart irrigation optimization system launched</div>
                           </div>
                         </div>
                       </div>
