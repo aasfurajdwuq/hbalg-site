@@ -2,6 +2,7 @@ import { useRef, useState } from "react";
 import { Helmet } from "react-helmet";
 import { motion, useScroll, useTransform, useInView, AnimatePresence } from "framer-motion";
 import { useLanguage } from "@/lib/i18n";
+import { Link } from "wouter";
 import { FaChartLine, FaMoneyBillWave, FaHandshake, FaSeedling } from "react-icons/fa";
 
 // Wheat Field Animation Component
@@ -62,7 +63,7 @@ const WheatField = ({ inView }) => {
 };
 
 // 3D Rotating Card Component
-const RotatingServiceCard = ({ icon, title, description, color, accentColor, index, inView }) => {
+const RotatingServiceCard = ({ icon, title, description, color, accentColor, index, inView, detailUrl }) => {
   return (
     <motion.div
       className="relative w-full h-[400px] perspective-1000"
@@ -133,13 +134,15 @@ const RotatingServiceCard = ({ icon, title, description, color, accentColor, ind
             </li>
           </ul>
           
-          <motion.button
-            className="mt-auto py-3 px-6 bg-white text-gray-900 rounded-lg font-medium"
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-          >
-            Learn More
-          </motion.button>
+          <Link href={detailUrl}>
+            <motion.button
+              className="mt-auto py-3 px-6 bg-white text-gray-900 rounded-lg font-medium"
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+            >
+              Learn More
+            </motion.button>
+          </Link>
         </div>
       </motion.div>
     </motion.div>
@@ -364,18 +367,28 @@ const Services = () => {
           </motion.div>
           
           <div className="grid grid-cols-1 md:grid-cols-3 gap-10">
-            {investmentServices.map((service, index) => (
-              <RotatingServiceCard 
-                key={service.id}
-                icon={service.icon}
-                title={service.title}
-                description={service.description}
-                color={service.color}
-                accentColor={service.accentColor}
-                index={index}
-                inView={isServicesInView}
-              />
-            ))}
+            {investmentServices.map((service, index) => {
+              // Map service IDs to their respective detail page URLs
+              const detailUrls = {
+                premium: "/services/saharan-crops",
+                partnership: "/services/agricultural-research", 
+                sustainability: "/services/irrigation-systems"
+              };
+              
+              return (
+                <RotatingServiceCard 
+                  key={service.id}
+                  icon={service.icon}
+                  title={service.title}
+                  description={service.description}
+                  color={service.color}
+                  accentColor={service.accentColor}
+                  index={index}
+                  inView={isServicesInView}
+                  detailUrl={detailUrls[service.id]}
+                />
+              );
+            })}
           </div>
         </div>
       </section>
