@@ -17,6 +17,7 @@ const investorFormSchema = z.object({
   company: z.string().optional(),
   email: z.string().email({ message: "Please enter a valid email address" }),
   phone: z.string().min(5, { message: "Phone number is required" }),
+  subject: z.string().min(2, { message: "Subject is required" }),
   message: z.string().min(10, { message: "Message must be at least 10 characters" }),
 });
 
@@ -34,6 +35,7 @@ const InvestorForm = () => {
       company: "",
       email: "",
       phone: "",
+      subject: "",
       message: "",
     },
   });
@@ -122,6 +124,19 @@ const InvestorForm = () => {
                     />
                   )}
                 />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <FormField
+          control={form.control}
+          name="subject"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>{t("investors.form.subject") || "Subject"}</FormLabel>
+              <FormControl>
+                <Input placeholder={t("investors.form.subjectPlaceholder") || "Investment Inquiry"} {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>
