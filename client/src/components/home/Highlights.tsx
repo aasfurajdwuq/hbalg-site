@@ -109,39 +109,84 @@ const Highlights = () => {
                 delay: highlight.delay,
                 ease: [0.16, 1, 0.3, 1]
               }}
-              className="rounded-2xl bg-gray-50 p-8 hover:shadow-xl transition-all duration-500 transform hover:-translate-y-1"
+              whileHover={{ 
+                y: -10, 
+                boxShadow: "0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)",
+                backgroundColor: "rgba(255, 255, 255, 1)",
+                scale: 1.02
+              }}
+              className="rounded-2xl bg-gray-50 p-8 transition-all duration-500"
+              style={{ 
+                transformStyle: "preserve-3d", 
+                perspective: "1000px" 
+              }}
             >
-              {/* Icon with circular background */}
-              <div className="mb-6">
-                <div 
+              {/* Icon with animated circular background */}
+              <motion.div 
+                className="mb-6"
+                whileHover={{ scale: 1.1, rotate: 5 }}
+                transition={{ type: "spring", stiffness: 400, damping: 10 }}
+              >
+                <motion.div 
                   className="w-16 h-16 rounded-full flex items-center justify-center" 
                   style={{ background: `linear-gradient(135deg, ${highlight.color}aa, ${highlight.color})` }}
+                  whileHover={{ 
+                    boxShadow: `0 0 20px ${highlight.color}80`,
+                    background: `linear-gradient(135deg, ${highlight.color}, ${highlight.color}aa)`
+                  }}
+                  animate={{ 
+                    boxShadow: [
+                      `0 0 0px ${highlight.color}00`, 
+                      `0 0 10px ${highlight.color}30`, 
+                      `0 0 0px ${highlight.color}00`
+                    ]
+                  }}
+                  transition={{ 
+                    repeat: Infinity, 
+                    duration: 3,
+                    ease: "easeInOut"
+                  }}
                 >
-                  <highlight.icon className="text-2xl text-white" />
-                </div>
-              </div>
+                  <motion.div
+                    animate={{ rotate: [0, 360] }}
+                    transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
+                  >
+                    <highlight.icon className="text-2xl text-white" />
+                  </motion.div>
+                </motion.div>
+              </motion.div>
               
               {/* Title and subtitle */}
-              <h3 className="text-2xl font-semibold mb-3 tracking-tight">{t(highlight.title)}</h3>
-              <p className="text-gray-500 mb-4">{t(highlight.subtitle)}</p>
+              <h3 className="text-2xl font-semibold mb-3 tracking-tight">{highlight.title}</h3>
+              <p className="text-gray-500 mb-4">{highlight.subtitle}</p>
               
-              {/* Details with subtle fade-in */}
+              {/* Details with enhanced animations */}
               <motion.div
                 initial={{ opacity: 0 }}
                 whileInView={{ opacity: 1 }}
                 transition={{ delay: 0.5, duration: 0.5 }}
                 className="text-sm text-gray-600"
               >
-                <p>{t(highlight.details)}</p>
+                <p>{highlight.details}</p>
               </motion.div>
               
-              {/* Apple-style learn more arrow */}
-              <div className="mt-6 flex items-center text-sm font-medium" style={{ color: highlight.color }}>
+              {/* Apple-style learn more arrow with enhanced animation */}
+              <motion.div 
+                className="mt-6 flex items-center text-sm font-medium cursor-pointer"
+                style={{ color: highlight.color }}
+                whileHover={{ x: 5 }}
+                transition={{ type: "spring", stiffness: 400, damping: 10 }}
+              >
                 <span>Learn more</span>
-                <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 ml-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-                </svg>
-              </div>
+                <motion.div
+                  initial={{ x: 0 }}
+                  whileHover={{ x: [0, 5, 0], transition: { repeat: Infinity, duration: 1 } }}
+                >
+                  <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 ml-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                  </svg>
+                </motion.div>
+              </motion.div>
             </motion.div>
           ))}
         </motion.div>
