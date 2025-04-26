@@ -44,11 +44,11 @@ const Header = () => {
             <img 
               src={iconLogo} 
               alt="Harvest Brothers Logo" 
-              className="w-10 h-10 mr-3"
+              className="w-10 h-10 mr-3 group-hover:rotate-6 transition-transform duration-300"
             />
             <div className="flex flex-col">
-              <span className="text-lg font-bold text-charcoal">{t("site.title")}</span>
-              <span className="text-xs font-arabic text-earth" lang="ar">{t("site.titleArabic")}</span>
+              <span className="text-xl font-bold tracking-tight bg-gradient-to-r from-amber-800 to-green-700 bg-clip-text text-transparent drop-shadow-sm group-hover:scale-105 transition-transform duration-300">Harvest Brothers</span>
+              <span className="text-sm font-arabic text-earth tracking-wider font-semibold drop-shadow group-hover:text-amber-700 transition-colors duration-300" lang="ar">إخوة الحصاد</span>
             </div>
           </Link>
           
