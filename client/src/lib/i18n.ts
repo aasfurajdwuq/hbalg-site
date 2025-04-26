@@ -48,19 +48,22 @@ export const LanguageProvider = (props: {children: ReactNode}) => {
     const keys = key.split(".");
     let result: any = locales[language] || defaultLocale;
     
+    // Navigate through the nested properties
     for (const k of keys) {
       if (result && result[k] !== undefined) {
         result = result[k];
       } else {
-        // Fallback to English
-        result = defaultLocale;
-        for (const k of keys) {
-          if (result && result[k] !== undefined) {
-            result = result[k];
+        // If key not found in current language, try English
+        let fallbackResult = defaultLocale;
+        for (const fallbackKey of keys) {
+          if (fallbackResult && fallbackResult[fallbackKey] !== undefined) {
+            fallbackResult = fallbackResult[fallbackKey];
           } else {
-            return key; // Key not found, return the key itself
+            // If not found in English either, return the key
+            return key;
           }
         }
+        return typeof fallbackResult === "string" ? fallbackResult : key;
       }
     }
 
