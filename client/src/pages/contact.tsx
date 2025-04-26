@@ -5,68 +5,26 @@ import { useLanguage } from "@/lib/i18n";
 import { FaMapMarkerAlt, FaPhoneAlt, FaEnvelope, FaGlobeAfrica } from "react-icons/fa";
 import { africaIcon } from '@/assets/image-imports';
 
-// Animated Map Pin Component
-const AnimatedMapPin = ({ inView }) => {
+// Google Maps Component
+const GoogleMap = ({ inView }) => {
   return (
-    <div className="relative w-full h-64 md:h-full">
-      {/* Algeria country shape */}
-      <motion.div
-        className="absolute left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2 w-36 h-36"
-        initial={{ opacity: 0, scale: 0.8 }}
-        animate={inView ? { opacity: 1, scale: 1 } : { opacity: 0, scale: 0.8 }}
-        transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-      >
-        <img src={africaIcon} alt="Africa map" className="w-full h-full opacity-20" />
-      </motion.div>
-      
-      {/* Pulsing location dot */}
-      <motion.div
-        className="absolute left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2"
-        initial={{ opacity: 0 }}
-        animate={inView ? { opacity: 1 } : { opacity: 0 }}
-        transition={{ delay: 0.5, duration: 0.5 }}
-      >
-        <motion.div
-          className="w-6 h-6 bg-red-500 rounded-full"
-          animate={{ 
-            scale: [1, 1.2, 1],
-            backgroundColor: ["#ef4444", "#dc2626", "#ef4444"]
-          }}
-          transition={{ 
-            duration: 2,
-            repeat: Infinity,
-            repeatType: "loop"
-          }}
-        />
-        
-        {/* Ripple effect */}
-        {[...Array(3)].map((_, i) => (
-          <motion.div
-            key={i}
-            className="absolute inset-0 rounded-full border-4 border-red-500"
-            initial={{ opacity: 0.7, scale: 1 }}
-            animate={{ opacity: 0, scale: 3 }}
-            transition={{ 
-              duration: 2,
-              repeat: Infinity,
-              delay: i * 0.6,
-              repeatDelay: 0.2,
-              ease: "easeOut"
-            }}
-          />
-        ))}
-        
-        {/* Pin label */}
-        <motion.div
-          className="absolute top-8 left-1/2 transform -translate-x-1/2 bg-white px-3 py-1 rounded-lg shadow-md whitespace-nowrap"
-          initial={{ opacity: 0, y: 10 }}
-          animate={inView ? { opacity: 1, y: 0 } : { opacity: 0, y: 10 }}
-          transition={{ delay: 0.8, duration: 0.5 }}
-        >
-          <div className="font-medium text-gray-800">Timimoun, Algeria</div>
-        </motion.div>
-      </motion.div>
-    </div>
+    <motion.div 
+      className="w-full h-full min-h-[400px]"
+      initial={{ opacity: 0 }}
+      animate={inView ? { opacity: 1 } : { opacity: 0 }}
+      transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+    >
+      <iframe 
+        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d111281.0107449427!2d2.8965568!3d29.2594535!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x12582ee3dbb2db21%3A0xef2c13c4c0e38e00!2sTimimoun%2C%20Algeria!5e0!3m2!1sen!2sus!4v1714698423196!5m2!1sen!2sus" 
+        width="100%" 
+        height="100%" 
+        style={{ border: 0, borderRadius: "1rem", minHeight: "400px" }} 
+        allowFullScreen={false} 
+        loading="lazy" 
+        referrerPolicy="no-referrer-when-downgrade"
+        title="Google Map of Timimoun, Algeria"
+      ></iframe>
+    </motion.div>
   );
 };
 
@@ -356,7 +314,7 @@ const Contact = () => {
               </AnimatePresence>
             </div>
             
-            {/* Interactive Map */}
+            {/* Google Map */}
             <motion.div 
               ref={mapRef}
               className="md:w-1/2 bg-gray-50 rounded-2xl overflow-hidden"
@@ -364,7 +322,7 @@ const Contact = () => {
               animate={isMapInView ? { opacity: 1, x: 0 } : { opacity: 0, x: 30 }}
               transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
             >
-              <AnimatedMapPin inView={isMapInView} />
+              <GoogleMap inView={isMapInView} />
             </motion.div>
           </div>
         </div>
