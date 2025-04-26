@@ -26,13 +26,13 @@ const Header = () => {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  // Navigation links
+  // Navigation links with custom labels
   const navLinks = [
-    { href: "/", label: t("nav.home") },
-    { href: "/about", label: t("nav.about") },
-    { href: "/services", label: t("nav.services") },
-    { href: "/investors", label: t("nav.investors") },
-    { href: "/contact", label: t("nav.contact") },
+    { href: "/", label: "Home" },
+    { href: "/about", label: "About Us" },
+    { href: "/services", label: "Services" },
+    { href: "/investors", label: "Investors" },
+    { href: "/contact", label: "Contact Us" },
   ];
 
   return (

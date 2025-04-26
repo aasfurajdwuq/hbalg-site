@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useForm } from "react-hook-form";
+import { useForm, Controller } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
@@ -9,10 +9,13 @@ import { Button } from "@/components/ui/button";
 import { useToast } from "@/hooks/use-toast";
 import { useLanguage } from "@/lib/i18n";
 import { apiRequest } from "@/lib/queryClient";
+import PhoneInput from 'react-phone-input-2';
+import 'react-phone-input-2/lib/style.css';
 
 const contactFormSchema = z.object({
   name: z.string().min(2, { message: "Name must be at least 2 characters" }),
   email: z.string().email({ message: "Please enter a valid email address" }),
+  phone: z.string().min(5, { message: "Phone number is required" }),
   message: z.string().min(10, { message: "Message must be at least 10 characters" }),
 });
 
@@ -28,6 +31,7 @@ const ContactForm = () => {
     defaultValues: {
       name: "",
       email: "",
+      phone: "",
       message: "",
     },
   });
@@ -76,6 +80,33 @@ const ContactForm = () => {
               <FormLabel>{t("contact.form.email")}</FormLabel>
               <FormControl>
                 <Input placeholder={t("contact.form.emailPlaceholder")} {...field} />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <FormField
+          control={form.control}
+          name="phone"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>{t("contact.form.phone") || "Phone Number"}</FormLabel>
+              <FormControl>
+                <Controller
+                  name="phone"
+                  control={form.control}
+                  render={({ field }) => (
+                    <PhoneInput
+                      country={'dz'}
+                      value={field.value}
+                      onChange={field.onChange}
+                      inputClass="!w-full !h-10 !pl-[58px] !rounded-md !border !border-input !bg-background !px-3 !py-2 !text-sm !ring-offset-background file:!border-0 file:!bg-transparent file:!text-sm file:!font-medium placeholder:!text-muted-foreground focus-visible:!outline-none focus-visible:!ring-2 focus-visible:!ring-ring focus-visible:!ring-offset-2 disabled:!cursor-not-allowed disabled:!opacity-50"
+                      buttonClass="!border-input !border !rounded-l-md !h-10 !bg-background"
+                      dropdownClass="!bg-background !text-foreground"
+                      placeholder="Phone Number"
+                    />
+                  )}
+                />
               </FormControl>
               <FormMessage />
             </FormItem>
