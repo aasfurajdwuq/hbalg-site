@@ -70,6 +70,38 @@ const RotatingServiceCard = ({ icon, title, description, color, accentColor, ind
     setIsFlipped(!isFlipped);
   };
   
+  // Get unique benefits for each investment option based on title
+  const getBenefitsByTitle = () => {
+    if (title === "Premium ROI") {
+      return [
+        "Industry-leading 5-10% annual ROI",
+        "Quarterly dividend distributions",
+        "Capital appreciation through land value growth"
+      ];
+    } else if (title === "Strategic Partnerships") {
+      return [
+        "Flexible investment structures and entry points",
+        "Shared risk model with experienced partners",
+        "Strategic voting rights on farming decisions"
+      ];
+    } else if (title === "Sustainable Growth") {
+      return [
+        "Carbon offset credits and eco-bonuses",
+        "Eco-certified regenerative farming practices",
+        "Long-term resource preservation increasing value"
+      ];
+    } else {
+      return [
+        "Premium returns with exceptional annual yield",
+        "Sustainable agricultural projects with long-term growth",
+        "Diversified portfolio with agricultural stability"
+      ];
+    }
+  };
+  
+  // Get the specific benefits for this card
+  const benefits = getBenefitsByTitle();
+  
   return (
     <motion.div
       className="relative w-full h-[400px] perspective-1000"
@@ -117,30 +149,16 @@ const RotatingServiceCard = ({ icon, title, description, color, accentColor, ind
           <h3 className="text-2xl font-bold mb-4 text-white">{title}</h3>
           <p className="text-white/90 mb-4">Investment Benefits:</p>
           <ul className="text-white/80 space-y-2 mb-6">
-            <li className="flex items-start">
-              <div className="w-6 h-6 rounded-full flex items-center justify-center bg-white/20 mr-2 flex-shrink-0 mt-0.5">
-                <svg className="w-3 h-3 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" />
-                </svg>
-              </div>
-              <span>Premium returns with exceptional annual yield</span>
-            </li>
-            <li className="flex items-start">
-              <div className="w-6 h-6 rounded-full flex items-center justify-center bg-white/20 mr-2 flex-shrink-0 mt-0.5">
-                <svg className="w-3 h-3 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" />
-                </svg>
-              </div>
-              <span>Sustainable agricultural projects with long-term growth</span>
-            </li>
-            <li className="flex items-start">
-              <div className="w-6 h-6 rounded-full flex items-center justify-center bg-white/20 mr-2 flex-shrink-0 mt-0.5">
-                <svg className="w-3 h-3 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" />
-                </svg>
-              </div>
-              <span>Diversified portfolio with agricultural stability</span>
-            </li>
+            {benefits.map((benefit, i) => (
+              <li key={i} className="flex items-start">
+                <div className="w-6 h-6 rounded-full flex items-center justify-center bg-white/20 mr-2 flex-shrink-0 mt-0.5">
+                  <svg className="w-3 h-3 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" />
+                  </svg>
+                </div>
+                <span>{benefit}</span>
+              </li>
+            ))}
           </ul>
           
           <div className="mt-auto text-center text-white/70 text-sm">
