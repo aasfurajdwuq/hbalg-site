@@ -1,0 +1,84 @@
+import { createContext, useContext, useState, useEffect, ReactNode } from "react";
+import { locales, defaultLocale, type Locale } from "@/locales";
+
+type LanguageContextType = {
+  language: string;
+  locale: Locale;
+  dir: "ltr" | "rtl";
+  changeLanguage: (lang: string) => void;
+  t: (key: string) => string;
+};
+
+const rtlLanguages = ["ar", "ur"];
+
+const LanguageContext = createContext<LanguageContextType>({
+  language: "en",
+  locale: defaultLocale,
+  dir: "ltr",
+  changeLanguage: () => {},
+  t: (key: string) => key,
+});
+
+export const LanguageProvider = ({ children }: { children: ReactNode }) => {
+  const detectBrowserLanguage = (): string => {
+    // First check if we have a stored preference
+    const storedLang = localStorage.getItem("preferredLanguage");
+    if (storedLang && locales[storedLang]) {
+      return storedLang;
+    }
+    
+    // Otherwise detect from browser
+    const browserLang = navigator.language.split("-")[0];
+    return locales[browserLang] ? browserLang : "en";
+  };
+
+  const [language, setLanguage] = useState(detectBrowserLanguage());
+  const [dir, setDir] = useState<"ltr" | "rtl">(rtlLanguages.includes(language) ? "rtl" : "ltr");
+
+  const changeLanguage = (lang: string) => {
+    if (locales[lang]) {
+      setLanguage(lang);
+      localStorage.setItem("preferredLanguage", lang);
+      setDir(rtlLanguages.includes(lang) ? "rtl" : "ltr");
+    }
+  };
+
+  const t = (key: string): string => {
+    const keys = key.split(".");
+    let result: any = locales[language] || defaultLocale;
+    
+    for (const k of keys) {
+      if (result && result[k] !== undefined) {
+        result = result[k];
+      } else {
+        // Fallback to English
+        result = defaultLocale;
+        for (const k of keys) {
+          if (result && result[k] !== undefined) {
+            result = result[k];
+          } else {
+            return key; // Key not found, return the key itself
+          }
+        }
+      }
+    }
+
+    return typeof result === "string" ? result : key;
+  };
+
+  return (
+    <LanguageContext.Provider 
+      value={{ 
+        language, 
+        locale: locales[language] || defaultLocale, 
+        dir, 
+        changeLanguage, 
+        t 
+      }}
+    >
+      {children}
+    </LanguageContext.Provider>
+  );
+};
+
+export const useLanguage = () => useContext(LanguageContext);

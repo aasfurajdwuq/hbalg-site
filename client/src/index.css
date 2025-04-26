@@ -1,0 +1,257 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --background: 0 0% 100%;
+  --foreground: 24 10% 10%;
+  --muted: 60 4.8% 95.9%;
+  --muted-foreground: 25 5.3% 44.7%;
+  --popover: 0 0% 100%;
+  --popover-foreground: 20 14.3% 4.1%;
+  --card: 0 0% 100%;
+  --card-foreground: 20 14.3% 4.1%;
+  --border: 20 5.9% 90%;
+  --input: 20 5.9% 90%;
+  --primary: 40 67% 66%;  /* wheat color */
+  --primary-foreground: 24 30% 27%; /* earth-dark */
+  --secondary: 60 4.8% 95.9%;
+  --secondary-foreground: 24 9.8% 10%;
+  --accent: 24 69% 36%; /* earth color */
+  --accent-foreground: 0 0% 100%;
+  --destructive: 0 84.2% 60.2%;
+  --destructive-foreground: 60 9.1% 97.8%;
+  --ring: 24 69% 36%;
+  --radius: 0.5rem;
+
+  /* Custom theme colors */
+  --wheat-light: 45 80% 86%;
+  --wheat: 40 67% 66%;
+  --wheat-dark: 41 42% 58%;
+  
+  --earth-light: 27 36% 47%;
+  --earth: 30 52% 36%;
+  --earth-dark: 29 52% 27%;
+  
+  --leaf-light: 122 35% 60%;
+  --leaf: 122 37% 49%;
+  --leaf-dark: 122 39% 39%;
+  
+  --stone-lightest: 0 0% 100%;
+  --stone-light: 0 0% 96%;
+  --stone: 0 0% 88%;
+  --stone-dark: 0 0% 62%;
+  
+  --charcoal-light: 0 0% 33%;
+  --charcoal: 0 0% 20%;
+  --charcoal-dark: 0 0% 10%;
+}
+
+.dark {
+  --background: 0 0% 10%;
+  --foreground: 0 0% 98%;
+  --muted: 0 0% 15%;
+  --muted-foreground: 240 5% 64.9%;
+  --popover: 0 0% 10%;
+  --popover-foreground: 0 0% 98%;
+  --card: 0 0% 10%;
+  --card-foreground: 0 0% 98%;
+  --border: 240 3.7% 15.9%;
+  --input: 240 3.7% 15.9%;
+  --primary: 40 67% 66%;
+  --primary-foreground: 24 30% 27%;
+  --secondary: 240 3.7% 15.9%;
+  --secondary-foreground: 0 0% 98%;
+  --accent: 24 69% 36%;
+  --accent-foreground: 0 0% 98%;
+  --destructive: 0 62.8% 30.6%;
+  --destructive-foreground: 0 0% 98%;
+  --ring: 24 69% 36%;
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply font-sans antialiased bg-background text-foreground;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-serif;
+  }
+}
+
+/* Animations */
+@keyframes typing {
+  from { width: 0 }
+  to { width: 100% }
+}
+
+@keyframes blink-caret {
+  from, to { border-color: transparent }
+  50% { border-color: hsl(var(--wheat)) }
+}
+
+@keyframes fadeIn {
+  0% { opacity: 0; }
+  100% { opacity: 1; }
+}
+
+@keyframes slideUp {
+  0% { transform: translateY(50px); opacity: 0; }
+  100% { transform: translateY(0); opacity: 1; }
+}
+
+@keyframes slideInRight {
+  0% { transform: translateX(50px); opacity: 0; }
+  100% { transform: translateX(0); opacity: 1; }
+}
+
+@layer utilities {
+  .animate-fade-in {
+    animation: fadeIn 1s ease-in-out;
+  }
+  
+  .animate-slide-up {
+    animation: slideUp 0.6s ease-out;
+  }
+  
+  .animate-slide-in-right {
+    animation: slideInRight 0.8s ease-out;
+  }
+  
+  .delay-200 {
+    animation-delay: 0.2s;
+  }
+  
+  .delay-400 {
+    animation-delay: 0.4s;
+  }
+  
+  .opacity-0 {
+    opacity: 0;
+  }
+
+  .bg-wheat-light {
+    background-color: hsl(var(--wheat-light));
+  }
+  
+  .bg-wheat {
+    background-color: hsl(var(--wheat));
+  }
+  
+  .bg-wheat-dark {
+    background-color: hsl(var(--wheat-dark));
+  }
+  
+  .bg-earth-light {
+    background-color: hsl(var(--earth-light));
+  }
+  
+  .bg-earth {
+    background-color: hsl(var(--earth));
+  }
+  
+  .bg-earth-dark {
+    background-color: hsl(var(--earth-dark));
+  }
+  
+  .bg-leaf-light {
+    background-color: hsl(var(--leaf-light));
+  }
+  
+  .bg-leaf {
+    background-color: hsl(var(--leaf));
+  }
+  
+  .bg-leaf-dark {
+    background-color: hsl(var(--leaf-dark));
+  }
+  
+  .bg-stone-lightest {
+    background-color: hsl(var(--stone-lightest));
+  }
+  
+  .bg-stone-light {
+    background-color: hsl(var(--stone-light));
+  }
+  
+  .bg-stone {
+    background-color: hsl(var(--stone));
+  }
+  
+  .bg-stone-dark {
+    background-color: hsl(var(--stone-dark));
+  }
+  
+  .bg-charcoal-light {
+    background-color: hsl(var(--charcoal-light));
+  }
+  
+  .bg-charcoal {
+    background-color: hsl(var(--charcoal));
+  }
+  
+  .bg-charcoal-dark {
+    background-color: hsl(var(--charcoal-dark));
+  }
+  
+  .text-wheat {
+    color: hsl(var(--wheat));
+  }
+  
+  .text-wheat-dark {
+    color: hsl(var(--wheat-dark));
+  }
+  
+  .text-earth {
+    color: hsl(var(--earth));
+  }
+  
+  .text-earth-dark {
+    color: hsl(var(--earth-dark));
+  }
+  
+  .text-leaf {
+    color: hsl(var(--leaf));
+  }
+  
+  .text-stone-dark {
+    color: hsl(var(--stone-dark));
+  }
+  
+  .text-charcoal {
+    color: hsl(var(--charcoal));
+  }
+  
+  .text-charcoal-dark {
+    color: hsl(var(--charcoal-dark));
+  }
+
+  .font-arabic {
+    font-family: 'Amiri', serif;
+  }
+}
+
+/* RTL Support */
+[dir="rtl"] .ml-2 {
+  margin-left: 0;
+  margin-right: 0.5rem;
+}
+
+[dir="rtl"] .mr-2 {
+  margin-right: 0;
+  margin-left: 0.5rem;
+}
+
+/* Typewriter effect */
+.typewriter {
+  overflow: hidden;
+  border-right: 3px solid hsl(var(--wheat));
+  white-space: nowrap;
+  margin: 0 auto;
+  letter-spacing: 0.05em;
+  animation: typing 3.5s steps(40, end), blink-caret 0.75s step-end infinite;
+}
