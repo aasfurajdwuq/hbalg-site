@@ -264,8 +264,8 @@ const Services = () => {
     },
     {
       icon: <motion.div whileHover={{ y: -10 }} transition={{ duration: 0.5 }}><FaHandshake className="text-4xl text-amber-500" /></motion.div>,
-      title: "Custom Investment Structures",
-      description: "We offer flexible investment vehicles designed to meet your specific financial objectives and risk tolerance."
+      title: "Strategic Investment Partnerships",
+      description: "Join our established investment community focused on sustainable agricultural growth with transparent structures and clear returns."
     }
   ];
 
@@ -519,17 +519,19 @@ const Services = () => {
             Join our community of investors who are experiencing exceptional returns while making a positive impact on sustainable agriculture.
           </motion.p>
           
-          <motion.button
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ delay: 0.4, duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-            className="bg-white text-green-800 py-4 px-10 rounded-full font-bold text-lg shadow-lg"
-          >
-            Schedule an Investment Consultation
-          </motion.button>
+          <Link href="/investors">
+            <motion.button
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: 0.4, duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              className="bg-white text-green-800 py-4 px-10 rounded-full font-bold text-lg shadow-lg"
+            >
+              Schedule an Investment Consultation
+            </motion.button>
+          </Link>
         </div>
       </section>
     </>
