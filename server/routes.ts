@@ -10,6 +10,7 @@ const contactFormSchema = z.object({
   email: z.string().email(),
   phone: z.string().min(5),
   message: z.string().min(10),
+  subject: z.string().optional(),
 });
 
 const investorFormSchema = z.object({

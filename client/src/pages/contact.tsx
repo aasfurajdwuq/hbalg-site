@@ -200,6 +200,8 @@ const Contact = () => {
     setIsSubmitting(true);
     
     try {
+      console.log('Submitting form data:', formData);
+      
       // Send form data to our API
       const response = await fetch('/api/contact', {
         method: 'POST',
@@ -209,12 +211,19 @@ const Contact = () => {
         body: JSON.stringify(formData),
       });
       
+      // Log the response status
+      console.log('Server response status:', response.status);
+      
+      // Get the response data
+      const responseData = await response.json().catch(() => null);
+      console.log('Server response data:', responseData);
+      
       if (response.ok) {
         console.log('Email sent successfully');
         setFormSubmitted(true);
       } else {
-        console.error('Failed to send email');
-        alert('Failed to send your message. Please try again later.');
+        console.error('Failed to send email', responseData);
+        alert(`Failed to send your message: ${responseData?.message || 'Unknown error'}. Please try again.`);
       }
     } catch (error) {
       console.error('Error sending email:', error);
@@ -297,6 +306,7 @@ const Contact = () => {
                           className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-amber-500 focus:border-transparent"
                           placeholder="Full name"
                           required
+                          minLength={2}
                         />
                       </div>
                       <div>
@@ -313,6 +323,24 @@ const Contact = () => {
                           required
                         />
                       </div>
+                    </div>
+                    
+                    <div>
+                      <label className="block mb-2 text-sm font-medium text-gray-700">Phone Number</label>
+                      <motion.input
+                        whileFocus={{ scale: 1.01 }}
+                        transition={{ duration: 0.2 }}
+                        type="tel"
+                        name="phone"
+                        value={formData.phone}
+                        onChange={handleInputChange}
+                        className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-amber-500 focus:border-transparent"
+                        placeholder="Include country code (e.g., +213 123456789)"
+                        required
+                        minLength={5}
+                        pattern=".{5,}"
+                        title="Phone number must be at least 5 characters long"
+                      />
                     </div>
                     
                     <div>
