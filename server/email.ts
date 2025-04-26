@@ -15,7 +15,10 @@ if (!SENDGRID_API_KEY) {
 
 // Email address to receive notifications
 const RECIPIENT_EMAIL = "kwph123@aol.com";
-const FROM_EMAIL = "noreply@harvestbrothers.com"; // Must be a verified sender in SendGrid
+
+// FROM_EMAIL must be a verified sender in SendGrid
+// Using a Gmail-based sender which is more likely to be already verified
+const FROM_EMAIL = "xteriorwashers@gmail.com"; // This matches one of the email addresses used in testing
 
 interface ContactFormData {
   name: string;
@@ -42,6 +45,7 @@ export async function sendContactEmail(data: ContactFormData): Promise<boolean> 
     const msg = {
       to: RECIPIENT_EMAIL,
       from: FROM_EMAIL,
+      replyTo: data.email, // Set reply-to as the submitter's email
       subject: `New Contact Form Submission: ${data.subject || 'Contact Request'}`,
       text: `
 Name: ${data.name}
@@ -49,6 +53,9 @@ Email: ${data.email}
 Phone: ${data.phone}
 Subject: ${data.subject || 'N/A'}
 Message: ${data.message}
+
+--- 
+You can reply directly to this email to respond to ${data.name}.
       `,
       html: `
 <h2>New Contact Form Submission</h2>
@@ -57,6 +64,8 @@ Message: ${data.message}
 <p><strong>Phone:</strong> ${data.phone}</p>
 <p><strong>Subject:</strong> ${data.subject || 'N/A'}</p>
 <p><strong>Message:</strong> ${data.message}</p>
+<hr>
+<p><em>You can reply directly to this email to respond to ${data.name}.</em></p>
       `,
     };
 
@@ -133,6 +142,7 @@ export async function sendInvestorEmail(data: InvestorFormData): Promise<boolean
     const msg = {
       to: RECIPIENT_EMAIL,
       from: FROM_EMAIL,
+      replyTo: data.email, // Set reply-to as the investor's email
       subject: `New Investor Form Submission: ${data.subject || 'Investment Inquiry'}`,
       text: `
 Name: ${data.name}
@@ -141,6 +151,9 @@ Email: ${data.email}
 Phone: ${data.phone}
 Subject: ${data.subject || 'Investment Inquiry'}
 Message: ${data.message}
+
+--- 
+You can reply directly to this email to respond to ${data.name}.
       `,
       html: `
 <h2>New Investor Form Submission</h2>
@@ -150,6 +163,8 @@ ${data.company ? `<p><strong>Company:</strong> ${data.company}</p>` : ''}
 <p><strong>Phone:</strong> ${data.phone}</p>
 <p><strong>Subject:</strong> ${data.subject || 'Investment Inquiry'}</p>
 <p><strong>Message:</strong> ${data.message}</p>
+<hr>
+<p><em>You can reply directly to this email to respond to ${data.name}${data.company ? ` from ${data.company}` : ''}.</em></p>
       `,
     };
 
