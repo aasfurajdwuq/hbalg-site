@@ -128,13 +128,13 @@ const AboutTeaser = () => {
             <div className="relative z-10">
               <ParallaxText delay={0} inView={isInView}>
                 <h2 className="text-4xl font-bold mb-6 tracking-tight">
-                  {t("home.about.title")}
+                  Pioneering Desert Agriculture
                 </h2>
               </ParallaxText>
               
               <ParallaxText delay={0.2} inView={isInView}>
                 <p className="text-xl text-gray-600 mb-6">
-                  {t("home.about.description")}
+                  Founded in 2022, Harvest Brothers is a leading Algerian agricultural company specializing in sustainable desert farming with innovative water conservation techniques and region-specific crop selection.
                 </p>
               </ParallaxText>
               
@@ -146,7 +146,7 @@ const AboutTeaser = () => {
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" />
                       </svg>
                     </div>
-                    <span className="text-gray-700">{t("home.about.point1")}</span>
+                    <span className="text-gray-700">Eco-friendly farming practices with minimal environmental impact</span>
                   </div>
                 </ParallaxText>
                 
@@ -157,7 +157,7 @@ const AboutTeaser = () => {
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" />
                       </svg>
                     </div>
-                    <span className="text-gray-700">{t("home.about.point2")}</span>
+                    <span className="text-gray-700">Advanced irrigation technology maximizing water efficiency</span>
                   </div>
                 </ParallaxText>
                 
@@ -168,7 +168,7 @@ const AboutTeaser = () => {
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" />
                       </svg>
                     </div>
-                    <span className="text-gray-700">{t("home.about.point3")}</span>
+                    <span className="text-gray-700">Creating over 100 sustainable jobs for local communities</span>
                   </div>
                 </ParallaxText>
               </div>
@@ -180,7 +180,7 @@ const AboutTeaser = () => {
                     whileTap={{ scale: 0.98 }}
                     className="flex items-center text-green-700 font-medium hover:text-green-800 transition-colors duration-300"
                   >
-                    <span>{t("home.about.cta")}</span>
+                    <span>Learn More About Our Story</span>
                     <svg className="ml-2 w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7m0 0l-7 7m7-7H3" />
                     </svg>
@@ -234,8 +234,8 @@ const AboutTeaser = () => {
                 className="bg-white rounded-xl shadow-xl p-5 transform-gpu"
                 style={{ transformStyle: "preserve-3d", perspective: "1000px" }}
               >
-                <div className="font-bold text-3xl text-amber-600">{t("home.about.stats.hectares")}</div>
-                <div className="text-sm font-medium text-gray-700">{t("home.about.stats.hectaresLabel")}</div>
+                <div className="font-bold text-3xl text-amber-600">3,200</div>
+                <div className="text-sm font-medium text-gray-700">Hectares Cultivated</div>
               </motion.div>
             </div>
             

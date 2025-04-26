@@ -137,7 +137,7 @@ const InvestorTeaser = () => {
               transition={{ duration: 0.8, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
             >
               <h2 className="text-3xl md:text-4xl font-bold mb-4 tracking-tight">
-                {t("home.investors.title")}
+                Exceptional Investment Opportunity
               </h2>
             </motion.div>
             
@@ -148,7 +148,7 @@ const InvestorTeaser = () => {
               transition={{ duration: 0.8, delay: 0.3, ease: [0.16, 1, 0.3, 1] }}
             >
               <p className="text-xl text-gray-700 mb-10 max-w-2xl">
-                {t("home.investors.description")}
+                Join our growing network of global investors supporting sustainable Saharan agriculture with premium returns of 5-10% annually.
               </p>
             </motion.div>
             
@@ -188,7 +188,7 @@ const InvestorTeaser = () => {
                   whileTap={{ scale: 0.98 }}
                   className="bg-amber-600 hover:bg-amber-700 text-white py-3 px-8 rounded-full inline-flex items-center transition-colors duration-300"
                 >
-                  <span className="font-medium">{t("home.investors.cta")}</span>
+                  <span className="font-medium">Learn More About Investing</span>
                   <svg className="ml-2 w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7m0 0l-7 7m7-7H3" />
                   </svg>
