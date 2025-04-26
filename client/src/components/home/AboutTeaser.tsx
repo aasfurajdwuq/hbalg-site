@@ -213,28 +213,54 @@ const AboutTeaser = () => {
               <WheatStalks count={7} spacing={14} height={120} delay={0.5} inView={isInView} />
             </div>
             
-            {/* Company stats */}
-            <div className="absolute top-12 left-12">
+            {/* 3D Floating Stats Boxes */}
+            <div className="absolute top-12 right-12">
               <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
-                transition={{ duration: 0.8, delay: 0.7 }}
-                className="bg-white rounded-xl shadow-sm p-4"
+                initial={{ opacity: 0, y: 20, rotateY: -10, rotateX: 10 }}
+                animate={isInView ? { 
+                  opacity: 1, 
+                  y: 0,
+                  rotateY: [-5, 5, -5],
+                  rotateX: [5, -5, 5],
+                  z: [0, 10, 0]
+                } : { opacity: 0, y: 20 }}
+                transition={{ 
+                  opacity: { duration: 0.8, delay: 0.7 },
+                  y: { duration: 0.8, delay: 0.7 },
+                  rotateY: { duration: 8, repeat: Infinity, ease: "easeInOut" },
+                  rotateX: { duration: 8, repeat: Infinity, ease: "easeInOut" },
+                  z: { duration: 8, repeat: Infinity, ease: "easeInOut" }
+                }}
+                className="bg-white rounded-xl shadow-xl p-5 transform-gpu"
+                style={{ transformStyle: "preserve-3d", perspective: "1000px" }}
               >
-                <div className="font-bold text-2xl text-green-700">25+</div>
-                <div className="text-sm text-gray-600">Years Experience</div>
+                <div className="font-bold text-3xl text-amber-600">3,200</div>
+                <div className="text-sm font-medium text-gray-700">Hectares Cultivated</div>
               </motion.div>
             </div>
             
-            <div className="absolute bottom-12 right-12">
+            <div className="absolute bottom-12 left-12">
               <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
-                transition={{ duration: 0.8, delay: 1 }}
-                className="bg-white rounded-xl shadow-sm p-4"
+                initial={{ opacity: 0, y: 20, rotateY: 10, rotateX: -5 }}
+                animate={isInView ? { 
+                  opacity: 1, 
+                  y: 0,
+                  rotateY: [5, -5, 5],
+                  rotateX: [-5, 5, -5],
+                  z: [0, 10, 0]
+                } : { opacity: 0, y: 20 }}
+                transition={{ 
+                  opacity: { duration: 0.8, delay: 1 },
+                  y: { duration: 0.8, delay: 1 },
+                  rotateY: { duration: 7, repeat: Infinity, ease: "easeInOut" },
+                  rotateX: { duration: 7, repeat: Infinity, ease: "easeInOut" },
+                  z: { duration: 7, repeat: Infinity, ease: "easeInOut" }
+                }}
+                className="bg-white rounded-xl shadow-xl p-5 transform-gpu"
+                style={{ transformStyle: "preserve-3d", perspective: "1000px" }}
               >
-                <div className="font-bold text-2xl text-amber-600">3,200</div>
-                <div className="text-sm text-gray-600">Hectares Cultivated</div>
+                <div className="font-bold text-3xl text-green-700">100+</div>
+                <div className="text-sm font-medium text-gray-700">Jobs Created</div>
               </motion.div>
             </div>
           </div>

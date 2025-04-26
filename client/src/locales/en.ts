@@ -29,14 +29,32 @@ const en = {
   },
   home: {
     meta: {
-      title: "Harvest Brothers | Premium Sahara Wheat Cultivation",
-      description: "Harvest Brothers offers premium, sustainable Sahara wheat cultivation with innovative farming practices and global distribution."
+      title: "Harvest Brothers | Premium Sahara Agricultural Investment",
+      description: "Harvest Brothers offers premium, sustainable agricultural investments with innovative farming practices and global distribution."
     },
     hero: {
       headline: "From Algerian Fields… for the World.",
-      subheadline: "Premium, sustainable Sahara wheat cultivation.",
+      subheadline: "Premium, sustainable Sahara agriculture.",
       contactCTA: "Contact Us",
       investorCTA: "Investor Info"
+    },
+    about: {
+      title: "Pioneering Desert Agriculture",
+      description: "Founded in 2022, Harvest Brothers is revolutionizing agriculture in Algeria's Sahara region through innovative technologies and sustainable practices.",
+      point1: "3,200 hectares of cultivated farmland using advanced irrigation systems",
+      point2: "5-10% ROI for investors with transparent reporting and management",
+      point3: "Created over 100 jobs while implementing sustainable farming practices",
+      cta: "Learn more about us"
+    },
+    investors: {
+      title: "Exceptional Investment Opportunity",
+      description: "Join our growing enterprise with competitive returns and measurable impact.",
+      stats: {
+        return: "Average 7.5% annual ROI",
+        hectares: "3,200 hectares under cultivation",
+        investment: "€10 million total investment secured"
+      },
+      cta: "Become an investor"
     }
   },
   highlights: {
