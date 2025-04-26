@@ -40,27 +40,27 @@ const Header = () => {
       <div className="container mx-auto px-4">
         <nav className="flex justify-between items-center py-4">
           {/* Logo and Site Title */}
-          <Link href="/">
-            <div className="flex items-center group cursor-pointer">
-              <img 
-                src={iconLogo} 
-                alt="Harvest Brothers Logo" 
-                className="w-10 h-10 mr-3"
-              />
-              <div className="flex flex-col">
-                <span className="text-lg font-bold text-charcoal">{t("site.title")}</span>
-                <span className="text-xs font-arabic text-earth" lang="ar">{t("site.titleArabic")}</span>
-              </div>
+          <Link href="/" className="flex items-center group cursor-pointer">
+            <img 
+              src={iconLogo} 
+              alt="Harvest Brothers Logo" 
+              className="w-10 h-10 mr-3"
+            />
+            <div className="flex flex-col">
+              <span className="text-lg font-bold text-charcoal">{t("site.title")}</span>
+              <span className="text-xs font-arabic text-earth" lang="ar">{t("site.titleArabic")}</span>
             </div>
           </Link>
           
           {/* Desktop Navigation */}
           <div className="hidden md:flex items-center space-x-6">
             {navLinks.map((link, index) => (
-              <Link key={index} href={link.href}>
-                <a className={`${location === link.href ? "text-wheat-dark" : "text-charcoal"} ${index > 4 ? "text-sm text-stone-dark" : "font-medium"} hover:text-wheat-dark transition`}>
-                  {link.label}
-                </a>
+              <Link 
+                key={index} 
+                href={link.href}
+                className={`${location === link.href ? "text-wheat-dark" : "text-charcoal"} ${index > 4 ? "text-sm text-stone-dark" : "font-medium"} hover:text-wheat-dark transition`}
+              >
+                {link.label}
               </Link>
             ))}
           </div>
@@ -87,10 +87,12 @@ const Header = () => {
           <div className="md:hidden bg-white pb-4">
             <div className="flex flex-col space-y-3 pt-2 pb-3">
               {navLinks.map((link, index) => (
-                <Link key={index} href={link.href}>
-                  <a className={`${location === link.href ? "text-wheat-dark" : "text-charcoal"} ${index > 4 ? "text-sm" : "font-medium"} hover:text-wheat-dark transition px-4 py-2 hover:bg-stone-light rounded`}>
-                    {link.label}
-                  </a>
+                <Link 
+                  key={index} 
+                  href={link.href}
+                  className={`${location === link.href ? "text-wheat-dark" : "text-charcoal"} ${index > 4 ? "text-sm" : "font-medium"} hover:text-wheat-dark transition px-4 py-2 hover:bg-stone-light rounded`}
+                >
+                  {link.label}
                 </Link>
               ))}
             </div>

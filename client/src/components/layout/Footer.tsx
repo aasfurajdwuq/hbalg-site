@@ -33,11 +33,11 @@ const Footer = () => {
                 <FaWheatAwn className="text-earth-dark" />
               </div>
               <div className="flex flex-col">
-                <span className="text-lg font-bold">{t("site.title")}</span>
-                <span className="text-xs font-arabic" lang="ar">{t("site.titleArabic")}</span>
+                <span className="text-lg font-bold">Harvest Brothers</span>
+                <span className="text-xs font-arabic" lang="ar">حصاد الإخوة</span>
               </div>
             </div>
-            <p className="text-stone-dark mb-4">{t("site.tagline")}</p>
+            <p className="text-stone-dark mb-4">Sustainable Desert Agriculture</p>
             <div className="flex space-x-4">
               <a href="#" className="text-stone-dark hover:text-wheat transition" aria-label="Facebook">
                 <FaFacebookF />
@@ -56,14 +56,12 @@ const Footer = () => {
           
           {/* Quick Links */}
           <div>
-            <h3 className="text-lg font-bold mb-4">{t("footer.quickLinks")}</h3>
+            <h3 className="text-lg font-bold mb-4">Quick Links</h3>
             <ul className="space-y-2">
               {quickLinks.map((link, index) => (
                 <li key={index}>
-                  <Link href={link.href}>
-                    <a className="text-stone-dark hover:text-wheat transition">
-                      {link.label}
-                    </a>
+                  <Link href={link.href} className="text-stone-dark hover:text-wheat transition">
+                    {link.label}
                   </Link>
                 </li>
               ))}
@@ -72,41 +70,39 @@ const Footer = () => {
           
           {/* Contact Info */}
           <div>
-            <h3 className="text-lg font-bold mb-4">{t("footer.contactUs")}</h3>
+            <h3 className="text-lg font-bold mb-4">Contact Us</h3>
             <ul className="space-y-2">
               <li className="flex items-start">
                 <FaMapMarkerAlt className="mt-1 mr-2 text-wheat" />
-                <span className="text-stone-dark">{t("contact.address")}</span>
+                <span className="text-stone-dark">Timimoun, Algeria</span>
               </li>
               <li className="flex items-start">
                 <FaPhoneAlt className="mt-1 mr-2 text-wheat" />
                 <div className="text-stone-dark">
-                  <p>{t("contact.phoneAlgeria")}</p>
-                  <p>{t("contact.phoneUSA")}</p>
+                  <p>+213 662 67 52 91 (Algeria)</p>
+                  <p>+1 347 446 2141 (USA)</p>
                 </div>
               </li>
               <li className="flex items-start">
                 <FaEnvelope className="mt-1 mr-2 text-wheat" />
-                <span className="text-stone-dark">{t("contact.email")}</span>
+                <span className="text-stone-dark">kwph123@aol.com</span>
               </li>
             </ul>
           </div>
           
           {/* Language & Legal */}
           <div>
-            <h3 className="text-lg font-bold mb-4">{t("language.title")}</h3>
+            <h3 className="text-lg font-bold mb-4">Language</h3>
             <div className="mb-6">
               <LanguageSwitcher isFooter />
             </div>
             
-            <h3 className="text-lg font-bold mt-6 mb-4">{t("footer.legal")}</h3>
+            <h3 className="text-lg font-bold mt-6 mb-4">Legal</h3>
             <ul className="space-y-2">
               {legalLinks.map((link, index) => (
                 <li key={index}>
-                  <Link href={link.href}>
-                    <a className="text-stone-dark hover:text-wheat transition">
-                      {link.label}
-                    </a>
+                  <Link href={link.href} className="text-stone-dark hover:text-wheat transition">
+                    {link.label}
                   </Link>
                 </li>
               ))}
@@ -116,7 +112,7 @@ const Footer = () => {
         
         {/* Copyright */}
         <div className="border-t border-charcoal-light mt-8 pt-8 text-center text-stone-dark">
-          <p>&copy; {new Date().getFullYear()} {t("site.title")}. {t("footer.copyright")}</p>
+          <p>&copy; {new Date().getFullYear()} Harvest Brothers. All rights reserved.</p>
         </div>
       </div>
     </footer>
