@@ -1,33 +1,63 @@
 import { useRef } from "react";
 import { useLanguage } from "@/lib/i18n";
 import { motion, useInView } from "framer-motion";
-import { FaSeedling, FaLeaf, FaGlobeAfrica } from "react-icons/fa";
+import { FaSeedling, FaLeaf, FaGlobeAfrica, FaCarrot, FaAppleAlt, FaWater } from "react-icons/fa";
 
-// Apple-inspired highlight items
+// Apple-inspired highlight items showcasing diverse crops
 const highlights = [
   {
     icon: FaSeedling,
-    color: "#3E7C17", // Green shade
-    title: "highlights.landClimate.title",
-    subtitle: "highlights.landClimate.subtitle",
-    details: "highlights.landClimate.details",
+    color: "#D6B85A", // Wheat gold
+    name: "Wheat",
+    title: "Premium Saharan Wheat",
+    subtitle: "Our signature crop with exceptional yield",
+    details: "Cultivated using innovative techniques that maximize growth in arid conditions, our wheat varieties have been specially bred for the Saharan region.",
     delay: 0
   },
   {
-    icon: FaLeaf,
-    color: "#73AB84", // Another green shade
-    title: "highlights.sustainable.title",
-    subtitle: "highlights.sustainable.subtitle",
-    details: "highlights.sustainable.details",
+    icon: FaCarrot,
+    color: "#E67E22", // Carrot orange
+    name: "Root Vegetables",
+    title: "Premium Potatoes & Carrots",
+    subtitle: "High-yield root vegetables",
+    details: "Our potatoes and root vegetables thrive in the mineral-rich soil of our farms, producing exceptional harvests with superior taste profiles.",
     delay: 0.1
   },
   {
-    icon: FaGlobeAfrica,
-    color: "#7D5A50", // Earth tone 
-    title: "highlights.globalReach.title",
-    subtitle: "highlights.globalReach.subtitle",
-    details: "highlights.globalReach.details",
+    icon: FaWater,
+    color: "#1ABC9C", // Watermelon teal
+    name: "Watermelon",
+    title: "Succulent Watermelons",
+    subtitle: "Juicy desert-grown melons",
+    details: "Our watermelons benefit from the intense Saharan sun, developing exceptional sweetness and flavor while utilizing our water-efficient growing techniques.",
     delay: 0.2
+  },
+  {
+    icon: FaAppleAlt,
+    color: "#C0392B", // Apple red
+    name: "Fruits",
+    title: "Diverse Fruit Cultivation",
+    subtitle: "Desert-adapted fruit varieties",
+    details: "We're pioneering the cultivation of specialized fruit varieties adapted to thrive in desert conditions with minimal water requirements.",
+    delay: 0.3
+  },
+  {
+    icon: FaLeaf,
+    color: "#27AE60", // Green
+    name: "Sustainable",
+    title: "Sustainable Practices",
+    subtitle: "Environmentally conscious farming",
+    details: "All our diverse crops are grown using sustainable practices that preserve soil health, conserve water, and minimize environmental impact.",
+    delay: 0.4
+  },
+  {
+    icon: FaGlobeAfrica,
+    color: "#7D5A50", // Earth tone
+    name: "Global",
+    title: "Global Distribution",
+    subtitle: "Reaching markets worldwide",
+    details: "Our diverse agricultural products meet international standards and are exported to markets across Africa, Europe, and the Middle East.",
+    delay: 0.5
   }
 ];
 
@@ -58,16 +88,16 @@ const Highlights = () => {
           transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
           className="text-center mb-16"
         >
-          <h2 className="text-4xl md:text-5xl font-bold tracking-tight mb-4">Premium Saharan Wheat</h2>
-          <p className="text-xl text-gray-600 max-w-3xl mx-auto">Cultivating excellence through innovation, sustainability, and global standards.</p>
+          <h2 className="text-4xl md:text-5xl font-bold tracking-tight mb-4">Diverse Agricultural Cultivation</h2>
+          <p className="text-xl text-gray-600 max-w-3xl mx-auto">Growing premium crops from wheat to watermelon through innovation, sustainability, and world-class farming techniques.</p>
         </motion.div>
         
-        {/* Apple-style highlight items */}
+        {/* Apple-style highlight items with more advanced grid */}
         <motion.div
           variants={containerVariants}
           initial="hidden"
           animate={isInView ? "visible" : "hidden"}
-          className="grid grid-cols-1 md:grid-cols-3 gap-8"
+          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
         >
           {highlights.map((highlight, index) => (
             <motion.div

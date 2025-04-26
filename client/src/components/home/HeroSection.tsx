@@ -60,14 +60,19 @@ const HeroSection = () => {
       {/* Premium full-screen background with overlay */}
       <div className="absolute inset-0 z-0 bg-gradient-to-b from-black via-transparent to-black opacity-70"></div>
       
-      {/* High quality wheat field background */}
-      <div className="absolute inset-0 z-0">
+      {/* Dynamic farm fields background with animation */}
+      <motion.div 
+        className="absolute inset-0 z-0"
+        initial={{ scale: 1.1 }}
+        animate={{ scale: 1 }}
+        transition={{ duration: 10, ease: "easeOut" }}
+      >
         <img 
-          src="https://images.unsplash.com/photo-1588667458832-058afb28e341?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=85" 
-          alt="Premium Saharan wheat" 
+          src="https://images.unsplash.com/photo-1625246333195-78d9c38ad449?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=85" 
+          alt="Diverse agricultural fields" 
           className="w-full h-full object-cover opacity-90" 
         />
-      </div>
+      </motion.div>
       
       {/* Content with Apple-like animations */}
       <div className="container mx-auto px-4 z-20 max-w-5xl">
@@ -82,27 +87,46 @@ const HeroSection = () => {
             <img src={iconLogo} alt="Harvest Brothers" className="h-24 w-auto" />
           </motion.div>
           
-          {/* Headline with Apple-style animation */}
+          {/* Headline with Apple-style animation and floating 3D effect */}
           <motion.h1 
             variants={headlineVariants}
             initial="hidden"
             animate="visible"
-            className="text-4xl md:text-6xl lg:text-7xl font-bold mb-4 text-white tracking-tight"
+            whileInView={{ 
+              rotateX: [0, 1, 0, -1, 0], 
+              rotateY: [0, 1, 0, -1, 0],
+              z: [0, 10, 0, -10, 0]
+            }}
+            transition={{ 
+              duration: 10, 
+              repeat: Infinity, 
+              repeatType: "loop",
+              ease: "easeInOut" 
+            }}
+            className="text-4xl md:text-6xl lg:text-7xl font-bold mb-4 text-white tracking-tight transform-gpu"
+            style={{ perspective: "1000px" }}
           >
-            Premium Saharan Wheat Investment
+            Premium Algerian Agriculture Investments
           </motion.h1>
           
-          {/* Subheading with Apple-style animation */}
-          <motion.p 
+          {/* Subheading with Apple-style animation and dynamic text */}
+          <motion.div
             variants={subheadVariants}
             initial="hidden"
             animate="visible"
             className="text-xl md:text-2xl lg:text-3xl text-white/90 mb-10 max-w-3xl mx-auto font-light"
           >
-            Join our high-growth agricultural enterprise with exceptional investor returns
-          </motion.p>
+            <p className="mb-3">Innovative farming of wheat, potatoes, watermelon and more</p>
+            <motion.p 
+              initial={{ opacity: 0.7 }}
+              animate={{ opacity: [0.7, 1, 0.7] }}
+              transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
+            >
+              Join our growing enterprise with exceptional investor returns
+            </motion.p>
+          </motion.div>
           
-          {/* CTA buttons with Apple-style animation */}
+          {/* CTA buttons with advanced animation effects */}
           <motion.div 
             variants={ctaVariants}
             initial="hidden"
@@ -110,14 +134,44 @@ const HeroSection = () => {
             className="flex flex-col sm:flex-row justify-center gap-6"
           >
             <Link href="/contact">
-              <div className="bg-white bg-opacity-20 backdrop-blur-lg text-white font-medium py-4 px-8 rounded-full hover:bg-opacity-30 transition-all duration-300 cursor-pointer border border-white/25">
-                Get in Touch
-              </div>
+              <motion.div 
+                className="bg-white bg-opacity-20 backdrop-blur-lg text-white font-medium py-4 px-8 rounded-full border border-white/25 cursor-pointer"
+                whileHover={{ 
+                  scale: 1.05, 
+                  backgroundColor: "rgba(255, 255, 255, 0.3)",
+                  boxShadow: "0 0 15px rgba(255, 255, 255, 0.5)" 
+                }}
+                whileTap={{ scale: 0.95 }}
+                transition={{ type: "spring", stiffness: 400, damping: 17 }}
+              >
+                <motion.span
+                  initial={{ opacity: 1 }}
+                  whileHover={{ opacity: [1, 0.8, 1], y: [0, -3, 0] }}
+                  transition={{ duration: 1, repeat: Infinity, ease: "easeInOut" }}
+                >
+                  Get in Touch
+                </motion.span>
+              </motion.div>
             </Link>
             <Link href="/investors">
-              <div className="bg-white text-black font-medium py-4 px-8 rounded-full hover:bg-opacity-90 transition-all duration-300 cursor-pointer">
-                Investment Opportunities
-              </div>
+              <motion.div 
+                className="bg-white text-black font-medium py-4 px-8 rounded-full cursor-pointer"
+                whileHover={{ 
+                  scale: 1.05, 
+                  backgroundColor: "#f8f8f8",
+                  boxShadow: "0 0 20px rgba(255, 255, 255, 0.8)" 
+                }}
+                whileTap={{ scale: 0.95 }}
+                transition={{ type: "spring", stiffness: 400, damping: 17 }}
+              >
+                <motion.span
+                  initial={{ opacity: 1 }}
+                  whileHover={{ opacity: [1, 0.8, 1], y: [0, -3, 0] }}
+                  transition={{ duration: 1, repeat: Infinity, ease: "easeInOut" }}
+                >
+                  Investment Opportunities
+                </motion.span>
+              </motion.div>
             </Link>
           </motion.div>
           
