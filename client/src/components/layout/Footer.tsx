@@ -9,17 +9,16 @@ const Footer = () => {
   
   // Quick links for the footer
   const quickLinks = [
-    { href: "/", label: t("nav.home") },
-    { href: "/about", label: t("nav.about") },
-    { href: "/services", label: t("nav.services") },
-    { href: "/investors", label: t("nav.investors") },
-    { href: "/contact", label: t("nav.contact") },
+    { href: "/", label: "Home" },
+    { href: "/about", label: "About Us" },
+    { href: "/services", label: "Services" },
+    { href: "/investors", label: "Investors" },
+    { href: "/contact", label: "Contact Us" },
   ];
   
   // Legal links
   const legalLinks = [
-    { href: "/terms", label: t("nav.terms") },
-    { href: "/privacy", label: t("nav.privacy") },
+    { href: "/legal", label: "Terms & Privacy" },
   ];
 
   return (

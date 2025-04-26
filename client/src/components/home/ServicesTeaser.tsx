@@ -106,7 +106,7 @@ const ServicesTeaser = () => {
     {
       icon: <FaChartLine className="text-xl text-green-700" />,
       title: "Premium Returns",
-      description: "Enjoy industry-leading 18% average annual returns through our strategic agricultural investments in premium wheat."
+      description: "Consistently delivering 5-10% average annual returns (7% average) to our investors, outperforming traditional agricultural investments while creating sustainable value."
     },
     {
       icon: <FaHandshake className="text-xl text-amber-700" />,
