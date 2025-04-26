@@ -365,12 +365,9 @@ const About = () => {
                       </p>
                     </div>
                     <div className="md:w-1/2 flex items-center justify-center">
-                      <div className="p-1 bg-gradient-to-r from-amber-300 to-amber-500 rounded-2xl shadow-lg">
-                        <img 
-                          src="https://images.unsplash.com/photo-1574943320219-5630bb4c7a91?ixlib=rb-4.0.3&auto=format&fit=crop&w=870&q=80" 
-                          alt="Wheat harvest" 
-                          className="rounded-xl w-full h-auto"
-                        />
+                      <div className="p-8 bg-gradient-to-r from-amber-50 to-amber-100 rounded-2xl shadow-lg flex flex-col items-center">
+                        <div className="text-4xl font-bold text-amber-600 mb-4">2022</div>
+                        <div className="text-xl text-center text-amber-800">Founded with a vision to transform desert agriculture</div>
                       </div>
                     </div>
                   </div>
