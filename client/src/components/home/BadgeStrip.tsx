@@ -13,7 +13,7 @@ const FlipCard = ({ frontContent, backContent, index, isInView }) => {
   
   return (
     <motion.div
-      className="h-48 w-48 perspective cursor-pointer"
+      className="h-64 w-48 perspective cursor-pointer"
       initial={{ opacity: 0, scale: 0.9, y: 20 }}
       animate={isInView ? { opacity: 1, scale: 1, y: 0 } : { opacity: 0, scale: 0.9, y: 20 }}
       transition={{ 
@@ -72,7 +72,7 @@ const badges = [
   {
     image: growTogetherBadge,
     title: "Top Investment Returns",
-    description: "Consistently delivering 18% average annual returns to our investors, outperforming traditional agricultural investments while creating sustainable value.",
+    description: "Consistently delivering 5-10% average annual returns to our investors, outperforming traditional agricultural investments while creating sustainable value.",
     index: 2
   }
 ];

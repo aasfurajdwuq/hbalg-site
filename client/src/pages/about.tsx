@@ -418,7 +418,7 @@ const About = () => {
                     <div className="md:w-1/2">
                       <h3 className="text-3xl font-bold mb-6">Sustainability</h3>
                       <p className="text-xl text-gray-700 mb-6">
-                        Our operations are 100% powered by renewable energy, with our 250-acre solar farm generating surplus electricity that supports local communities.
+                        Our operations are 100% powered by renewable energy, with our solar farm on a portion of our 1200+ acres generating surplus electricity that supports local communities.
                       </p>
                       <p className="text-xl text-gray-700">
                         We've pioneered a closed-loop water recycling system that captures, purifies, and reuses irrigation water, minimizing waste while preserving local aquifers.
@@ -467,19 +467,19 @@ const About = () => {
                     <div className="md:w-1/2">
                       <h3 className="text-3xl font-bold mb-6">Community Impact</h3>
                       <p className="text-xl text-gray-700 mb-6">
-                        We've created over 500 jobs in rural Algerian communities, providing competitive wages, comprehensive healthcare, and educational opportunities for employees and their families.
+                        We've created over 100+ jobs in rural Algerian communities, providing competitive wages, comprehensive healthcare, and educational opportunities for employees and their families.
                       </p>
                       <p className="text-xl text-gray-700">
-                        Our Agricultural Training Academy has graduated 150 local farmers who now apply sustainable techniques on their own lands, multiplying our environmental impact throughout the region.
+                        Through our community outreach initiatives, we support local infrastructure development and provide educational resources that help build stronger, more resilient communities throughout the region.
                       </p>
                     </div>
                     <div className="md:w-1/2 h-64 bg-gradient-to-br from-amber-50 to-amber-100 rounded-2xl p-6 flex items-center justify-center">
                       <div className="text-center">
-                        <div className="text-5xl font-bold text-amber-700 mb-2">500+</div>
-                        <div className="text-xl text-amber-800">Rural jobs created</div>
+                        <div className="text-5xl font-bold text-amber-700 mb-2">100+</div>
+                        <div className="text-xl text-amber-800">Local jobs created</div>
                         <div className="h-px bg-amber-200 w-32 mx-auto my-4" />
-                        <div className="text-5xl font-bold text-amber-700 mb-2">150</div>
-                        <div className="text-xl text-amber-800">Farmers trained in sustainable methods</div>
+                        <div className="text-5xl font-bold text-amber-700 mb-2">1200+</div>
+                        <div className="text-xl text-amber-800">Acres under sustainable management</div>
                       </div>
                     </div>
                   </div>
