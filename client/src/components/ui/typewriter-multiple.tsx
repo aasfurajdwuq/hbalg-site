@@ -71,7 +71,7 @@ export const TypewriterMultiple = ({
     <div className={`${className}`}>
       {/* Main typewriter text */}
       <motion.h1 
-        className="text-4xl md:text-6xl lg:text-7xl font-bold mb-4 text-white tracking-tight transform-gpu min-h-[1.5em]"
+        className="text-5xl md:text-7xl lg:text-8xl font-bold mb-4 text-white tracking-tight transform-gpu min-h-[1.5em]"
         style={{ perspective: "1000px" }}
         whileInView={{ 
           rotateX: [0, 0.5, 0, -0.5, 0], 
@@ -88,19 +88,19 @@ export const TypewriterMultiple = ({
         <span>{displayedText}</span>
         <motion.span 
           animate={{ opacity: [1, 0, 1] }}
-          transition={{ duration: 0.8, repeat: Infinity }}
-          className="inline-block ml-1 -mb-1 w-[2px] md:w-[3px] h-8 md:h-12 lg:h-14 bg-white"
+          transition={{ duration: 0.5, repeat: Infinity }}
+          className="inline-block ml-1 -mb-1 w-[3px] md:w-[4px] h-10 md:h-14 lg:h-16 bg-white"
         >
           &nbsp;
         </motion.span>
       </motion.h1>
       
       {/* Subtitle with smooth transitions */}
-      <div className="h-24 relative">
+      <div className="h-28 md:h-32 relative">
         {subtitles.map((subtitle, index) => (
           <motion.p
             key={index}
-            className="text-xl md:text-2xl lg:text-3xl text-white/90 font-light absolute left-0 right-0"
+            className="text-2xl md:text-3xl lg:text-4xl text-white/90 font-light absolute left-0 right-0 px-4"
             initial={{ opacity: 0, y: 20 }}
             animate={{ 
               opacity: currentSubtitleIndex === index ? 1 : 0,

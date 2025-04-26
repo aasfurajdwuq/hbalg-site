@@ -12,19 +12,19 @@ const HeroSection = () => {
 
   // Define the typewriter phrases and subtitles
   const headingPhrases = [
-    "Premium Algerian Agriculture Investments",
-    "Sustainable Desert Farming Technology",
-    "High-Yield Agricultural Opportunities",
-    "Advanced Irrigation Solutions",
-    "Eco-Friendly Farming Innovation"
+    "Harvest Brothers",
+    "Seeds of Algeria",
+    "From Algerian Fields, for the World",
+    "Best in Algeria",
+    "Harvest Brothers"
   ];
   
   const subtitlePhrases = [
-    "Innovative farming with advanced agricultural techniques",
-    "Transforming arid lands into productive ecosystems",
-    "Secure investments with 5-10% annual returns",
-    "Join our mission for sustainable food production",
-    "Supporting communities while growing your wealth"
+    "Premium agricultural investments with exceptional returns",
+    "Cultivating prosperity in North Africa's fertile regions",
+    "Global distribution of quality Algerian produce",
+    "Award-winning agricultural enterprise since 2022",
+    "Join our mission for sustainable growth and prosperity"
   ];
 
   useEffect(() => {
@@ -115,9 +115,9 @@ const HeroSection = () => {
             <TypewriterMultiple 
               phrases={headingPhrases}
               subtitles={subtitlePhrases}
-              typingSpeed={40}
-              pauseTime={3000}
-              className="max-w-3xl mx-auto"
+              typingSpeed={60}
+              pauseTime={4000}
+              className="max-w-4xl mx-auto"
             />
           </motion.div>
           
