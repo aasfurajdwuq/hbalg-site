@@ -1,8 +1,38 @@
-import { useRef } from "react";
+import { useRef, useState, useEffect } from "react";
 import { Link } from "wouter";
 import { useLanguage } from "@/lib/i18n";
 import { motion, useInView, useScroll, useTransform } from "framer-motion";
 import { bestInAlgeriaBadge } from '@/assets/image-imports';
+
+// Animated Value Component to handle counting animations
+const AnimatedValue = ({ value, duration = 2, suffix = "" }) => {
+  const [count, setCount] = useState(0);
+  
+  useEffect(() => {
+    let startTime = null;
+    let animationFrame = null;
+    
+    const animate = (timestamp) => {
+      if (!startTime) startTime = timestamp;
+      const progress = Math.min((timestamp - startTime) / (duration * 1000), 1);
+      setCount(Math.floor(progress * value));
+      
+      if (progress < 1) {
+        animationFrame = requestAnimationFrame(animate);
+      }
+    };
+    
+    animationFrame = requestAnimationFrame(animate);
+    
+    return () => {
+      if (animationFrame) {
+        cancelAnimationFrame(animationFrame);
+      }
+    };
+  }, [value, duration]);
+  
+  return <>{count}{suffix}</>;
+};
 
 // Apple-style Animated Counter component
 const AnimatedCounter = ({ targetValue, suffix = "", duration = 2.5, inView }) => {
@@ -18,22 +48,10 @@ const AnimatedCounter = ({ targetValue, suffix = "", duration = 2.5, inView }) =
     >
       <motion.span
         initial={{ opacity: 0 }}
-        animate={inView ? { 
-          opacity: 1,
-          transition: { duration: 0.5 }
-        } : { opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration }}
       >
-        {inView ? (
-          <motion.span
-            initial={{ value: 0 }}
-            animate={{ value: targetValue }}
-            transition={{ duration }}
-          >
-            {({ value }) => <>{Math.floor(value)}{suffix}</>}
-          </motion.span>
-        ) : (
-          "0" + suffix
-        )}
+        {inView && <AnimatedValue value={targetValue} duration={duration} suffix={suffix} />}
       </motion.span>
     </motion.span>
   );
