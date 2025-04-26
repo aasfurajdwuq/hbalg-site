@@ -175,12 +175,53 @@ const Contact = () => {
     }
   ];
   
-  const handleSubmit = (e) => {
+  const [formData, setFormData] = useState({
+    name: '',
+    email: '',
+    subject: 'General Inquiry',
+    message: '',
+    phone: ''
+  });
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setFormData(prevData => ({
+      ...prevData,
+      [name]: value
+    }));
+  };
+  
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // Simulate form submission
-    setTimeout(() => {
-      setFormSubmitted(true);
-    }, 1000);
+    
+    if (isSubmitting) return;
+    
+    setIsSubmitting(true);
+    
+    try {
+      // Send form data to our API
+      const response = await fetch('/api/contact', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formData),
+      });
+      
+      if (response.ok) {
+        console.log('Email sent successfully');
+        setFormSubmitted(true);
+      } else {
+        console.error('Failed to send email');
+        alert('Failed to send your message. Please try again later.');
+      }
+    } catch (error) {
+      console.error('Error sending email:', error);
+      alert('An error occurred. Please try again later.');
+    } finally {
+      setIsSubmitting(false);
+    }
   };
   
   return (
@@ -250,6 +291,9 @@ const Contact = () => {
                           whileFocus={{ scale: 1.01 }}
                           transition={{ duration: 0.2 }}
                           type="text" 
+                          name="name"
+                          value={formData.name}
+                          onChange={handleInputChange}
                           className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-amber-500 focus:border-transparent"
                           placeholder="Full name"
                           required
@@ -261,6 +305,9 @@ const Contact = () => {
                           whileFocus={{ scale: 1.01 }}
                           transition={{ duration: 0.2 }}
                           type="email" 
+                          name="email"
+                          value={formData.email}
+                          onChange={handleInputChange}
                           className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-amber-500 focus:border-transparent"
                           placeholder="your.email@example.com"
                           required
@@ -273,15 +320,18 @@ const Contact = () => {
                       <motion.select
                         whileFocus={{ scale: 1.01 }}
                         transition={{ duration: 0.2 }}
+                        name="subject"
+                        value={formData.subject}
+                        onChange={handleInputChange}
                         className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-amber-500 focus:border-transparent"
                         required
                       >
-                        <option value="" disabled selected>Select a subject</option>
-                        <option value="general">General Inquiry</option>
-                        <option value="services">Agricultural Services</option>
-                        <option value="investment">Investment Opportunities</option>
-                        <option value="partnership">Partnership Proposal</option>
-                        <option value="other">Other</option>
+                        <option value="" disabled>Select a subject</option>
+                        <option value="General Inquiry">General Inquiry</option>
+                        <option value="Agricultural Services">Agricultural Services</option>
+                        <option value="Investment Opportunities">Investment Opportunities</option>
+                        <option value="Partnership Proposal">Partnership Proposal</option>
+                        <option value="Other">Other</option>
                       </motion.select>
                     </div>
                     
@@ -290,6 +340,9 @@ const Contact = () => {
                       <motion.textarea
                         whileFocus={{ scale: 1.01 }}
                         transition={{ duration: 0.2 }}
+                        name="message"
+                        value={formData.message}
+                        onChange={handleInputChange}
                         className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-amber-500 focus:border-transparent h-32 resize-none"
                         placeholder="How can we help you?"
                         required
