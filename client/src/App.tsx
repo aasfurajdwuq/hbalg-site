@@ -12,6 +12,9 @@ import Services from "@/pages/services";
 import SaharanCrops from "@/pages/services/saharan-crops";
 import AgriculturalResearch from "@/pages/services/agricultural-research";
 import IrrigationSystems from "@/pages/services/irrigation-systems";
+import DiversePortfolio from "@/pages/services/diverse-portfolio";
+import SustainablePractices from "@/pages/services/sustainable-practices";
+import GlobalDistribution from "@/pages/services/global-distribution";
 import Investors from "@/pages/investors";
 import Contact from "@/pages/contact";
 import Legal from "@/pages/legal";
@@ -26,6 +29,9 @@ function Router() {
       <Route path="/services/saharan-crops" component={SaharanCrops} />
       <Route path="/services/agricultural-research" component={AgriculturalResearch} />
       <Route path="/services/irrigation-systems" component={IrrigationSystems} />
+      <Route path="/services/diverse-portfolio" component={DiversePortfolio} />
+      <Route path="/services/sustainable-practices" component={SustainablePractices} />
+      <Route path="/services/global-distribution" component={GlobalDistribution} />
       <Route path="/investors" component={Investors} />
       <Route path="/contact" component={Contact} />
       <Route path="/legal" component={Legal} />

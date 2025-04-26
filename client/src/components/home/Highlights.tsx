@@ -15,8 +15,11 @@ const getServicePath = (name: string): string => {
     case "Water Management":
       return "irrigation-systems";
     case "Diversity":
+      return "diverse-portfolio";
     case "Sustainable":
+      return "sustainable-practices";
     case "Global":
+      return "global-distribution";
     default:
       return "";
   }
