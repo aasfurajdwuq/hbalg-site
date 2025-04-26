@@ -148,15 +148,6 @@ const RotatingServiceCard = ({ icon, title, description, color, accentColor, ind
           </div>
         </div>
       </motion.div>
-      
-      {/* Separate Learn More link outside the card */}
-      <div className="absolute bottom-[-40px] left-0 right-0 text-center">
-        <Link href={detailUrl}>
-          <span className="text-green-700 hover:text-green-800 transition-colors font-medium">
-            View Full Details
-          </span>
-        </Link>
-      </div>
     </motion.div>
   );
 };
