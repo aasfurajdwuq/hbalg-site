@@ -103,9 +103,9 @@ const InvestorTeaser = () => {
   
   // Investment stats
   const stats = [
-    { value: 7, suffix: "%", label: t("home.investors.stats.return") },
-    { value: 3200, suffix: "", label: t("home.investors.stats.hectares") },
-    { value: 10, suffix: "M", label: t("home.investors.stats.investment") }
+    { value: 7, suffix: "%", label: "Return Stats" },
+    { value: 3200, suffix: "", label: "Hectares Cultivated" },
+    { value: 10, suffix: "M", label: "Total Investment" }
   ];
 
   return (
