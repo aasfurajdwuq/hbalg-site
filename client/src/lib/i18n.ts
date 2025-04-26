@@ -45,29 +45,48 @@ export const LanguageProvider = (props: {children: ReactNode}) => {
   };
 
   const t = (key: string): string => {
-    const keys = key.split(".");
-    let result: any = locales[language] || defaultLocale;
+    if (!key) return '';
     
-    // Navigate through the nested properties
-    for (const k of keys) {
-      if (result && result[k] !== undefined) {
-        result = result[k];
-      } else {
-        // If key not found in current language, try English
-        let fallbackResult = defaultLocale;
-        for (const fallbackKey of keys) {
-          if (fallbackResult && fallbackResult[fallbackKey] !== undefined) {
-            fallbackResult = fallbackResult[fallbackKey];
-          } else {
-            // If not found in English either, return the key
-            return key;
-          }
+    const keys = key.split('.');
+    
+    // Try to get the value from the current language
+    let currentValue: any = locales[language];
+    if (currentValue) {
+      let found = true;
+      for (const k of keys) {
+        if (currentValue && currentValue[k] !== undefined) {
+          currentValue = currentValue[k];
+        } else {
+          found = false;
+          break;
         }
-        return typeof fallbackResult === "string" ? fallbackResult : key;
+      }
+      
+      if (found && typeof currentValue === 'string') {
+        return currentValue;
       }
     }
-
-    return typeof result === "string" ? result : key;
+    
+    // Try to get the value from the default language
+    let defaultValue: any = defaultLocale;
+    if (defaultValue) {
+      let found = true;
+      for (const k of keys) {
+        if (defaultValue && defaultValue[k] !== undefined) {
+          defaultValue = defaultValue[k];
+        } else {
+          found = false;
+          break;
+        }
+      }
+      
+      if (found && typeof defaultValue === 'string') {
+        return defaultValue;
+      }
+    }
+    
+    // Return the key as fallback
+    return key;
   };
 
   return React.createElement(
