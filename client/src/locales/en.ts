@@ -50,7 +50,7 @@ const en = {
       title: "Exceptional Investment Opportunity",
       description: "Join our growing enterprise with competitive returns and measurable impact.",
       stats: {
-        return: "Average 7.5% annual ROI",
+        return: "Average 7% annual ROI",
         hectares: "3,200 hectares under cultivation",
         investment: "€10 million total investment secured"
       },

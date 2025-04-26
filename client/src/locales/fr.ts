@@ -50,7 +50,7 @@ const fr = {
       title: "Opportunité d'Investissement Exceptionnelle",
       description: "Rejoignez notre entreprise en pleine croissance avec des rendements compétitifs et un impact mesurable.",
       stats: {
-        return: "Rendement annuel moyen de 7,5%",
+        return: "Rendement annuel moyen de 7%",
         hectares: "3 200 hectares en culture",
         investment: "10 millions € d'investissement total sécurisé"
       },
