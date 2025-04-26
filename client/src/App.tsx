@@ -9,6 +9,9 @@ import Footer from "@/components/layout/Footer";
 import Home from "@/pages/home";
 import About from "@/pages/about";
 import Services from "@/pages/services";
+import SaharanCrops from "@/pages/services/saharan-crops";
+import AgriculturalResearch from "@/pages/services/agricultural-research";
+import IrrigationSystems from "@/pages/services/irrigation-systems";
 import Investors from "@/pages/investors";
 import Contact from "@/pages/contact";
 import Legal from "@/pages/legal";
@@ -20,6 +23,9 @@ function Router() {
       <Route path="/" component={Home} />
       <Route path="/about" component={About} />
       <Route path="/services" component={Services} />
+      <Route path="/services/saharan-crops" component={SaharanCrops} />
+      <Route path="/services/agricultural-research" component={AgriculturalResearch} />
+      <Route path="/services/irrigation-systems" component={IrrigationSystems} />
       <Route path="/investors" component={Investors} />
       <Route path="/contact" component={Contact} />
       <Route path="/legal" component={Legal} />
