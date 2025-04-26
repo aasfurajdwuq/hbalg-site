@@ -1,5 +1,4 @@
-import { createContext, useContext, useState, ReactNode } from "react";
-import React from "react";
+import { createContext, useContext, useState, useEffect, ReactNode } from "react";
 import { locales, defaultLocale, type Locale } from "@/locales";
 
 type LanguageContextType = {
@@ -20,7 +19,7 @@ const LanguageContext = createContext<LanguageContextType>({
   t: (key: string) => key,
 });
 
-export const LanguageProvider = (props: {children: ReactNode}) => {
+export const LanguageProvider = ({ children }: { children: ReactNode }) => {
   const detectBrowserLanguage = (): string => {
     // First check if we have a stored preference
     const storedLang = localStorage.getItem("preferredLanguage");
@@ -67,18 +66,19 @@ export const LanguageProvider = (props: {children: ReactNode}) => {
     return typeof result === "string" ? result : key;
   };
 
+  const contextValue = {
+    language,
+    locale: locales[language] || defaultLocale,
+    dir,
+    changeLanguage,
+    t
+  };
+
+  // Using plain createElement instead of JSX
   return React.createElement(
     LanguageContext.Provider,
-    { 
-      value: {
-        language,
-        locale: locales[language] || defaultLocale,
-        dir,
-        changeLanguage,
-        t
-      } 
-    },
-    props.children
+    { value: contextValue },
+    children
   );
 };
 
