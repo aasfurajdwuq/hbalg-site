@@ -164,43 +164,57 @@ const RotatingServiceCard = ({ icon, title, description, color, accentColor, ind
 // Growth Animation Component
 const GrowthAnimation = ({ inView }) => {
   const growthBars = [
-    { height: 40, color: "#4CAF50", value: "2022" },
-    { height: 50, color: "#66BB6A", value: "2023" },
-    { height: 60, color: "#81C784", value: "2024" },
-    { height: 75, color: "#A5D6A7", value: "2025" }
+    { roi: 8, color: "#4CAF50", value: "2022" },
+    { roi: 10, color: "#66BB6A", value: "2023" },
+    { roi: 12, color: "#81C784", value: "2024" },
+    { roi: 15, color: "#A5D6A7", value: "2025" }
   ];
 
   return (
-    <div className="relative h-60 w-full overflow-hidden bg-gray-50 rounded-2xl p-4">
-      <h3 className="font-bold mb-6 text-center">Investment Growth</h3>
+    <div className="relative w-full overflow-hidden bg-white rounded-2xl p-8 shadow-md">
+      <h3 className="text-xl font-bold mb-6 text-center">Investment Growth</h3>
       
-      <div className="absolute bottom-12 left-0 right-0 h-px bg-gray-200" />
-      
-      <div className="flex items-end justify-around h-[60%] px-4">
-        {growthBars.map((bar, i) => (
-          <div key={i} className="flex flex-col items-center">
-            <motion.div
-              className="w-8 rounded-t-md relative"
-              style={{ backgroundColor: bar.color }}
-              initial={{ height: 0 }}
-              animate={inView ? { height: bar.height } : { height: 0 }}
-              transition={{ 
-                duration: 1,
-                delay: 0.5 + (i * 0.2),
-              }}
-            >
-              <motion.div
-                className="absolute -top-8 text-sm font-medium text-gray-700 whitespace-nowrap"
-                initial={{ opacity: 0 }}
-                animate={inView ? { opacity: 1 } : { opacity: 0 }}
-                transition={{ delay: 1 + (i * 0.2) }}
+      <div className="border-t border-gray-200 mb-6 pt-4">
+        <div className="grid grid-cols-4 gap-4">
+          {growthBars.map((bar, i) => (
+            <div key={i} className="flex flex-col items-center">
+              <motion.div 
+                className="flex flex-col items-center"
+                initial={{ opacity: 0, y: 20 }}
+                animate={inView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
+                transition={{ 
+                  duration: 0.6,
+                  delay: 0.2 + (i * 0.1),
+                }}
               >
-                {Math.round(bar.height * 0.2)}% ROI
+                <div className="w-16 h-[120px] relative flex flex-col items-center justify-end mb-2">
+                  <motion.div
+                    className="w-full rounded-t-md bg-green-100 flex items-center justify-center"
+                    style={{ 
+                      backgroundColor: bar.color,
+                      height: `${(bar.roi / 15) * 100}%`
+                    }}
+                    initial={{ height: 0 }}
+                    animate={inView ? { height: `${(bar.roi / 15) * 100}%` } : { height: 0 }}
+                    transition={{ 
+                      duration: 0.8,
+                      delay: 0.4 + (i * 0.1),
+                    }}
+                  />
+                </div>
+                <motion.div
+                  className="text-xl font-bold text-green-700"
+                  initial={{ opacity: 0 }}
+                  animate={inView ? { opacity: 1 } : { opacity: 0 }}
+                  transition={{ delay: 0.8 + (i * 0.1) }}
+                >
+                  {bar.roi}% ROI
+                </motion.div>
+                <div className="text-gray-500 font-medium mt-1">{bar.value}</div>
               </motion.div>
-            </motion.div>
-            <div className="mt-2 text-xs text-gray-500">{bar.value}</div>
-          </div>
-        ))}
+            </div>
+          ))}
+        </div>
       </div>
     </div>
   );

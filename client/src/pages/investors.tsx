@@ -7,62 +7,72 @@ import { FaChartLine, FaLeaf, FaHandshake, FaUsers } from "react-icons/fa";
 
 // Animated Chart Component
 const AnimatedChart = ({ inView }) => {
-  const chartBars = [
-    { height: 60, color: "#4CAF50", label: "2023", value: "6.0%" },
-    { height: 75, color: "#66BB6A", label: "2024", value: "7.5%" },
-    { height: 85, color: "#81C784", label: "2025", value: "8.5%" },
-    { height: 95, color: "#A5D6A7", label: "2026 (Projected)", value: "9.5%" }
+  const yieldData = [
+    { year: "2023", value: 6.0, color: "#4CAF50" },
+    { year: "2024", value: 7.5, color: "#66BB6A" },
+    { year: "2025", value: 8.5, color: "#81C784" },
+    { year: "2026", value: 9.5, color: "#A5D6A7", projected: true }
   ];
 
   return (
-    <div className="bg-white rounded-2xl shadow-xl p-8 h-96 flex flex-col">
-      <h3 className="text-2xl font-bold mb-6">Yield Performance</h3>
+    <div className="bg-white rounded-2xl shadow-xl p-8 h-full">
+      <h3 className="text-2xl font-bold mb-8 text-center">Yield Performance</h3>
       
-      <div className="flex-1 flex items-end justify-between px-4 pt-10 relative">
-        {/* Y-axis label */}
-        <div className="absolute -left-6 top-1/2 -rotate-90 text-gray-500 text-sm">Percentage Yield</div>
-        
-        {/* X-axis label */}
-        <div className="absolute bottom-0 left-1/2 transform -translate-x-1/2 translate-y-8 text-gray-500 text-sm">Year</div>
-
-        {/* Grid lines */}
-        {[0, 25, 50, 75, 100].map((tick) => (
-          <div 
-            key={tick} 
-            className="absolute left-0 right-0 h-px bg-gray-200"
-            style={{ bottom: `${tick}%` }}
-          >
-            <span className="absolute -left-8 -translate-y-1/2 text-xs text-gray-500">{tick}%</span>
-          </div>
-        ))}
-        
-        {/* Chart bars */}
-        {chartBars.map((bar, i) => (
-          <div key={i} className="flex flex-col items-center justify-end h-full">
+      <div className="w-full flex flex-col">
+        {/* Chart */}
+        <div className="grid grid-cols-4 gap-4 mb-6">
+          {yieldData.map((item, i) => (
             <motion.div 
-              className="relative w-12 rounded-t-lg flex items-end justify-center"
-              style={{ backgroundColor: bar.color }}
-              initial={{ height: 0 }}
-              animate={inView ? { height: `${bar.height}%` } : { height: 0 }}
+              key={i}
+              className="flex flex-col items-center"
+              initial={{ opacity: 0, y: 20 }}
+              animate={inView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
               transition={{ 
-                duration: 1,
-                delay: 0.3 + (i * 0.2),
-                ease: [0.16, 1, 0.3, 1]
+                duration: 0.6,
+                delay: 0.2 + (i * 0.1),
               }}
             >
-              <motion.div
-                className="absolute -top-8 text-lg font-bold text-gray-800"
-                initial={{ opacity: 0 }}
-                animate={inView ? { opacity: 1 } : { opacity: 0 }}
-                transition={{ delay: 1.2 + (i * 0.1) }}
-              >
-                {bar.value}
-              </motion.div>
+              <div className="w-full h-[180px] flex items-end justify-center mb-4">
+                <motion.div
+                  className="w-20 rounded-t-lg relative flex items-center justify-center"
+                  style={{ 
+                    backgroundColor: item.color,
+                    height: `${(item.value / 10) * 100}%`
+                  }}
+                  initial={{ height: 0 }}
+                  animate={inView ? { height: `${(item.value / 10) * 100}%` } : { height: 0 }}
+                  transition={{ 
+                    duration: 0.8,
+                    delay: 0.4 + (i * 0.1),
+                  }}
+                >
+                  <motion.div
+                    className="absolute -top-10 text-center"
+                    initial={{ opacity: 0 }}
+                    animate={inView ? { opacity: 1 } : { opacity: 0 }}
+                    transition={{ delay: 0.8 + (i * 0.1) }}
+                  >
+                    <div className="text-2xl font-bold text-gray-800">{item.value}%</div>
+                  </motion.div>
+                </motion.div>
+              </div>
+              <div className="text-center">
+                <div className="font-medium text-lg">{item.year}</div>
+                {item.projected && (
+                  <div className="text-sm text-gray-500 mt-1">(Projected)</div>
+                )}
+              </div>
             </motion.div>
-            
-            <div className="mt-2 text-sm">{bar.label}</div>
-          </div>
-        ))}
+          ))}
+        </div>
+        
+        {/* Horizontal line */}
+        <div className="w-full h-px bg-gray-200 mb-4"></div>
+        
+        {/* Caption */}
+        <div className="text-center text-gray-500">
+          <p>Annual yield performance from 2023 to 2026 (projected)</p>
+        </div>
       </div>
     </div>
   );
