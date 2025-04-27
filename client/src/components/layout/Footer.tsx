@@ -1,12 +1,101 @@
 import { Link } from "wouter";
-import LanguageSwitcher from "@/components/shared/LanguageSwitcher";
-import { useLanguage } from "@/lib/i18n";
-import { FaMapMarkerAlt, FaPhoneAlt, FaEnvelope, FaFacebookF, FaTwitter, FaLinkedinIn, FaInstagram } from "react-icons/fa";
+import { useState, useEffect, useRef } from "react";
+import { FaMapMarkerAlt, FaPhoneAlt, FaEnvelope, FaFacebookF, FaTwitter, FaLinkedinIn, FaInstagram, FaChevronDown } from "react-icons/fa";
 import { africaIcon } from "@/assets/image-imports";
 
-const Footer = () => {
-  const { t } = useLanguage();
+// Footer language switcher
+const FooterLanguageSwitcher = () => {
+  const [isOpen, setIsOpen] = useState(false);
+  const dropdownRef = useRef<HTMLDivElement>(null);
   
+  const languages = [
+    { code: "en", name: "English" },
+    { code: "ar", name: "العربية" },  // Standard Arabic
+    { code: "ar-dz", name: "الدارجة الجزائرية" },  // Algerian Arabic
+    { code: "fr", name: "Français" },
+    { code: "es", name: "Español" },
+    { code: "ur", name: "اردو" },  // Urdu
+    { code: "it", name: "Italiano" }  // Italian
+  ];
+  
+  // Get current language
+  const getCurrentLanguage = () => {
+    if (typeof window === 'undefined') return 'en';
+    
+    const urlParams = new URLSearchParams(window.location.search);
+    const langParam = urlParams.get('lang');
+    if (langParam && languages.some(l => l.code === langParam)) {
+      return langParam;
+    }
+    
+    const storedLang = localStorage.getItem('preferredLanguage');
+    if (storedLang && languages.some(l => l.code === storedLang)) {
+      return storedLang;
+    }
+    
+    return 'en';
+  };
+  
+  const [currentLanguage, setCurrentLanguage] = useState(getCurrentLanguage());
+  
+  // Close dropdown when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+        setIsOpen(false);
+      }
+    };
+    
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
+  
+  // Handle language selection
+  const handleLanguageSelect = (code: string) => {
+    if (code === currentLanguage) {
+      setIsOpen(false);
+      return;
+    }
+    
+    // Store in localStorage
+    localStorage.setItem('preferredLanguage', code);
+    setCurrentLanguage(code);
+    
+    // Reload with new language
+    const url = new URL(window.location.href);
+    url.searchParams.set('lang', code);
+    window.location.href = url.toString();
+  };
+  
+  return (
+    <div className="relative" ref={dropdownRef}>
+      <button
+        className="w-full bg-charcoal-light text-stone-dark rounded border border-charcoal-light px-4 py-2 flex justify-between items-center"
+        onClick={() => setIsOpen(!isOpen)}
+      >
+        <span>{languages.find(lang => lang.code === currentLanguage)?.name}</span>
+        <FaChevronDown className="text-xs ml-2" />
+      </button>
+      {isOpen && (
+        <div className="absolute left-0 right-0 mt-1 bg-white rounded-md shadow-lg py-1 z-50">
+          {languages.map((lang) => (
+            <button
+              key={lang.code}
+              className={`block w-full text-left px-4 py-2 text-sm text-charcoal hover:bg-stone-light ${currentLanguage === lang.code ? 'bg-stone-light' : ''}`}
+              onClick={() => handleLanguageSelect(lang.code)}
+            >
+              <span lang={lang.code}>{lang.name}</span>
+            </button>
+          ))}
+        </div>
+      )}
+    </div>
+  );
+};
+
+const Footer = () => {
   // Quick links for the footer
   const quickLinks = [
     { href: "/", label: "Home" },
@@ -97,7 +186,7 @@ const Footer = () => {
           <div>
             <h3 className="text-lg font-bold mb-4">Language</h3>
             <div className="mb-6">
-              <LanguageSwitcher isFooter />
+              <FooterLanguageSwitcher />
             </div>
             
             <h3 className="text-lg font-bold mt-6 mb-4">Legal</h3>

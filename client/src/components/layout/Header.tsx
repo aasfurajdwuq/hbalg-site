@@ -1,15 +1,135 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { Link, useLocation } from "wouter";
-import LanguageSwitcher from "@/components/shared/LanguageSwitcher";
-import { useLanguage } from "@/lib/i18n";
-import { FaBars, FaTimes } from "react-icons/fa";
+import { FaBars, FaTimes, FaChevronDown } from "react-icons/fa";
 import { iconLogo } from "@/assets/image-imports";
+
+// Simple language switcher component
+const SimpleLanguageSwitcher = ({ isMobile = false }) => {
+  const [isOpen, setIsOpen] = useState(false);
+  const dropdownRef = useRef<HTMLDivElement>(null);
+  
+  const languages = [
+    { code: "en", name: "English" },
+    { code: "ar", name: "العربية" },  // Standard Arabic
+    { code: "ar-dz", name: "الدارجة الجزائرية" },  // Algerian Arabic
+    { code: "fr", name: "Français" },
+    { code: "es", name: "Español" },
+    { code: "ur", name: "اردو" },  // Urdu
+    { code: "it", name: "Italiano" }  // Italian
+  ];
+  
+  // Get current language from URL or localStorage
+  const getCurrentLanguage = () => {
+    if (typeof window === 'undefined') return 'en';
+    
+    const urlParams = new URLSearchParams(window.location.search);
+    const langParam = urlParams.get('lang');
+    if (langParam && languages.some(l => l.code === langParam)) {
+      return langParam;
+    }
+    
+    const storedLang = localStorage.getItem('preferredLanguage');
+    if (storedLang && languages.some(l => l.code === storedLang)) {
+      return storedLang;
+    }
+    
+    return 'en';
+  };
+  
+  const [currentLanguage, setCurrentLanguage] = useState(getCurrentLanguage());
+  
+  // Close dropdown when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+        setIsOpen(false);
+      }
+    };
+    
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
+  
+  // Handle language selection
+  const handleLanguageSelect = (code: string) => {
+    if (code === currentLanguage) {
+      setIsOpen(false);
+      return;
+    }
+    
+    // Store in localStorage
+    localStorage.setItem('preferredLanguage', code);
+    setCurrentLanguage(code);
+    
+    // Create a direct link with language parameter
+    const url = new URL(window.location.href);
+    url.searchParams.set('lang', code);
+    window.location.href = url.toString();
+  };
+  
+  if (isMobile) {
+    return (
+      <div className="relative" ref={dropdownRef}>
+        <button
+          className="bg-stone-light rounded w-32 px-3 py-2 text-sm text-charcoal flex justify-between items-center"
+          onClick={() => setIsOpen(!isOpen)}
+        >
+          <span>{languages.find(lang => lang.code === currentLanguage)?.name}</span>
+          <FaChevronDown className="text-xs ml-2" />
+        </button>
+        
+        {isOpen && (
+          <div className="absolute right-0 mt-1 w-48 bg-white rounded-md shadow-lg py-1 z-50">
+            {languages.map((lang) => (
+              <button
+                key={lang.code}
+                className={`block w-full text-left px-4 py-2 text-sm text-charcoal hover:bg-stone-light ${currentLanguage === lang.code ? 'bg-stone-light' : ''}`}
+                onClick={() => handleLanguageSelect(lang.code)}
+              >
+                <span lang={lang.code}>{lang.name}</span>
+              </button>
+            ))}
+          </div>
+        )}
+      </div>
+    );
+  }
+  
+  return (
+    <div className="relative" ref={dropdownRef}>
+      <button
+        className="flex items-center space-x-1 text-sm text-charcoal hover:text-wheat-dark transition pr-2"
+        onClick={() => setIsOpen(!isOpen)}
+        aria-haspopup="true"
+        aria-expanded={isOpen}
+      >
+        <span>{languages.find(lang => lang.code === currentLanguage)?.name}</span>
+        <FaChevronDown className="text-xs ml-1" />
+      </button>
+      
+      {isOpen && (
+        <div className="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1 z-50">
+          {languages.map((lang) => (
+            <button
+              key={lang.code}
+              className={`block w-full text-left px-4 py-2 text-sm text-charcoal hover:bg-stone-light ${currentLanguage === lang.code ? 'bg-stone-light' : ''}`}
+              onClick={() => handleLanguageSelect(lang.code)}
+            >
+              <span lang={lang.code}>{lang.name}</span>
+            </button>
+          ))}
+        </div>
+      )}
+    </div>
+  );
+};
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
   const [location] = useLocation();
-  const { t } = useLanguage();
 
   // Close mobile menu when changing pages
   useEffect(() => {
@@ -67,7 +187,7 @@ const Header = () => {
           
           {/* Language Switcher - Desktop */}
           <div className="hidden md:block">
-            <LanguageSwitcher />
+            <SimpleLanguageSwitcher />
           </div>
           
           {/* Mobile Menu Button */}
@@ -99,7 +219,7 @@ const Header = () => {
             <div className="border-t border-stone pt-3 px-4">
               <div className="flex flex-col space-y-3">
                 <span className="text-sm text-charcoal font-semibold">Language / اللغة</span>
-                <LanguageSwitcher isMobile={true} />
+                <SimpleLanguageSwitcher isMobile={true} />
               </div>
             </div>
           </div>
