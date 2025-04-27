@@ -29,13 +29,20 @@ export async function registerRoutes(app: Express): Promise<Server> {
       // Validate the form data
       const validatedData = contactFormSchema.parse(req.body);
       
+      // Save to database
+      await storage.saveContact(validatedData);
+      
       // Send email
       const emailSent = await sendContactEmail(validatedData);
       
       if (emailSent) {
         res.status(200).json({ message: 'Message sent successfully' });
       } else {
-        res.status(500).json({ message: 'Failed to send message' });
+        // Even if email fails, we've saved to the database
+        res.status(200).json({ 
+          message: 'Message saved successfully, but email notification failed',
+          warning: 'Email could not be sent, but your message was received'
+        });
       }
     } catch (error) {
       console.error('Contact form submission error:', error);
@@ -49,17 +56,46 @@ export async function registerRoutes(app: Express): Promise<Server> {
       // Validate the form data
       const validatedData = investorFormSchema.parse(req.body);
       
+      // Save to database
+      await storage.saveInvestor(validatedData);
+      
       // Send email
       const emailSent = await sendInvestorEmail(validatedData);
       
       if (emailSent) {
         res.status(200).json({ message: 'Investment inquiry sent successfully' });
       } else {
-        res.status(500).json({ message: 'Failed to send investment inquiry' });
+        // Even if email fails, we've saved to the database
+        res.status(200).json({ 
+          message: 'Investment inquiry saved successfully, but email notification failed',
+          warning: 'Email could not be sent, but your inquiry was received'
+        });
       }
     } catch (error) {
       console.error('Investor form submission error:', error);
       res.status(400).json({ message: 'Invalid form data', error });
+    }
+  });
+
+  // Get all contacts - protected for admin use
+  app.get('/api/contacts', async (req: Request, res: Response) => {
+    try {
+      const contacts = await storage.getContacts();
+      res.status(200).json(contacts);
+    } catch (error) {
+      console.error('Error fetching contacts:', error);
+      res.status(500).json({ message: 'Server error' });
+    }
+  });
+
+  // Get all investor inquiries - protected for admin use
+  app.get('/api/investors', async (req: Request, res: Response) => {
+    try {
+      const investors = await storage.getInvestors();
+      res.status(200).json(investors);
+    } catch (error) {
+      console.error('Error fetching investor inquiries:', error);
+      res.status(500).json({ message: 'Server error' });
     }
   });
 
