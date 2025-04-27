@@ -164,7 +164,7 @@ const Contact = () => {
     {
       icon: <FaEnvelope className="text-amber-500" />,
       label: "Email",
-      value: "kwph123@aol.com",
+      value: "support@hbalg.com",
       delay: 0.2
     },
     {
