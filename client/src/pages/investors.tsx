@@ -399,7 +399,7 @@ export default function Investors() {
             transition={{ duration: 0.8, delay: 0.6 }}
             className="flex flex-col sm:flex-row justify-center gap-4"
           >
-            <Link href="#investment-options">
+            <Link href="#investment-options-section">
               <motion.button
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.98 }}
@@ -457,7 +457,7 @@ export default function Investors() {
       </section>
       
       {/* Investment Options Section */}
-      <section id="investment-options" ref={investmentOptionsRef} className="py-20 bg-white">
+      <section id="investment-options-section" ref={investmentOptionsRef} className="py-20 bg-white">
         <div className="container mx-auto px-4">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
