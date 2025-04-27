@@ -108,7 +108,7 @@ const HeroSection = () => {
               phrases={headingPhrases}
               typingSpeed={60}
               pauseTime={4000}
-              className="text-5xl md:text-6xl lg:text-7xl font-bold text-white bg-gradient-to-r from-amber-100 to-yellow-200 bg-clip-text text-transparent"
+              className="text-7xl md:text-8xl lg:text-9xl font-extrabold tracking-tight text-white bg-gradient-to-r from-amber-100 to-yellow-200 bg-clip-text text-transparent drop-shadow-xl"
             />
           </motion.div>
           
