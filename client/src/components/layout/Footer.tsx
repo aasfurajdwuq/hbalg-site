@@ -177,7 +177,7 @@ const Footer = () => {
               </li>
               <li className="flex items-start">
                 <FaEnvelope className="mt-1 mr-2 text-wheat" />
-                <span className="text-stone-dark">kwph123@aol.com</span>
+                <span className="text-stone-dark">support@hbalg.com</span>
               </li>
             </ul>
           </div>

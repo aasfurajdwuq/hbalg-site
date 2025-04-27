@@ -47,7 +47,7 @@ const ContactForm = () => {
       console.log("Server response:", response);
       toast({
         title: t("contact.form.success.title") || "Message Sent!",
-        description: t("contact.form.success.message") || "Your message has been sent successfully to our team at kwph123@aol.com",
+        description: t("contact.form.success.message") || "Your message has been sent successfully to our team at support@hbalg.com",
       });
       form.reset();
     } catch (error: any) {

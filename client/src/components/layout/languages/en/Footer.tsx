@@ -77,7 +77,7 @@ const EnglishFooter = () => {
               </li>
               <li className="flex items-center">
                 <FaEnvelope className="text-wheat-light mr-3" />
-                <span>kwph123@aol.com</span>
+                <span>support@hbalg.com</span>
               </li>
             </ul>
           </div>

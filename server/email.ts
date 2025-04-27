@@ -14,7 +14,7 @@ if (!SENDGRID_API_KEY) {
 }
 
 // Email address to receive notifications
-const RECIPIENT_EMAIL = "kwph123@aol.com";
+const RECIPIENT_EMAIL = "support@hbalg.com";
 
 // FROM_EMAIL must be a verified sender in SendGrid
 // Using a Gmail-based sender which is more likely to be already verified

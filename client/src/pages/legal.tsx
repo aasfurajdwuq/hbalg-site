@@ -340,7 +340,7 @@ const Legal = () => {
               If you have any questions about our Terms or Privacy Policy, please contact us at:
             </p>
             <div className="space-y-2 text-gray-700">
-              <p><strong>Email:</strong> kwph123@aol.com</p>
+              <p><strong>Email:</strong> support@hbalg.com</p>
               <p><strong>Phone:</strong> +213 662 67 52 91 (Algeria) / +1 347 446 2141 (USA)</p>
               <p><strong>Address:</strong> Timimoun, Algeria</p>
             </div>

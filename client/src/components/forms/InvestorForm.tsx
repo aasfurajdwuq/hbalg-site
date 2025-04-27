@@ -48,7 +48,7 @@ const InvestorForm = () => {
       console.log("Server response:", response);
       toast({
         title: t("investors.form.success.title") || "Investment Request Sent!",
-        description: t("investors.form.success.message") || "Your investment request has been sent successfully to our team at kwph123@aol.com. We will contact you shortly.",
+        description: t("investors.form.success.message") || "Your investment request has been sent successfully to our team at support@hbalg.com. We will contact you shortly.",
       });
       form.reset();
     } catch (error: any) {
