@@ -2,7 +2,7 @@ import { useRef } from "react";
 import { Helmet } from "react-helmet";
 import { motion, useInView } from "framer-motion";
 import { Link } from "wouter";
-import { FaChartLine, FaHandHoldingUsd, FaUserTie, FaLeaf, FaMoneyBillWave, FaChartBar } from "react-icons/fa";
+import { FaChartLine, FaHandHoldingUsd, FaLeaf, FaMoneyBillWave, FaSeedling, FaChartBar } from "react-icons/fa";
 import EmailJSForm from "@/components/forms/EmailJSForm";
 import ROICalculator from "@/components/investors/ROICalculator";
 
@@ -21,68 +21,6 @@ const StatCard = ({ icon, title, value, description, delay = 0, isInView }) => {
       <h3 className="text-4xl font-bold text-amber-700 mb-2">{value}</h3>
       <h4 className="text-xl font-semibold mb-3">{title}</h4>
       <p className="text-gray-600">{description}</p>
-    </motion.div>
-  );
-};
-
-// Team Member Card Component
-const TeamMemberCard = ({ name, title, description, delay = 0, isInView }) => {
-  return (
-    <motion.div
-      initial={{ opacity: 0, y: 30 }}
-      animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
-      transition={{ duration: 0.8, delay, ease: [0.16, 1, 0.3, 1] }}
-      className="bg-white rounded-2xl shadow-lg overflow-hidden"
-    >
-      <div className="h-48 bg-gradient-to-r from-amber-400 to-amber-600 flex items-center justify-center">
-        <div className="w-28 h-28 rounded-full bg-white flex items-center justify-center">
-          <FaUserTie className="text-amber-600 text-5xl" />
-        </div>
-      </div>
-      <div className="p-6">
-        <h3 className="text-xl font-bold mb-1">{name}</h3>
-        <p className="text-amber-600 font-medium mb-4">{title}</p>
-        <p className="text-gray-600">{description}</p>
-      </div>
-    </motion.div>
-  );
-};
-
-// Investment Card Component
-const InvestmentCard = ({ title, description, roi, features, delay = 0, isInView }) => {
-  return (
-    <motion.div
-      initial={{ opacity: 0, y: 30 }}
-      animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
-      transition={{ duration: 0.8, delay, ease: [0.16, 1, 0.3, 1] }}
-      className="bg-white rounded-2xl shadow-lg p-8"
-    >
-      <div className="mb-6">
-        <span className="inline-block px-4 py-2 rounded-full bg-amber-100 text-amber-700 font-semibold mb-4">
-          Up to {roi}% ROI
-        </span>
-        <h3 className="text-2xl font-bold mb-3">{title}</h3>
-        <p className="text-gray-600 mb-6">{description}</p>
-      </div>
-
-      <ul className="space-y-3">
-        {features.map((feature, i) => (
-          <li key={i} className="flex items-start">
-            <svg className="w-5 h-5 text-amber-500 mr-2 flex-shrink-0 mt-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-            </svg>
-            <span className="text-gray-700">{feature}</span>
-          </li>
-        ))}
-      </ul>
-
-      <div className="mt-8">
-        <Link href="/contact">
-          <a className="block w-full py-3 rounded-lg bg-amber-600 text-white text-center font-medium hover:bg-amber-700 transition-colors">
-            Learn More
-          </a>
-        </Link>
-      </div>
     </motion.div>
   );
 };
@@ -120,17 +58,15 @@ const ParticlesBackground = () => {
 export default function Investors() {
   // References for scroll animations
   const statsRef = useRef(null);
-  const teamRef = useRef(null);
-  const investmentOptionsRef = useRef(null);
   const calculatorRef = useRef(null);
   const formRef = useRef(null);
+  const projectionRef = useRef(null);
   
   // Check if sections are in view
   const isStatsInView = useInView(statsRef, { once: true, amount: 0.2 });
-  const isTeamInView = useInView(teamRef, { once: true, amount: 0.2 });
-  const isInvestmentOptionsInView = useInView(investmentOptionsRef, { once: true, amount: 0.2 });
   const isCalculatorInView = useInView(calculatorRef, { once: true, amount: 0.2 });
   const isFormInView = useInView(formRef, { once: true, amount: 0.2 });
+  const isProjectionInView = useInView(projectionRef, { once: true, amount: 0.2 });
   
   // Statistics data
   const stats = [
@@ -149,10 +85,10 @@ export default function Investors() {
       delay: 0.2
     },
     {
-      icon: <FaUserTie className="text-amber-600 text-2xl" />,
-      title: "Jobs Created",
-      value: "100+",
-      description: "Employment opportunities generated for local communities",
+      icon: <FaSeedling className="text-amber-600 text-2xl" />,
+      title: "Growth",
+      value: "25%",
+      description: "Projected annual growth in total managed agricultural land",
       delay: 0.4
     },
     {
@@ -164,68 +100,28 @@ export default function Investors() {
     },
   ];
   
-  // Team members data
-  const teamMembers = [
+  // Projection milestones
+  const projectionMilestones = [
     {
-      name: "Karim Hamdani",
-      title: "Founder & CEO",
-      description: "With over 15 years in agribusiness, Karim leads our mission to transform Algerian agriculture through sustainable practices and innovative technologies.",
+      year: "2026",
+      title: "Expansion Phase I",
+      description: "Increase agricultural land to 5,000 hectares and implement advanced irrigation technologies across 80% of operations.",
+      icon: <FaLeaf className="text-amber-600 text-2xl" />,
       delay: 0
     },
     {
-      name: "Adam Benali",
-      title: "Vice President",
-      description: "Adam oversees operations and strategic initiatives, bringing his expertise in agricultural economics and international market development.",
-      delay: 0.2
+      year: "2027",
+      title: "Distribution Network",
+      description: "Establish direct export channels to European markets and build state-of-the-art processing facilities.",
+      icon: <FaChartBar className="text-amber-600 text-2xl" />,
+      delay: 0.3
     },
     {
-      name: "Slimane Bouaziz",
-      title: "Finance Director",
-      description: "Slimane manages our investor relations and financial planning, with a background in agricultural finance and commodity markets.",
-      delay: 0.4
-    }
-  ];
-  
-  // Investment options data
-  const investmentOptions = [
-    {
-      title: "Premium Crop Program",
-      description: "Direct investment in our premium desert crop cultivation, with priority access to harvest profits.",
-      roi: "5-8",
-      features: [
-        "Minimum investment: $25,000",
-        "2-year minimum commitment",
-        "Quarterly dividend payments",
-        "Annual performance reports",
-        "Farm visit opportunities"
-      ],
-      delay: 0
-    },
-    {
-      title: "Expansion Partnership",
-      description: "Strategic partnership for expanding our cultivation to new regions with proven agricultural potential.",
-      roi: "6-9",
-      features: [
-        "Minimum investment: $100,000",
-        "3-year minimum commitment",
-        "Semi-annual dividend payments",
-        "Detailed project progress reports",
-        "Named recognition at farm sites"
-      ],
-      delay: 0.2
-    },
-    {
-      title: "Innovation Fund",
-      description: "Investment in our agricultural technology initiatives, including irrigation systems and sustainable farming methods.",
-      roi: "7-10",
-      features: [
-        "Minimum investment: $50,000",
-        "2-year minimum commitment",
-        "Technology licensing opportunities",
-        "Quarterly progress meetings",
-        "Early access to new developments"
-      ],
-      delay: 0.4
+      year: "2028",
+      title: "Sustainable Scale",
+      description: "Reach 10,000 hectares under management and achieve carbon-neutral agriculture practices across all properties.",
+      icon: <FaHandHoldingUsd className="text-amber-600 text-2xl" />,
+      delay: 0.6
     }
   ];
   
@@ -272,9 +168,9 @@ export default function Investors() {
               transition={{ delay: 0.4, duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
             >
               <Link href="#investment-form">
-                <a className="inline-block px-8 py-4 bg-white text-amber-700 rounded-lg font-bold shadow-lg hover:bg-gray-100 transition-colors">
+                <button className="inline-block px-8 py-4 bg-white text-amber-700 rounded-lg font-bold shadow-lg hover:bg-gray-100 transition-colors">
                   Explore Opportunities
-                </a>
+                </button>
               </Link>
             </motion.div>
           </div>
@@ -312,67 +208,6 @@ export default function Investors() {
         </div>
       </section>
       
-      {/* Team Section */}
-      <section ref={teamRef} className="py-20 bg-white">
-        <div className="container mx-auto px-4">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={isTeamInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
-            transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-            className="text-center mb-16"
-          >
-            <h2 className="text-3xl font-bold mb-6 tracking-tight">Meet Our Leadership Team</h2>
-            <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-              Our experienced team combines agricultural expertise with financial acumen to deliver consistent results
-            </p>
-          </motion.div>
-          
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {teamMembers.map((member, i) => (
-              <TeamMemberCard 
-                key={i} 
-                name={member.name} 
-                title={member.title} 
-                description={member.description} 
-                delay={member.delay}
-                isInView={isTeamInView}
-              />
-            ))}
-          </div>
-        </div>
-      </section>
-      
-      {/* Investment Options Section */}
-      <section ref={investmentOptionsRef} className="py-20 bg-gray-50">
-        <div className="container mx-auto px-4">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={isInvestmentOptionsInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
-            transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-            className="text-center mb-16"
-          >
-            <h2 className="text-3xl font-bold mb-6 tracking-tight">Investment Opportunities</h2>
-            <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-              Choose from our curated selection of investment options tailored to different objectives and commitment levels
-            </p>
-          </motion.div>
-          
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {investmentOptions.map((option, i) => (
-              <InvestmentCard 
-                key={i} 
-                title={option.title} 
-                description={option.description} 
-                roi={option.roi} 
-                features={option.features} 
-                delay={option.delay}
-                isInView={isInvestmentOptionsInView}
-              />
-            ))}
-          </div>
-        </div>
-      </section>
-      
       {/* ROI Calculator Section */}
       <section ref={calculatorRef} className="py-20 bg-white">
         <div className="container mx-auto px-4">
@@ -396,6 +231,46 @@ export default function Investors() {
           >
             <ROICalculator />
           </motion.div>
+        </div>
+      </section>
+
+      {/* Future Projections Section */}
+      <section ref={projectionRef} className="py-20 bg-gray-50">
+        <div className="container mx-auto px-4">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={isProjectionInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
+            transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+            className="text-center mb-16"
+          >
+            <h2 className="text-3xl font-bold mb-6 tracking-tight">Growth and Future Projections</h2>
+            <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+              Our strategic roadmap for the coming years ensures continued growth and sustainable returns for our investment partners
+            </p>
+          </motion.div>
+          
+          <div className="max-w-5xl mx-auto">
+            {projectionMilestones.map((milestone, index) => (
+              <motion.div
+                key={index}
+                initial={{ opacity: 0, y: 30 }}
+                animate={isProjectionInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
+                transition={{ duration: 0.8, delay: milestone.delay, ease: [0.16, 1, 0.3, 1] }}
+                className="flex flex-col md:flex-row gap-6 mb-12 bg-white p-6 rounded-2xl shadow-lg"
+              >
+                <div className="md:w-1/6 flex flex-col items-center md:items-start">
+                  <div className="w-16 h-16 bg-amber-100 rounded-full flex items-center justify-center mb-3">
+                    {milestone.icon}
+                  </div>
+                  <span className="text-3xl font-bold text-amber-600">{milestone.year}</span>
+                </div>
+                <div className="md:w-5/6">
+                  <h3 className="text-2xl font-bold mb-3">{milestone.title}</h3>
+                  <p className="text-gray-600">{milestone.description}</p>
+                </div>
+              </motion.div>
+            ))}
+          </div>
         </div>
       </section>
       
@@ -464,14 +339,14 @@ export default function Investors() {
             >
               Start Investing Now
             </motion.a>
-            <motion.a
+            <motion.button
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.97 }}
-              href="/contact"
+              onClick={() => window.location.href = "/contact"}
               className="px-8 py-4 rounded-lg bg-amber-900 text-white font-semibold shadow-lg hover:shadow-xl transition-all duration-300"
             >
               Contact Our Team
-            </motion.a>
+            </motion.button>
           </motion.div>
         </div>
       </section>
