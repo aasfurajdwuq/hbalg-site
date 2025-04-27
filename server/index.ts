@@ -10,20 +10,13 @@ dotenv.config();
 const requiredEnvVars = ['SESSION_SECRET', 'SENDGRID_API_KEY'];
 const missingVars = requiredEnvVars.filter(varName => !process.env[varName]);
 
-if (missingVars.length > 0) {
-  console.warn(`Warning: Missing environment variables: ${missingVars.join(', ')}`);
-  
-  if (!process.env.SESSION_SECRET) {
-    process.env.SESSION_SECRET = process.env.NODE_ENV === 'production' 
-      ? 'temp-secret-' + Date.now() 
-      : 'default-secret-do-not-use-in-production';
-    console.warn('Using temporary session secret - please set proper SESSION_SECRET');
-  }
-  
-  if (!process.env.SENDGRID_API_KEY) {
-    process.env.SENDGRID_API_KEY = 'disabled';
-    console.warn('SendGrid API disabled - email features will not work');
-  }
+if (process.env.NODE_ENV === 'production' && missingVars.length > 0) {
+  console.error(`Error: Missing required environment variables: ${missingVars.join(', ')}`);
+  process.exit(1);
+} else if (missingVars.length > 0) {
+  console.warn(`Warning: Missing environment variables in development: ${missingVars.join(', ')}`);
+  process.env.SESSION_SECRET = 'dev-secret';
+  process.env.SENDGRID_API_KEY = 'disabled';
 }
 
 const app = express();
