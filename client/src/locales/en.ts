@@ -262,7 +262,7 @@ const en = {
     address: "Timimoun, Algeria",
     phoneAlgeria: "+213 662 67 52 91 (Algeria)",
     phoneUSA: "+1 347 446 2141 (USA)",
-    email: "kwph123@aol.com",
+    email: "support@hbalg.com",
     details: {
       title: "Contact Information",
       address: {

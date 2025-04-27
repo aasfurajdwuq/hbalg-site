@@ -262,7 +262,7 @@ const ar = {
     address: "تيميمون، الجزائر",
     phoneAlgeria: "+213 662 67 52 91 (الجزائر)",
     phoneUSA: "+1 347 446 2141 (أمريكا)",
-    email: "kwph123@aol.com",
+    email: "support@hbalg.com",
     details: {
       title: "معلومات الاتصال",
       address: {

@@ -262,7 +262,7 @@ const ur = {
     address: "تیمیمون، الجیریا",
     phoneAlgeria: "+213 662 67 52 91 (الجیریا)",
     phoneUSA: "+1 347 446 2141 (امریکہ)",
-    email: "kwph123@aol.com",
+    email: "support@hbalg.com",
     details: {
       title: "رابطے کی معلومات",
       address: {

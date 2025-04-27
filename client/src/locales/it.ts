@@ -262,7 +262,7 @@ const it = {
     address: "Timimoun, Algeria",
     phoneAlgeria: "+213 662 67 52 91 (Algeria)",
     phoneUSA: "+1 347 446 2141 (USA)",
-    email: "kwph123@aol.com",
+    email: "support@hbalg.com",
     details: {
       title: "Informazioni di Contatto",
       address: {
@@ -349,7 +349,7 @@ const it = {
       },
       contact: {
         title: "Contattaci",
-        content: "Se hai domande su questa Politica sulla Privacy o sulle nostre pratiche, contattaci a:\n\nHarvest Brothers\nTimimoun, Algeria\nEmail: kwph123@aol.com\nTelefono: +213 662 67 52 91"
+        content: "Se hai domande su questa Politica sulla Privacy o sulle nostre pratiche, contattaci a:\n\nHarvest Brothers\nTimimoun, Algeria\nEmail: support@hbalg.com\nTelefono: +213 662 67 52 91"
       }
     }
   },
@@ -396,7 +396,7 @@ const it = {
       },
       contact: {
         title: "Contattaci",
-        content: "Se hai domande su questi termini, contattaci a:\n\nHarvest Brothers\nTimimoun, Algeria\nEmail: kwph123@aol.com\nTelefono: +213 662 67 52 91"
+        content: "Se hai domande su questi termini, contattaci a:\n\nHarvest Brothers\nTimimoun, Algeria\nEmail: support@hbalg.com\nTelefono: +213 662 67 52 91"
       }
     }
   }
