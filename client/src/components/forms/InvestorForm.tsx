@@ -42,20 +42,45 @@ const InvestorForm = () => {
 
   const onSubmit = async (data: InvestorFormValues) => {
     setIsSubmitting(true);
+    console.log("Submitting investor form data:", data);
     try {
-      await apiRequest("POST", "/api/investor", data);
+      const response = await apiRequest("POST", "/api/investor", data);
+      console.log("Server response:", response);
       toast({
         title: t("investors.form.success.title") || "Investment Request Sent!",
         description: t("investors.form.success.message") || "Your investment request has been sent successfully to our team at kwph123@aol.com. We will contact you shortly.",
       });
       form.reset();
-    } catch (error) {
-      console.error("Form submission error:", error);
-      toast({
-        title: t("investors.form.error.title") || "Request Failed",
-        description: t("investors.form.error.message") || "There was a problem sending your investment request. Please try again later.",
-        variant: "destructive",
-      });
+    } catch (error: any) {
+      console.error("Failed to send investment request", error);
+      
+      // Check if there are validation errors
+      if (error?.issues?.length) {
+        // Handle validation errors
+        error.issues.forEach((issue: any) => {
+          if (issue.path && issue.path.length > 0) {
+            const fieldName = issue.path[0] as keyof InvestorFormValues;
+            form.setError(fieldName, { 
+              type: 'server', 
+              message: issue.message 
+            });
+          }
+        });
+        
+        toast({
+          title: "Validation Error",
+          description: "Please check the form for errors and try again.",
+          variant: "destructive",
+        });
+      } else {
+        // Handle other errors
+        toast({
+          title: t("investors.form.error.title") || "Request Failed",
+          description: error?.message || t("investors.form.error.message") || 
+            "There was a problem sending your investment request. Please try again later.",
+          variant: "destructive",
+        });
+      }
     } finally {
       setIsSubmitting(false);
     }
@@ -151,11 +176,14 @@ const InvestorForm = () => {
               <FormLabel>{t("investors.form.message")}</FormLabel>
               <FormControl>
                 <Textarea 
-                  placeholder={t("investors.form.messagePlaceholder")} 
+                  placeholder={t("investors.form.messagePlaceholder") || "Please enter your message (minimum 10 characters)"} 
                   className="min-h-[120px]" 
                   {...field} 
                 />
               </FormControl>
+              <p className="text-xs text-muted-foreground mt-1">
+                {t("investors.form.messageHint") || "Please provide at least 10 characters"}
+              </p>
               <FormMessage />
             </FormItem>
           )}

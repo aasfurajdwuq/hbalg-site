@@ -38,20 +38,48 @@ const ContactForm = () => {
 
   const onSubmit = async (data: ContactFormValues) => {
     setIsSubmitting(true);
+    console.log("Submitting form data:", data);
     try {
-      await apiRequest("POST", "/api/contact", data);
+      const response = await apiRequest("POST", "/api/contact", {
+        ...data,
+        subject: "General Inquiry" // Add default subject if none provided
+      });
+      console.log("Server response:", response);
       toast({
         title: t("contact.form.success.title") || "Message Sent!",
         description: t("contact.form.success.message") || "Your message has been sent successfully to our team at kwph123@aol.com",
       });
       form.reset();
-    } catch (error) {
-      console.error("Form submission error:", error);
-      toast({
-        title: t("contact.form.error.title") || "Message Failed",
-        description: t("contact.form.error.message") || "There was a problem sending your message. Please try again later.",
-        variant: "destructive",
-      });
+    } catch (error: any) {
+      console.error("Failed to send email", error);
+      
+      // Check if there are validation errors
+      if (error?.issues?.length) {
+        // Handle validation errors
+        error.issues.forEach((issue: any) => {
+          if (issue.path && issue.path.length > 0) {
+            const fieldName = issue.path[0] as keyof ContactFormValues;
+            form.setError(fieldName, { 
+              type: 'server', 
+              message: issue.message 
+            });
+          }
+        });
+        
+        toast({
+          title: "Validation Error",
+          description: "Please check the form for errors and try again.",
+          variant: "destructive",
+        });
+      } else {
+        // Handle other errors
+        toast({
+          title: t("contact.form.error.title") || "Message Failed",
+          description: error?.message || t("contact.form.error.message") || 
+            "There was a problem sending your message. Please try again later.",
+          variant: "destructive",
+        });
+      }
     } finally {
       setIsSubmitting(false);
     }
@@ -121,11 +149,14 @@ const ContactForm = () => {
               <FormLabel>{t("contact.form.message")}</FormLabel>
               <FormControl>
                 <Textarea 
-                  placeholder={t("contact.form.messagePlaceholder")} 
+                  placeholder={t("contact.form.messagePlaceholder") || "Please enter your message (minimum 10 characters)"} 
                   className="min-h-[120px]" 
                   {...field} 
                 />
               </FormControl>
+              <p className="text-xs text-muted-foreground mt-1">
+                {t("contact.form.messageHint") || "Please provide at least 10 characters"}
+              </p>
               <FormMessage />
             </FormItem>
           )}
