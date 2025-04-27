@@ -1,0 +1,193 @@
+import { useEffect, useState } from "react";
+import { Route, Switch } from "wouter";
+
+// Import English pages
+import EnglishHome from "./pages/languages/en/home";
+import EnglishAbout from "./pages/languages/en/about";
+import EnglishServices from "./pages/languages/en/services";
+import EnglishInvestors from "./pages/languages/en/investors";
+import EnglishContact from "./pages/languages/en/contact";
+import EnglishNotFound from "./pages/languages/en/not-found";
+
+// Import Arabic (Standard) pages
+import ArabicHome from "./pages/languages/ar/home";
+import ArabicAbout from "./pages/languages/ar/about";
+import ArabicServices from "./pages/languages/ar/services";
+import ArabicInvestors from "./pages/languages/ar/investors";
+import ArabicContact from "./pages/languages/ar/contact";
+import ArabicNotFound from "./pages/languages/ar/not-found";
+
+// Import Algerian Arabic pages
+import AlgerianHome from "./pages/languages/ar-dz/home";
+import AlgerianAbout from "./pages/languages/ar-dz/about";
+import AlgerianServices from "./pages/languages/ar-dz/services";
+import AlgerianInvestors from "./pages/languages/ar-dz/investors";
+import AlgerianContact from "./pages/languages/ar-dz/contact";
+import AlgerianNotFound from "./pages/languages/ar-dz/not-found";
+
+// Import French pages
+import FrenchHome from "./pages/languages/fr/home";
+import FrenchAbout from "./pages/languages/fr/about";
+import FrenchServices from "./pages/languages/fr/services";
+import FrenchInvestors from "./pages/languages/fr/investors";
+import FrenchContact from "./pages/languages/fr/contact";
+import FrenchNotFound from "./pages/languages/fr/not-found";
+
+// Import Spanish pages
+import SpanishHome from "./pages/languages/es/home";
+import SpanishAbout from "./pages/languages/es/about";
+import SpanishServices from "./pages/languages/es/services";
+import SpanishInvestors from "./pages/languages/es/investors";
+import SpanishContact from "./pages/languages/es/contact";
+import SpanishNotFound from "./pages/languages/es/not-found";
+
+// Import Italian pages
+import ItalianHome from "./pages/languages/it/home";
+import ItalianAbout from "./pages/languages/it/about";
+import ItalianServices from "./pages/languages/it/services";
+import ItalianInvestors from "./pages/languages/it/investors";
+import ItalianContact from "./pages/languages/it/contact";
+import ItalianNotFound from "./pages/languages/it/not-found";
+
+// Import Urdu pages
+import UrduHome from "./pages/languages/ur/home";
+import UrduAbout from "./pages/languages/ur/about";
+import UrduServices from "./pages/languages/ur/services";
+import UrduInvestors from "./pages/languages/ur/investors";
+import UrduContact from "./pages/languages/ur/contact";
+import UrduNotFound from "./pages/languages/ur/not-found";
+
+// Language detection function
+function detectLanguage(): string {
+  // Check URL parameter
+  if (typeof window !== 'undefined') {
+    try {
+      const params = new URLSearchParams(window.location.search);
+      const langParam = params.get('lang');
+      if (langParam && ['en', 'ar', 'ar-dz', 'fr', 'es', 'it', 'ur'].includes(langParam)) {
+        localStorage.setItem('preferredLanguage', langParam);
+        return langParam;
+      }
+      
+      // Check localStorage
+      const storedLang = localStorage.getItem('preferredLanguage');
+      if (storedLang && ['en', 'ar', 'ar-dz', 'fr', 'es', 'it', 'ur'].includes(storedLang)) {
+        return storedLang;
+      }
+    } catch (error) {
+      console.error('Error detecting language:', error);
+    }
+  }
+  
+  return 'en'; // Default to English
+}
+
+function App() {
+  const [language, setLanguage] = useState(detectLanguage());
+  
+  useEffect(() => {
+    // Set HTML direction based on language
+    document.documentElement.dir = ['ar', 'ar-dz', 'ur'].includes(language) ? 'rtl' : 'ltr';
+    document.documentElement.lang = language;
+    
+    // Update language when URL changes
+    const handleUrlChange = () => {
+      const detectedLang = detectLanguage();
+      if (detectedLang !== language) {
+        setLanguage(detectedLang);
+      }
+    };
+    
+    window.addEventListener('popstate', handleUrlChange);
+    return () => window.removeEventListener('popstate', handleUrlChange);
+  }, [language]);
+  
+  // Render different routes based on selected language
+  switch (language) {
+    case 'ar':
+      return (
+        <Switch>
+          <Route path="/" component={ArabicHome} />
+          <Route path="/about" component={ArabicAbout} />
+          <Route path="/services" component={ArabicServices} />
+          <Route path="/investors" component={ArabicInvestors} />
+          <Route path="/contact" component={ArabicContact} />
+          <Route component={ArabicNotFound} />
+        </Switch>
+      );
+      
+    case 'ar-dz':
+      return (
+        <Switch>
+          <Route path="/" component={AlgerianHome} />
+          <Route path="/about" component={AlgerianAbout} />
+          <Route path="/services" component={AlgerianServices} />
+          <Route path="/investors" component={AlgerianInvestors} />
+          <Route path="/contact" component={AlgerianContact} />
+          <Route component={AlgerianNotFound} />
+        </Switch>
+      );
+      
+    case 'fr':
+      return (
+        <Switch>
+          <Route path="/" component={FrenchHome} />
+          <Route path="/about" component={FrenchAbout} />
+          <Route path="/services" component={FrenchServices} />
+          <Route path="/investors" component={FrenchInvestors} />
+          <Route path="/contact" component={FrenchContact} />
+          <Route component={FrenchNotFound} />
+        </Switch>
+      );
+      
+    case 'es':
+      return (
+        <Switch>
+          <Route path="/" component={SpanishHome} />
+          <Route path="/about" component={SpanishAbout} />
+          <Route path="/services" component={SpanishServices} />
+          <Route path="/investors" component={SpanishInvestors} />
+          <Route path="/contact" component={SpanishContact} />
+          <Route component={SpanishNotFound} />
+        </Switch>
+      );
+      
+    case 'it':
+      return (
+        <Switch>
+          <Route path="/" component={ItalianHome} />
+          <Route path="/about" component={ItalianAbout} />
+          <Route path="/services" component={ItalianServices} />
+          <Route path="/investors" component={ItalianInvestors} />
+          <Route path="/contact" component={ItalianContact} />
+          <Route component={ItalianNotFound} />
+        </Switch>
+      );
+      
+    case 'ur':
+      return (
+        <Switch>
+          <Route path="/" component={UrduHome} />
+          <Route path="/about" component={UrduAbout} />
+          <Route path="/services" component={UrduServices} />
+          <Route path="/investors" component={UrduInvestors} />
+          <Route path="/contact" component={UrduContact} />
+          <Route component={UrduNotFound} />
+        </Switch>
+      );
+      
+    default: // English
+      return (
+        <Switch>
+          <Route path="/" component={EnglishHome} />
+          <Route path="/about" component={EnglishAbout} />
+          <Route path="/services" component={EnglishServices} />
+          <Route path="/investors" component={EnglishInvestors} />
+          <Route path="/contact" component={EnglishContact} />
+          <Route component={EnglishNotFound} />
+        </Switch>
+      );
+  }
+}
+
+export default App;
