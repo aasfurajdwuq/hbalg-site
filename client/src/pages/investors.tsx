@@ -2,7 +2,7 @@ import { useRef, useState } from "react";
 import { Helmet } from "react-helmet";
 import { motion, useScroll, useTransform, useInView, AnimatePresence } from "framer-motion";
 import { Link } from "wouter";
-import { FaChartLine, FaMoneyBillWave, FaHandshake, FaSeedling, FaCalculator } from "react-icons/fa";
+import { FaChartLine, FaMoneyBillWave, FaHandshake, FaSeedling, FaCalculator, FaLeaf, FaTractor } from "react-icons/fa";
 import EmailJSForm from "@/components/forms/EmailJSForm";
 import ROICalculator from "@/components/investors/ROICalculator";
 
@@ -62,6 +62,69 @@ const WheatField = ({ inView }) => {
   );
 };
 
+// 3D Card Component for investment options
+const InvestmentCard = ({ icon, title, description, color, accentColor, delay, inView }) => {
+  const [isHovered, setIsHovered] = useState(false);
+  
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 50 }}
+      animate={inView ? { opacity: 1, y: 0 } : { opacity: 0, y: 50 }}
+      transition={{ 
+        duration: 0.8, 
+        delay: delay * 0.2, 
+        ease: [0.16, 1, 0.3, 1] 
+      }}
+      whileHover={{ 
+        y: -10,
+        transition: { duration: 0.3, ease: "easeOut" }
+      }}
+      onHoverStart={() => setIsHovered(true)}
+      onHoverEnd={() => setIsHovered(false)}
+      className="h-full rounded-xl overflow-hidden shadow-lg transform transition-all duration-500"
+      style={{
+        transformStyle: "preserve-3d",
+        transform: isHovered ? "translateZ(20px)" : "translateZ(0px)",
+        transformOrigin: "center center"
+      }}
+    >
+      <div 
+        className="p-8 relative h-full flex flex-col"
+        style={{ 
+          backgroundColor: color,
+          background: `linear-gradient(135deg, ${color} 0%, ${accentColor} 100%)`,
+        }}
+      >
+        <div 
+          className="w-16 h-16 bg-white/15 rounded-full flex items-center justify-center mb-6"
+          style={{
+            boxShadow: "0 8px 16px rgba(0,0,0,0.1)",
+            backdropFilter: "blur(4px)"
+          }}
+        >
+          {icon}
+        </div>
+        
+        <h3 className="text-2xl font-bold mb-4 text-white">{title}</h3>
+        <p className="text-white/90 mb-6">{description}</p>
+        
+        <motion.div 
+          className="mt-auto"
+          whileHover={{ 
+            scale: 1.05,
+            transition: { duration: 0.2 }
+          }}
+          whileTap={{ scale: 0.95 }}
+        >
+          <button className="px-6 py-3 bg-white/20 text-white rounded-lg w-full font-medium hover:bg-white/30 transition-colors backdrop-blur-sm">
+            Learn More
+          </button>
+        </motion.div>
+      </div>
+    </motion.div>
+  );
+};
+
 // Animated feature card with hover effect
 const FeatureCard = ({ title, description, icon, index, inView }) => {
   return (
@@ -93,30 +156,18 @@ const FeatureCard = ({ title, description, icon, index, inView }) => {
   );
 };
 
-// Path animation component
-const AnimatedPath = ({ inView }) => {
-  return (
-    <motion.div 
-      className="hidden md:block absolute left-0 h-full w-1 ml-6"
-      initial={{ scaleY: 0 }}
-      animate={inView ? { scaleY: 1 } : { scaleY: 0 }}
-      transition={{ duration: 1.5, ease: "easeInOut" }}
-    >
-      <div className="h-full w-full bg-gradient-to-b from-green-500 to-amber-500" />
-    </motion.div>
-  );
-};
-
 export default function Investors() {
   const headerRef = useRef(null);
   const calculatorRef = useRef(null);
   const wheatFieldRef = useRef(null);
   const featuresRef = useRef(null);
+  const investmentOptionsRef = useRef(null);
   const formRef = useRef(null);
   
   // Check if elements are in view
   const isWheatFieldInView = useInView(wheatFieldRef, { once: true, amount: 0.3 });
   const isFeaturesInView = useInView(featuresRef, { once: true, amount: 0.1 });
+  const isInvestmentOptionsInView = useInView(investmentOptionsRef, { once: true, amount: 0.1 });
   const isCalculatorInView = useInView(calculatorRef, { once: true, amount: 0.2 });
   const isFormInView = useInView(formRef, { once: true, amount: 0.2 });
   
@@ -129,6 +180,34 @@ export default function Investors() {
   const headerY = useTransform(scrollYProgress, [0, 1], [0, 150]);
   const headerOpacity = useTransform(scrollYProgress, [0, 0.5], [1, 0]);
 
+  // Investment options
+  const investmentOptions = [
+    {
+      id: "premium",
+      icon: <FaChartLine className="text-4xl text-white" />,
+      title: "Premium ROI",
+      description: "Achieve exceptional returns of 5-10% annually through our strategic agricultural investments in premium Saharan crops.",
+      color: "#3E7C17", // Dark green
+      accentColor: "#2E5A0C" // Darker green
+    },
+    {
+      id: "partnership",
+      icon: <FaHandshake className="text-4xl text-white" />,
+      title: "Strategic Partnerships",
+      description: "Join our exclusive network of investors with flexible options from equity partnerships to revenue-sharing agreements.",
+      color: "#7D5A50", // Earth tone
+      accentColor: "#5D4037" // Darker earth tone
+    },
+    {
+      id: "sustainability",
+      icon: <FaSeedling className="text-4xl text-white" />,
+      title: "Sustainable Growth",
+      description: "Invest in environmentally conscious agriculture that delivers long-term returns while preserving natural resources.",
+      color: "#73AB84", // Sage green
+      accentColor: "#558B6E" // Darker sage
+    }
+  ];
+
   // Investment benefits
   const investmentBenefits = [
     {
@@ -137,14 +216,14 @@ export default function Investors() {
       description: "Enjoy 7% average annual returns from our diversified agricultural portfolio, with carefully managed risk profiles."
     },
     {
-      icon: <FaHandshake className="text-4xl text-amber-600" />,
-      title: "Tailored Investment Options",
-      description: "Flexible investment options starting from $25,000 with various commitment periods and payment schedules."
+      icon: <FaTractor className="text-4xl text-amber-600" />,
+      title: "Advanced Operations",
+      description: "Our state-of-the-art farming techniques and equipment maximize efficiency and yield for optimal investor returns."
     },
     {
-      icon: <FaSeedling className="text-4xl text-green-600" />,
-      title: "Sustainable Growth",
-      description: "Invest in environmentally responsible farming that supports local communities while building long-term value."
+      icon: <FaLeaf className="text-4xl text-green-600" />,
+      title: "Sustainable Practices",
+      description: "Environmentally responsible farming that supports local communities while building long-term value and ecological health."
     },
     {
       icon: <FaCalculator className="text-4xl text-amber-600" />,
@@ -169,7 +248,7 @@ export default function Investors() {
       {/* Hero header with parallax effect */}
       <header 
         ref={headerRef} 
-        className="relative h-[70vh] flex items-center justify-center overflow-hidden"
+        className="relative h-[80vh] flex items-center justify-center overflow-hidden"
       >
         <motion.div 
           className="absolute inset-0 bg-gradient-to-r from-green-900 to-amber-800 z-0"
@@ -197,34 +276,106 @@ export default function Investors() {
             transition={{ duration: 0.8, delay: 0.4 }}
             className="text-xl md:text-2xl font-light max-w-3xl mx-auto mb-10"
           >
-            Calculate your potential returns and invest in sustainable agriculture with Harvest Brothers
+            Join our mission to transform agriculture while securing premium returns on your investment
           </motion.p>
           
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.6 }}
+            className="flex flex-col sm:flex-row justify-center gap-4"
           >
-            <Link href="#investment-calculator">
+            <Link href="#investment-options">
               <motion.button
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.98 }}
                 className="px-8 py-4 bg-green-600 text-white rounded-lg font-bold shadow-lg hover:bg-green-700 transition-colors"
               >
-                Calculate Your Returns
+                Explore Options
+              </motion.button>
+            </Link>
+            <Link href="#investment-calculator">
+              <motion.button
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.98 }}
+                className="px-8 py-4 bg-amber-600 text-white rounded-lg font-bold shadow-lg hover:bg-amber-700 transition-colors"
+              >
+                Calculate Returns
               </motion.button>
             </Link>
           </motion.div>
         </div>
+        
+        {/* Animated scroll indicator */}
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 1, duration: 0.5 }}
+          className="absolute bottom-8 left-1/2 transform -translate-x-1/2 z-20"
+        >
+          <motion.div 
+            animate={{ y: [0, 10, 0] }}
+            transition={{ 
+              duration: 2,
+              ease: "easeInOut",
+              repeat: Infinity,
+            }}
+            className="w-6 h-10 border-2 border-white/30 rounded-full flex justify-center"
+          >
+            <motion.div 
+              animate={{ 
+                y: [4, 12, 4]
+              }}
+              transition={{ 
+                duration: 2,
+                ease: "easeInOut",
+                repeat: Infinity
+              }}
+              className="w-1.5 h-1.5 bg-white rounded-full mt-2"
+            />
+          </motion.div>
+        </motion.div>
       </header>
       
       {/* Wheat field animation */}
-      <div ref={wheatFieldRef} className="w-full overflow-hidden my-8">
+      <section ref={wheatFieldRef} className="py-8 bg-gradient-to-b from-amber-50 to-white overflow-hidden">
         <WheatField inView={isWheatFieldInView} />
-      </div>
+      </section>
+      
+      {/* Investment Options Section */}
+      <section id="investment-options" ref={investmentOptionsRef} className="py-20 bg-white">
+        <div className="container mx-auto px-4">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={isInvestmentOptionsInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
+            transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+            className="text-center mb-16"
+          >
+            <h2 className="text-4xl font-bold mb-6 tracking-tight">Investment Options</h2>
+            <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+              Diverse agricultural investment opportunities with exceptional returns and tangible impact
+            </p>
+          </motion.div>
+          
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            {investmentOptions.map((option, i) => (
+              <InvestmentCard
+                key={option.id}
+                icon={option.icon}
+                title={option.title}
+                description={option.description}
+                color={option.color}
+                accentColor={option.accentColor}
+                delay={i}
+                inView={isInvestmentOptionsInView}
+              />
+            ))}
+          </div>
+        </div>
+      </section>
       
       {/* Investment Benefits Section */}
-      <section ref={featuresRef} className="py-20">
+      <section ref={featuresRef} className="py-20 bg-gray-50">
         <div className="container mx-auto px-4">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -254,7 +405,7 @@ export default function Investors() {
       </section>
       
       {/* ROI Calculator Section */}
-      <section id="investment-calculator" ref={calculatorRef} className="py-20 bg-gray-50">
+      <section id="investment-calculator" ref={calculatorRef} className="py-20 bg-white">
         <div className="container mx-auto px-4">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -280,7 +431,7 @@ export default function Investors() {
       </section>
       
       {/* Investment Form Section */}
-      <section id="investment-form" ref={formRef} className="py-20 bg-white">
+      <section id="investment-form" ref={formRef} className="py-20 bg-gray-50">
         <div className="container mx-auto px-4">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -299,6 +450,7 @@ export default function Investors() {
               initial={{ opacity: 0, y: 20 }}
               animate={isFormInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
               transition={{ duration: 0.8, delay: 0.2 }}
+              className="bg-white p-8 rounded-xl shadow-lg"
             >
               <EmailJSForm 
                 serviceId={serviceId}
@@ -314,55 +466,45 @@ export default function Investors() {
       </section>
       
       {/* Call to Action Section */}
-      <section className="py-16 bg-gradient-to-r from-green-700 to-amber-700 text-white">
+      <section className="py-16 bg-gradient-to-r from-green-800 to-amber-700 text-white">
         <div className="container mx-auto px-4">
-          <div className="max-w-5xl mx-auto flex flex-col md:flex-row items-center justify-between gap-8">
-            <div>
-              <motion.h3
-                initial={{ opacity: 0, x: -20 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.6 }}
-                className="text-2xl md:text-3xl font-bold mb-2"
-              >
-                Ready to grow with us?
-              </motion.h3>
-              <motion.p
-                initial={{ opacity: 0, x: -20 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.6, delay: 0.1 }}
-                className="text-white/80"
-              >
-                Join our community of investors supporting sustainable agriculture in Algeria
-              </motion.p>
-            </div>
-            
-            <motion.div
-              initial={{ opacity: 0, scale: 0.9 }}
-              whileInView={{ opacity: 1, scale: 1 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.6 }}
-              className="flex flex-col sm:flex-row gap-4"
+          <motion.div 
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+            className="text-center mb-10"
+          >
+            <h2 className="text-4xl font-bold mb-6 tracking-tight">Ready to Grow Your Wealth with Us?</h2>
+            <p className="text-xl text-white/80 max-w-3xl mx-auto">
+              Join our community of investors supporting sustainable agricultural innovation in Algeria
+            </p>
+          </motion.div>
+          
+          <motion.div
+            initial={{ opacity: 0, scale: 0.9 }}
+            whileInView={{ opacity: 1, scale: 1 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6, delay: 0.2 }}
+            className="flex flex-wrap justify-center gap-6"
+          >
+            <motion.a
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.97 }}
+              href="#investment-options"
+              className="px-8 py-4 rounded-lg bg-white text-green-800 font-semibold shadow-lg hover:shadow-xl transition-all duration-300"
             >
-              <motion.a
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-                href="#investment-calculator"
-                className="px-6 py-3 bg-white text-green-700 font-bold rounded-lg shadow-lg text-center"
-              >
-                Calculate Returns
-              </motion.a>
-              <motion.a
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-                href="#investment-form"
-                className="px-6 py-3 bg-green-900 text-white font-bold rounded-lg shadow-lg text-center"
-              >
-                Contact Us
-              </motion.a>
-            </motion.div>
-          </div>
+              View Options
+            </motion.a>
+            <motion.a
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.97 }}
+              href="#investment-form"
+              className="px-8 py-4 rounded-lg bg-green-900 text-white font-semibold shadow-lg hover:shadow-xl transition-all duration-300"
+            >
+              Contact Us
+            </motion.a>
+          </motion.div>
         </div>
       </section>
     </>
