@@ -1,4 +1,4 @@
-import { Switch, Route } from "wouter";
+import { Switch, Route, useLocation } from "wouter";
 import { queryClient } from "./lib/queryClient";
 import { QueryClientProvider } from "@tanstack/react-query";
 import { Toaster } from "@/components/ui/toaster";
@@ -21,9 +21,54 @@ import StrategicPartnerships from "@/pages/investments/strategic-partnerships";
 import SustainableGrowth from "@/pages/investments/sustainable-growth";
 import Contact from "@/pages/contact";
 import Legal from "@/pages/legal";
-import { useLanguage } from "./lib/i18n";
+import { useEffect, useState } from "react";
+
+// Language type definition
+type Language = "en" | "ar" | "ar-dz" | "fr" | "es" | "ur" | "it";
 
 function Router() {
+  // Get preferred language from URL or localStorage
+  const getPreferredLanguage = (): Language => {
+    // Check URL parameter first
+    if (typeof window !== "undefined") {
+      const urlParams = new URLSearchParams(window.location.search);
+      const langParam = urlParams.get("lang") as Language;
+      if (langParam && ["en", "ar", "ar-dz", "fr", "es", "ur", "it"].includes(langParam)) {
+        return langParam;
+      }
+      
+      // Then check localStorage
+      const storedLang = localStorage.getItem("preferredLanguage") as Language;
+      if (storedLang && ["en", "ar", "ar-dz", "fr", "es", "ur", "it"].includes(storedLang)) {
+        return storedLang;
+      }
+    }
+    
+    // Default to English
+    return "en";
+  };
+
+  const [currentLanguage, setCurrentLanguage] = useState<Language>(getPreferredLanguage());
+  
+  // Update language when URL changes
+  useEffect(() => {
+    const updateLanguage = () => {
+      setCurrentLanguage(getPreferredLanguage());
+    };
+    
+    window.addEventListener('popstate', updateLanguage);
+    return () => window.removeEventListener('popstate', updateLanguage);
+  }, []);
+  
+  // Set document direction based on language
+  useEffect(() => {
+    document.documentElement.lang = currentLanguage;
+    document.documentElement.dir = ["ar", "ar-dz", "ur"].includes(currentLanguage) ? "rtl" : "ltr";
+    
+    // Store the selected language in localStorage
+    localStorage.setItem("preferredLanguage", currentLanguage);
+  }, [currentLanguage]);
+  
   return (
     <Switch>
       <Route path="/" component={Home} />
@@ -47,7 +92,25 @@ function Router() {
 }
 
 function App() {
-  const { language, dir } = useLanguage();
+  // Get preferred language for root component
+  const getPreferredLanguage = (): Language => {
+    if (typeof window !== "undefined") {
+      const urlParams = new URLSearchParams(window.location.search);
+      const langParam = urlParams.get("lang") as Language;
+      if (langParam && ["en", "ar", "ar-dz", "fr", "es", "ur", "it"].includes(langParam)) {
+        return langParam;
+      }
+      
+      const storedLang = localStorage.getItem("preferredLanguage") as Language;
+      if (storedLang && ["en", "ar", "ar-dz", "fr", "es", "ur", "it"].includes(storedLang)) {
+        return storedLang;
+      }
+    }
+    return "en";
+  };
+
+  const [language, setLanguage] = useState<Language>(getPreferredLanguage());
+  const dir = ["ar", "ar-dz", "ur"].includes(language) ? "rtl" : "ltr";
 
   return (
     <QueryClientProvider client={queryClient}>
