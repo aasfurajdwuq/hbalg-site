@@ -62,12 +62,49 @@ const WheatField = ({ inView }) => {
   );
 };
 
-// 3D Card Component for investment options
-const InvestmentCard = ({ icon, title, description, color, accentColor, delay, inView }) => {
-  const [isHovered, setIsHovered] = useState(false);
+// 3D Rotating Card Component
+const RotatingInvestmentCard = ({ icon, title, description, color, accentColor, delay, inView }) => {
+  const [isFlipped, setIsFlipped] = useState(false);
+  
+  const handleCardClick = () => {
+    setIsFlipped(!isFlipped);
+  };
+  
+  // Get unique benefits for each investment option based on title
+  const getBenefitsByTitle = () => {
+    if (title === "Premium ROI") {
+      return [
+        "Industry-leading 5-10% annual ROI",
+        "Quarterly dividend distributions",
+        "Capital appreciation through land value growth"
+      ];
+    } else if (title === "Strategic Partnerships") {
+      return [
+        "Flexible investment structures and entry points",
+        "Shared risk model with experienced partners",
+        "Strategic voting rights on farming decisions"
+      ];
+    } else if (title === "Sustainable Growth") {
+      return [
+        "Carbon offset credits and eco-bonuses",
+        "Eco-certified regenerative farming practices",
+        "Long-term resource preservation increasing value"
+      ];
+    } else {
+      return [
+        "Premium returns with exceptional annual yield",
+        "Sustainable agricultural projects with long-term growth",
+        "Diversified portfolio with agricultural stability"
+      ];
+    }
+  };
+  
+  // Get the specific benefits for this card
+  const benefits = getBenefitsByTitle();
   
   return (
     <motion.div
+      className="relative w-full h-[400px] perspective-1000"
       initial={{ opacity: 0, y: 50 }}
       animate={inView ? { opacity: 1, y: 0 } : { opacity: 0, y: 50 }}
       transition={{ 
@@ -75,53 +112,128 @@ const InvestmentCard = ({ icon, title, description, color, accentColor, delay, i
         delay: delay * 0.2, 
         ease: [0.16, 1, 0.3, 1] 
       }}
-      whileHover={{ 
-        y: -10,
-        transition: { duration: 0.3, ease: "easeOut" }
-      }}
-      onHoverStart={() => setIsHovered(true)}
-      onHoverEnd={() => setIsHovered(false)}
-      className="h-full rounded-xl overflow-hidden shadow-lg transform transition-all duration-500"
-      style={{
-        transformStyle: "preserve-3d",
-        transform: isHovered ? "translateZ(20px)" : "translateZ(0px)",
-        transformOrigin: "center center"
-      }}
     >
-      <div 
-        className="p-8 relative h-full flex flex-col"
-        style={{ 
-          backgroundColor: color,
-          background: `linear-gradient(135deg, ${color} 0%, ${accentColor} 100%)`,
+      <motion.div
+        className="absolute inset-0 rounded-2xl shadow-xl preserve-3d cursor-pointer"
+        animate={{ 
+          rotateY: isFlipped ? 180 : 0,
+          scale: isFlipped ? 1.02 : 1,
+          boxShadow: isFlipped 
+            ? "0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)" 
+            : "0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05)"
         }}
+        transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+        onClick={handleCardClick}
       >
+        {/* Front of Card */}
         <div 
-          className="w-16 h-16 bg-white/15 rounded-full flex items-center justify-center mb-6"
-          style={{
-            boxShadow: "0 8px 16px rgba(0,0,0,0.1)",
-            backdropFilter: "blur(4px)"
+          className="absolute inset-0 rounded-2xl p-8 flex flex-col items-center justify-center backface-hidden"
+          style={{ 
+            backgroundColor: color,
+            background: `linear-gradient(135deg, ${color} 0%, ${accentColor} 100%)`
           }}
         >
-          {icon}
+          <div className="w-20 h-20 bg-white/15 rounded-full flex items-center justify-center mb-6"
+            style={{
+              boxShadow: "0 8px 16px rgba(0,0,0,0.1)",
+              backdropFilter: "blur(4px)"
+            }}
+          >
+            {icon}
+          </div>
+          <h3 className="text-2xl font-bold mb-4 text-white text-center">{title}</h3>
+          <p className="text-white/80 text-center">{description}</p>
+          
+          <div className="absolute bottom-6 left-0 right-0 text-center text-white/70 text-sm">
+            Click to learn more
+          </div>
         </div>
         
-        <h3 className="text-2xl font-bold mb-4 text-white">{title}</h3>
-        <p className="text-white/90 mb-6">{description}</p>
-        
-        <motion.div 
-          className="mt-auto"
-          whileHover={{ 
-            scale: 1.05,
-            transition: { duration: 0.2 }
-          }}
-          whileTap={{ scale: 0.95 }}
+        {/* Back of Card */}
+        <div 
+          className="absolute inset-0 rounded-2xl p-8 flex flex-col rotateY-180 backface-hidden"
+          style={{ backgroundColor: accentColor }}
         >
-          <button className="px-6 py-3 bg-white/20 text-white rounded-lg w-full font-medium hover:bg-white/30 transition-colors backdrop-blur-sm">
-            Learn More
-          </button>
-        </motion.div>
-      </div>
+          <h3 className="text-2xl font-bold mb-4 text-white">{title}</h3>
+          <p className="text-white/90 mb-4">Investment Benefits:</p>
+          <ul className="text-white/80 space-y-2 mb-6">
+            {benefits.map((benefit, i) => (
+              <li key={i} className="flex items-start">
+                <div className="w-6 h-6 rounded-full flex items-center justify-center bg-white/20 mr-2 flex-shrink-0 mt-0.5">
+                  <svg className="w-3 h-3 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" />
+                  </svg>
+                </div>
+                <span>{benefit}</span>
+              </li>
+            ))}
+          </ul>
+          
+          <div className="mt-auto text-center text-white/70 text-sm">
+            Click to flip back
+          </div>
+        </div>
+      </motion.div>
     </motion.div>
+  );
+};
+
+// Growth Animation Component
+const GrowthAnimation = ({ inView }) => {
+  const growthBars = [
+    { roi: 8, color: "#4CAF50", value: "2022" },
+    { roi: 10, color: "#66BB6A", value: "2023" },
+    { roi: 12, color: "#81C784", value: "2024" },
+    { roi: 15, color: "#A5D6A7", value: "2025" }
+  ];
+
+  return (
+    <div className="relative w-full overflow-hidden bg-white rounded-2xl p-8 shadow-md">
+      <h3 className="text-xl font-bold mb-6 text-center">Investment Growth</h3>
+      
+      <div className="border-t border-gray-200 mb-6 pt-4">
+        <div className="grid grid-cols-4 gap-4">
+          {growthBars.map((bar, i) => (
+            <div key={i} className="flex flex-col items-center">
+              <motion.div 
+                className="flex flex-col items-center"
+                initial={{ opacity: 0, y: 20 }}
+                animate={inView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
+                transition={{ 
+                  duration: 0.6,
+                  delay: 0.2 + (i * 0.1),
+                }}
+              >
+                <div className="w-16 h-[120px] relative flex flex-col items-center justify-end mb-2">
+                  <motion.div
+                    className="w-full rounded-t-md bg-green-100 flex items-center justify-center"
+                    style={{ 
+                      backgroundColor: bar.color,
+                      height: `${(bar.roi / 15) * 100}%`
+                    }}
+                    initial={{ height: 0 }}
+                    animate={inView ? { height: `${(bar.roi / 15) * 100}%` } : { height: 0 }}
+                    transition={{ 
+                      duration: 0.8,
+                      delay: 0.4 + (i * 0.1),
+                    }}
+                  />
+                </div>
+                <motion.div
+                  className="text-xl font-bold text-green-700"
+                  initial={{ opacity: 0 }}
+                  animate={inView ? { opacity: 1 } : { opacity: 0 }}
+                  transition={{ delay: 0.8 + (i * 0.1) }}
+                >
+                  {bar.roi}% ROI
+                </motion.div>
+                <div className="text-gray-500 font-medium mt-1">{bar.value}</div>
+              </motion.div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
   );
 };
 
@@ -163,6 +275,7 @@ export default function Investors() {
   const featuresRef = useRef(null);
   const investmentOptionsRef = useRef(null);
   const formRef = useRef(null);
+  const growthRef = useRef(null);
   
   // Check if elements are in view
   const isWheatFieldInView = useInView(wheatFieldRef, { once: true, amount: 0.3 });
@@ -170,6 +283,7 @@ export default function Investors() {
   const isInvestmentOptionsInView = useInView(investmentOptionsRef, { once: true, amount: 0.1 });
   const isCalculatorInView = useInView(calculatorRef, { once: true, amount: 0.2 });
   const isFormInView = useInView(formRef, { once: true, amount: 0.2 });
+  const isGrowthInView = useInView(growthRef, { once: true, amount: 0.2 });
   
   // Parallax effect for header
   const { scrollYProgress } = useScroll({
@@ -359,7 +473,7 @@ export default function Investors() {
           
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {investmentOptions.map((option, i) => (
-              <InvestmentCard
+              <RotatingInvestmentCard
                 key={option.id}
                 icon={option.icon}
                 title={option.title}
@@ -374,8 +488,68 @@ export default function Investors() {
         </div>
       </section>
       
+      {/* Exceptional Returns Section */}
+      <section ref={growthRef} className="py-20 bg-gray-50">
+        <div className="container mx-auto px-4">
+          <div className="flex flex-col md:flex-row items-center gap-12">
+            <div className="md:w-1/2">
+              <motion.h2
+                initial={{ opacity: 0, y: 20 }}
+                animate={isGrowthInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
+                transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+                className="text-3xl font-bold mb-6 tracking-tight"
+              >
+                Exceptional Returns on Investment
+              </motion.h2>
+              
+              <motion.p
+                initial={{ opacity: 0, y: 20 }}
+                animate={isGrowthInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
+                transition={{ delay: 0.2, duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+                className="text-lg text-gray-600 mb-6"
+              >
+                Our premium Saharan agricultural operations consistently deliver market-beating returns while maintaining sustainable farming practices and supporting local communities.
+              </motion.p>
+              
+              <motion.ul
+                className="space-y-4"
+                initial={{ opacity: 0 }}
+                animate={isGrowthInView ? { opacity: 1 } : { opacity: 0 }}
+                transition={{ delay: 0.4, duration: 0.8 }}
+              >
+                {[
+                  "5-10% average annual returns since 2022",
+                  "Steady consistent growth with expanding operations",
+                  "Low volatility compared to traditional financial markets",
+                  "Inflation-protected investment with tangible agricultural assets"
+                ].map((item, i) => (
+                  <motion.li 
+                    key={i}
+                    initial={{ opacity: 0, x: -20 }}
+                    animate={isGrowthInView ? { opacity: 1, x: 0 } : { opacity: 0, x: -20 }}
+                    transition={{ delay: 0.6 + (i * 0.1), duration: 0.6 }}
+                    className="flex items-start"
+                  >
+                    <div className="w-6 h-6 rounded-full bg-green-100 flex items-center justify-center mr-3 flex-shrink-0 mt-0.5">
+                      <svg className="w-3 h-3 text-green-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" />
+                      </svg>
+                    </div>
+                    <span>{item}</span>
+                  </motion.li>
+                ))}
+              </motion.ul>
+            </div>
+            
+            <div className="md:w-1/2">
+              <GrowthAnimation inView={isGrowthInView} />
+            </div>
+          </div>
+        </div>
+      </section>
+      
       {/* Investment Benefits Section */}
-      <section ref={featuresRef} className="py-20 bg-gray-50">
+      <section ref={featuresRef} className="py-20 bg-white">
         <div className="container mx-auto px-4">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
