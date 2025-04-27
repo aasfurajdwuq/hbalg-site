@@ -62,32 +62,20 @@ const LanguageSwitcher = ({ isMobile = false, isFooter = false }: LanguageSwitch
     );
   }
 
-  // Desktop dropdown
+  // Desktop dropdown - simplified version using Select component instead of custom dropdown
   return (
-    <div className="relative group">
-      <button 
-        className="flex items-center space-x-1 text-sm text-charcoal hover:text-wheat-dark transition"
-        onClick={() => setIsOpen(!isOpen)}
-      >
-        <span>{languages.find(lang => lang.code === language)?.name}</span>
-        <FaChevronDown className="text-xs ml-1" />
-      </button>
-      <div className={`absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1 ${isOpen ? 'block' : 'hidden group-hover:block'}`}>
+    <Select value={language} onValueChange={handleLanguageChange}>
+      <SelectTrigger className="w-auto bg-transparent border-none shadow-none hover:text-wheat-dark text-charcoal">
+        <SelectValue placeholder={languages.find(lang => lang.code === language)?.name} />
+      </SelectTrigger>
+      <SelectContent className="w-48 z-50">
         {languages.map((lang) => (
-          <button
-            key={lang.code}
-            className="block w-full text-left px-4 py-2 text-sm text-charcoal hover:bg-stone-light"
-            lang={lang.code}
-            onClick={() => {
-              changeLanguage(lang.code);
-              setIsOpen(false);
-            }}
-          >
-            {lang.name}
-          </button>
+          <SelectItem key={lang.code} value={lang.code}> 
+            <span lang={lang.code}>{lang.name}</span>
+          </SelectItem>
         ))}
-      </div>
-    </div>
+      </SelectContent>
+    </Select>
   );
 };
 
