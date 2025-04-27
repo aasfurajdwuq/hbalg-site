@@ -107,10 +107,6 @@ export const LanguageProvider = (props: {children: ReactNode}) => {
   const t = (key: string): string => {
     if (!key) return '';
     
-    console.log(`Getting translation for key: ${key} in language: ${language}`);
-    console.log(`Available locales:`, Object.keys(locales));
-    console.log(`Current locale object:`, locales[language]);
-    
     const keys = key.split('.');
     
     // Try to get the value from the current language
@@ -118,22 +114,17 @@ export const LanguageProvider = (props: {children: ReactNode}) => {
     if (currentValue) {
       let found = true;
       for (const k of keys) {
-        console.log(`Looking for key part: ${k} in`, currentValue);
         if (currentValue && currentValue[k] !== undefined) {
           currentValue = currentValue[k];
         } else {
           found = false;
-          console.log(`Key part ${k} not found in current language`);
           break;
         }
       }
       
       if (found && typeof currentValue === 'string') {
-        console.log(`Found translation: ${currentValue}`);
         return currentValue;
       }
-    } else {
-      console.log(`Locale for ${language} not found!`);
     }
     
     // Try to get the value from the default language
@@ -150,13 +141,11 @@ export const LanguageProvider = (props: {children: ReactNode}) => {
       }
       
       if (found && typeof defaultValue === 'string') {
-        console.log(`Using default translation: ${defaultValue}`);
         return defaultValue;
       }
     }
     
     // Return the key as fallback
-    console.log(`No translation found, returning key: ${key}`);
     return key;
   };
 

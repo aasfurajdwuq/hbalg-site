@@ -67,23 +67,7 @@ const Header = () => {
           
           {/* Language Switcher - Desktop */}
           <div className="hidden md:block">
-            <div className="inline-block relative group">
-              <button className="flex items-center space-x-1 text-sm text-charcoal hover:text-wheat-dark transition">
-                <span>Language</span>
-                <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-                </svg>
-              </button>
-              <div className="absolute hidden group-hover:block right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1 z-50">
-                <a href="/?lang=en" className="block w-full text-left px-4 py-2 text-sm text-charcoal hover:bg-stone-light">English</a>
-                <a href="/?lang=ar" className="block w-full text-left px-4 py-2 text-sm text-charcoal hover:bg-stone-light">العربية</a>
-                <a href="/?lang=ar-dz" className="block w-full text-left px-4 py-2 text-sm text-charcoal hover:bg-stone-light">الدارجة الجزائرية</a>
-                <a href="/?lang=fr" className="block w-full text-left px-4 py-2 text-sm text-charcoal hover:bg-stone-light">Français</a>
-                <a href="/?lang=es" className="block w-full text-left px-4 py-2 text-sm text-charcoal hover:bg-stone-light">Español</a>
-                <a href="/?lang=it" className="block w-full text-left px-4 py-2 text-sm text-charcoal hover:bg-stone-light">Italiano</a>
-                <a href="/?lang=ur" className="block w-full text-left px-4 py-2 text-sm text-charcoal hover:bg-stone-light">اردو</a>
-              </div>
-            </div>
+            <LanguageSwitcher />
           </div>
           
           {/* Mobile Menu Button */}
@@ -115,15 +99,7 @@ const Header = () => {
             <div className="border-t border-stone pt-3 px-4">
               <div className="flex flex-col space-y-3">
                 <span className="text-sm text-charcoal font-semibold">Language / اللغة</span>
-                <div className="grid grid-cols-2 gap-2">
-                  <a href="/?lang=en" className="block w-full text-center px-2 py-1 text-sm text-charcoal hover:bg-stone-light border rounded">English</a>
-                  <a href="/?lang=ar" className="block w-full text-center px-2 py-1 text-sm text-charcoal hover:bg-stone-light border rounded">العربية</a>
-                  <a href="/?lang=ar-dz" className="block w-full text-center px-2 py-1 text-sm text-charcoal hover:bg-stone-light border rounded">الدارجة الجزائرية</a>
-                  <a href="/?lang=fr" className="block w-full text-center px-2 py-1 text-sm text-charcoal hover:bg-stone-light border rounded">Français</a>
-                  <a href="/?lang=es" className="block w-full text-center px-2 py-1 text-sm text-charcoal hover:bg-stone-light border rounded">Español</a>
-                  <a href="/?lang=it" className="block w-full text-center px-2 py-1 text-sm text-charcoal hover:bg-stone-light border rounded">Italiano</a>
-                  <a href="/?lang=ur" className="block w-full text-center px-2 py-1 text-sm text-charcoal hover:bg-stone-light border rounded">اردو</a>
-                </div>
+                <LanguageSwitcher isMobile={true} />
               </div>
             </div>
           </div>
