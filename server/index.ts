@@ -6,6 +6,19 @@ import dotenv from "dotenv";
 // Load environment variables
 dotenv.config();
 
+// Check required environment variables
+const requiredEnvVars = ['SESSION_SECRET'];
+const missingVars = requiredEnvVars.filter(varName => !process.env[varName]);
+
+if (missingVars.length > 0) {
+  console.warn(`Warning: Missing environment variables: ${missingVars.join(', ')}`);
+  // Set defaults for non-critical variables
+  if (!process.env.SESSION_SECRET) {
+    process.env.SESSION_SECRET = 'default-secret-do-not-use-in-production';
+    console.warn('Using default session secret - not recommended for production');
+  }
+}
+
 const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));

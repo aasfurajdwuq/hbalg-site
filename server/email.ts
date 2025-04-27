@@ -3,14 +3,12 @@ import sgMail from '@sendgrid/mail';
 // Verify API key configuration
 const SENDGRID_API_KEY = process.env.SENDGRID_API_KEY;
 
-if (!SENDGRID_API_KEY) {
-  console.error("ERROR: SENDGRID_API_KEY environment variable is not set!");
-} else {
-  // Log first and last few characters of the key for verification without exposing the full key
-  const keyStart = SENDGRID_API_KEY.substring(0, 4);
-  const keyEnd = SENDGRID_API_KEY.substring(SENDGRID_API_KEY.length - 4);
-  console.log(`SendGrid API Key is configured (starts with ${keyStart}, ends with ${keyEnd})`);
+// Initialize SendGrid if API key is available
+if (SENDGRID_API_KEY) {
   sgMail.setApiKey(SENDGRID_API_KEY);
+  console.log('SendGrid API initialized successfully');
+} else {
+  console.warn('SENDGRID_API_KEY not set - email features will be disabled');
 }
 
 // Email address to receive notifications
