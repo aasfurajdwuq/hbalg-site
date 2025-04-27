@@ -26,7 +26,7 @@ const StatCard = ({ icon, title, value, description, delay = 0, isInView }) => {
 };
 
 // Team Member Card Component
-const TeamMemberCard = ({ name, title, image, description, delay = 0, isInView }) => {
+const TeamMemberCard = ({ name, title, description, delay = 0, isInView }) => {
   return (
     <motion.div
       initial={{ opacity: 0, y: 30 }}
@@ -370,6 +370,32 @@ export default function Investors() {
               />
             ))}
           </div>
+        </div>
+      </section>
+      
+      {/* ROI Calculator Section */}
+      <section ref={calculatorRef} className="py-20 bg-white">
+        <div className="container mx-auto px-4">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={isCalculatorInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
+            transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+            className="text-center mb-16"
+          >
+            <h2 className="text-3xl font-bold mb-6 tracking-tight">Calculate Your Investment Growth</h2>
+            <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+              Use our interactive calculator to estimate the potential returns on your agricultural investment with Harvest Brothers
+            </p>
+          </motion.div>
+          
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={isCalculatorInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
+            transition={{ delay: 0.2, duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+            className="max-w-4xl mx-auto"
+          >
+            <ROICalculator />
+          </motion.div>
         </div>
       </section>
       
