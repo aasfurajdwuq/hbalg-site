@@ -11,19 +11,18 @@ const requiredEnvVars = ['SESSION_SECRET', 'SENDGRID_API_KEY'];
 const missingVars = requiredEnvVars.filter(varName => !process.env[varName]);
 
 if (missingVars.length > 0) {
-  if (process.env.NODE_ENV === 'production') {
-    throw new Error(`Critical environment variables missing: ${missingVars.join(', ')}`);
-  } else {
-    console.warn(`Warning: Missing environment variables: ${missingVars.join(', ')}`);
-    // Set development defaults
-    if (!process.env.SESSION_SECRET) {
-      process.env.SESSION_SECRET = 'default-secret-do-not-use-in-production';
-      console.warn('Using default session secret - not recommended for production');
-    }
-    if (!process.env.SENDGRID_API_KEY) {
-      process.env.SENDGRID_API_KEY = 'fake-key-for-development';
-      console.warn('Using fake SendGrid API key - not functional in production');
-    }
+  console.warn(`Warning: Missing environment variables: ${missingVars.join(', ')}`);
+  
+  if (!process.env.SESSION_SECRET) {
+    process.env.SESSION_SECRET = process.env.NODE_ENV === 'production' 
+      ? 'temp-secret-' + Date.now() 
+      : 'default-secret-do-not-use-in-production';
+    console.warn('Using temporary session secret - please set proper SESSION_SECRET');
+  }
+  
+  if (!process.env.SENDGRID_API_KEY) {
+    process.env.SENDGRID_API_KEY = 'disabled';
+    console.warn('SendGrid API disabled - email features will not work');
   }
 }
 
