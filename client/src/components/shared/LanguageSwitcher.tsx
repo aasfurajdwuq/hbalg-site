@@ -17,9 +17,8 @@ const languages = [
   { code: "it", name: "Italiano" }  // Italian
 ];
 
-// SUPER SIMPLE VERSION USING DIRECT LINKS
 const LanguageSwitcher = ({ isMobile = false, isFooter = false }: LanguageSwitcherProps) => {
-  const { language } = useLanguage();
+  const { language, changeLanguage } = useLanguage();
   const [isOpen, setIsOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
 
@@ -37,11 +36,11 @@ const LanguageSwitcher = ({ isMobile = false, isFooter = false }: LanguageSwitch
     };
   }, []);
 
-  // Create a direct href link that forces page reload with the language parameter
-  const createLanguageLink = (code: string): string => {
-    const url = new URL(window.location.href);
-    url.searchParams.set('lang', code);
-    return url.toString();
+  // Handle language change
+  const handleLanguageChange = (code: string) => {
+    // Change language without page reload
+    changeLanguage(code);
+    setIsOpen(false);
   };
 
   // Different styling for footer
@@ -58,14 +57,13 @@ const LanguageSwitcher = ({ isMobile = false, isFooter = false }: LanguageSwitch
         {isOpen && (
           <div className="absolute left-0 right-0 mt-1 bg-white rounded-md shadow-lg py-1 z-50">
             {languages.map((lang) => (
-              <a
+              <button
                 key={lang.code}
-                href={createLanguageLink(lang.code)}
                 className={`block w-full text-left px-4 py-2 text-sm text-charcoal hover:bg-stone-light ${language === lang.code ? 'bg-stone-light' : ''}`}
-                onClick={() => setIsOpen(false)}
+                onClick={() => handleLanguageChange(lang.code)}
               >
                 <span lang={lang.code}>{lang.name}</span>
-              </a>
+              </button>
             ))}
           </div>
         )}
@@ -87,14 +85,13 @@ const LanguageSwitcher = ({ isMobile = false, isFooter = false }: LanguageSwitch
         {isOpen && (
           <div className="absolute right-0 mt-1 w-48 bg-white rounded-md shadow-lg py-1 z-50">
             {languages.map((lang) => (
-              <a
+              <button
                 key={lang.code}
-                href={createLanguageLink(lang.code)}
                 className={`block w-full text-left px-4 py-2 text-sm text-charcoal hover:bg-stone-light ${language === lang.code ? 'bg-stone-light' : ''}`}
-                onClick={() => setIsOpen(false)}
+                onClick={() => handleLanguageChange(lang.code)}
               >
                 <span lang={lang.code}>{lang.name}</span>
-              </a>
+              </button>
             ))}
           </div>
         )}
@@ -117,14 +114,13 @@ const LanguageSwitcher = ({ isMobile = false, isFooter = false }: LanguageSwitch
       {isOpen && (
         <div className="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1 z-50">
           {languages.map((lang) => (
-            <a
+            <button
               key={lang.code}
-              href={createLanguageLink(lang.code)}
               className={`block w-full text-left px-4 py-2 text-sm text-charcoal hover:bg-stone-light ${language === lang.code ? 'bg-stone-light' : ''}`}
-              onClick={() => setIsOpen(false)}
+              onClick={() => handleLanguageChange(lang.code)}
             >
               <span lang={lang.code}>{lang.name}</span>
-            </a>
+            </button>
           ))}
         </div>
       )}

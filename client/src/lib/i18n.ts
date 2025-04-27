@@ -1,167 +1,220 @@
-import { createContext, useContext, useState, useEffect, ReactNode } from "react";
-import React from "react";
-import { locales, defaultLocale, type Locale } from "@/locales";
+/* Simple language system with direct object access (NO JSX) */
+import { useState, useEffect } from 'react';
+import { locales, defaultLocale, type Locale } from '@/locales';
 
-type LanguageContextType = {
-  language: string;
-  locale: Locale;
-  dir: "ltr" | "rtl";
-  changeLanguage: (lang: string) => void;
-  t: (key: string) => string;
+// Define RTL languages
+const rtlLanguages = ['ar', 'ar-dz', 'ur'];
+
+// Hard-coded translations for critical UI elements
+const hardcodedTranslations: Record<string, Record<string, string>> = {
+  'en': {
+    'nav.home': 'Home',
+    'nav.about': 'About Us',
+    'nav.services': 'Services',
+    'nav.investors': 'Investors',
+    'nav.contact': 'Contact',
+    'home.hero.contactCTA': 'Contact Us',
+    'home.hero.investorCTA': 'Investment Opportunities'
+  },
+  'ar': {
+    'nav.home': 'الرئيسية',
+    'nav.about': 'من نحن',
+    'nav.services': 'خدماتنا',
+    'nav.investors': 'المستثمرين',
+    'nav.contact': 'اتصل بنا',
+    'home.hero.contactCTA': 'اتصل بنا',
+    'home.hero.investorCTA': 'فرص الاستثمار'
+  },
+  'ar-dz': {
+    'nav.home': 'الرئيسية',
+    'nav.about': 'علينا',
+    'nav.services': 'خدماتنا',
+    'nav.investors': 'المستثمرين',
+    'nav.contact': 'اتصل بينا',
+    'home.hero.contactCTA': 'اتصل بينا',
+    'home.hero.investorCTA': 'معلومات المستثمرين'
+  },
+  'fr': {
+    'nav.home': 'Accueil',
+    'nav.about': 'À propos',
+    'nav.services': 'Services',
+    'nav.investors': 'Investisseurs',
+    'nav.contact': 'Contact',
+    'home.hero.contactCTA': 'Contactez-nous',
+    'home.hero.investorCTA': 'Opportunités d\'investissement'
+  },
+  'es': {
+    'nav.home': 'Inicio',
+    'nav.about': 'Quiénes somos',
+    'nav.services': 'Servicios',
+    'nav.investors': 'Inversores',
+    'nav.contact': 'Contacto',
+    'home.hero.contactCTA': 'Contáctenos',
+    'home.hero.investorCTA': 'Oportunidades de inversión'
+  },
+  'it': {
+    'nav.home': 'Home',
+    'nav.about': 'Chi siamo',
+    'nav.services': 'Servizi',
+    'nav.investors': 'Investitori',
+    'nav.contact': 'Contatti',
+    'home.hero.contactCTA': 'Contattaci',
+    'home.hero.investorCTA': 'Opportunità di investimento'
+  },
+  'ur': {
+    'nav.home': 'صفحہ اول',
+    'nav.about': 'ہمارے بارے میں',
+    'nav.services': 'خدمات',
+    'nav.investors': 'سرمایہ کار',
+    'nav.contact': 'رابطہ کریں',
+    'home.hero.contactCTA': 'ہم سے رابطہ کریں',
+    'home.hero.investorCTA': 'سرمایہ کاری کے مواقع'
+  }
 };
 
-const rtlLanguages = ["ar", "ar-dz", "ur"];
-
-const LanguageContext = createContext<LanguageContextType>({
-  language: "en",
-  locale: defaultLocale,
-  dir: "ltr",
-  changeLanguage: () => {},
-  t: (key: string) => key,
-});
-
-// Get language from URL or use default
-const getLanguageFromUrl = (): string | null => {
+// Helper functions for detecting language
+function getLanguageFromUrl(): string | null {
+  if (typeof window === 'undefined') return null;
+  
   try {
     const params = new URLSearchParams(window.location.search);
     const langParam = params.get('lang');
-    
     if (langParam && Object.keys(locales).includes(langParam)) {
-      console.log("Using language from URL:", langParam);
       return langParam;
     }
   } catch (error) {
-    console.error("Error getting language from URL:", error);
+    console.error('Error getting language from URL:', error);
   }
   return null;
-};
+}
 
-export const LanguageProvider = (props: {children: ReactNode}) => {
-  const detectLanguage = (): string => {
-    try {
-      // First check URL parameter
-      const urlLang = getLanguageFromUrl();
-      if (urlLang) return urlLang;
-      
-      // Then check localStorage
-      const storedLang = localStorage.getItem("preferredLanguage");
-      console.log("Stored language found:", storedLang);
-      
-      if (storedLang) {
-        // Check if it's a valid language code that we support
-        if (Object.keys(locales).includes(storedLang)) {
-          console.log("Using stored language:", storedLang);
-          return storedLang;
+function getLanguageFromStorage(): string | null {
+  if (typeof window === 'undefined') return null;
+  
+  try {
+    const storedLang = localStorage.getItem('preferredLanguage');
+    if (storedLang && Object.keys(locales).includes(storedLang)) {
+      return storedLang;
+    }
+  } catch (error) {
+    console.error('Error getting language from storage:', error);
+  }
+  return null;
+}
+
+// Initial language detection
+function detectInitialLanguage(): string {
+  const urlLang = getLanguageFromUrl();
+  if (urlLang) return urlLang;
+  
+  const storedLang = getLanguageFromStorage();
+  if (storedLang) return storedLang;
+  
+  return 'en'; // Default to English
+}
+
+// Global shared state (no React context)
+let _currentLanguage = detectInitialLanguage();
+let _currentDirection = rtlLanguages.includes(_currentLanguage) ? 'rtl' : 'ltr';
+let _listeners: Array<() => void> = [];
+
+// Update document direction and language
+if (typeof document !== 'undefined') {
+  document.documentElement.dir = _currentDirection;
+  document.documentElement.lang = _currentLanguage;
+}
+
+// Translation function
+function translateKey(key: string, language: string = _currentLanguage): string {
+  // Check hardcoded translations first
+  if (hardcodedTranslations[language] && hardcodedTranslations[language][key]) {
+    return hardcodedTranslations[language][key];
+  }
+  
+  if (!key) return '';
+  
+  const keyParts = key.split('.');
+  let result: any = locales[language];
+  
+  // Try to navigate through the nested object
+  for (const part of keyParts) {
+    if (result && typeof result === 'object' && part in result) {
+      result = result[part];
+    } else {
+      // Key not found in current language, try English
+      result = defaultLocale;
+      for (const fallbackPart of keyParts) {
+        if (result && typeof result === 'object' && fallbackPart in result) {
+          result = result[fallbackPart];
+        } else {
+          return key; // Return key as fallback
         }
       }
-      
-      // Otherwise detect from browser
-      const browserLang = navigator.language;
-      console.log("Browser language detected:", browserLang);
-      
-      // Try exact match first (e.g., "ar-dz")
-      if (Object.keys(locales).includes(browserLang)) {
-        return browserLang;
-      }
-      
-      // Try language part only (e.g., "ar" from "ar-DZ")
-      const langPart = browserLang.split("-")[0];
-      if (Object.keys(locales).includes(langPart)) {
-        return langPart;
-      }
-      
-      // Default to English if no match
-      console.log("Defaulting to English");
-      return "en";
-    } catch (error) {
-      console.error("Error detecting language:", error);
-      return "en";
+      break;
     }
-  };
+  }
+  
+  return typeof result === 'string' ? result : key;
+}
 
-  const [language, setLanguage] = useState(detectLanguage());
-  const [dir, setDir] = useState<"ltr" | "rtl">(rtlLanguages.includes(language) ? "rtl" : "ltr");
+// Language changing function
+function changeLanguage(lang: string): void {
+  if (!locales[lang]) return;
+  
+  _currentLanguage = lang;
+  _currentDirection = rtlLanguages.includes(lang) ? 'rtl' : 'ltr';
+  
+  // Update document attributes
+  if (typeof document !== 'undefined') {
+    document.documentElement.dir = _currentDirection;
+    document.documentElement.lang = _currentLanguage;
+  }
+  
+  // Store in localStorage
+  try {
+    localStorage.setItem('preferredLanguage', lang);
+  } catch (e) {
+    console.error('Failed to save language preference:', e);
+  }
+  
+  // Update URL without page reload
+  if (typeof window !== 'undefined') {
+    const url = new URL(window.location.href);
+    url.searchParams.set('lang', lang);
+    window.history.pushState({}, '', url.toString());
+  }
+  
+  // Notify all listeners
+  _listeners.forEach(listener => listener());
+}
 
-  // Set the document dir attribute
+// React hook for using translation in components
+export function useLanguage() {
+  const [language, setLanguage] = useState(_currentLanguage);
+  const [dir, setDir] = useState(_currentDirection);
+  
   useEffect(() => {
-    document.documentElement.dir = dir;
-    document.documentElement.lang = language;
-  }, [dir, language]);
-
-  const changeLanguage = (lang: string) => {
-    if (locales[lang]) {
-      console.log("Changing language to:", lang);
-      
-      // Force a hard refresh with the new language parameter
-      const url = new URL(window.location.href);
-      url.searchParams.set('lang', lang);
-      
-      // Store in localStorage as backup before navigation
-      localStorage.setItem("preferredLanguage", lang);
-      
-      // Redirect to the new URL (this causes a full page reload)
-      window.location.href = url.toString();
-    }
+    // Function to update component when language changes
+    const handleLanguageChange = () => {
+      setLanguage(_currentLanguage);
+      setDir(_currentDirection);
+    };
+    
+    // Register this component as a listener
+    _listeners.push(handleLanguageChange);
+    
+    // Cleanup listener when component unmounts
+    return () => {
+      _listeners = _listeners.filter(listener => listener !== handleLanguageChange);
+    };
+  }, []);
+  
+  // Return the language API for this component
+  return {
+    language,
+    dir,
+    locale: locales[language] || defaultLocale,
+    changeLanguage,
+    t: (key: string) => translateKey(key, language)
   };
-
-  const t = (key: string): string => {
-    if (!key) return '';
-    
-    const keys = key.split('.');
-    
-    // Try to get the value from the current language
-    let currentValue: any = locales[language];
-    if (currentValue) {
-      let found = true;
-      for (const k of keys) {
-        if (currentValue && currentValue[k] !== undefined) {
-          currentValue = currentValue[k];
-        } else {
-          found = false;
-          break;
-        }
-      }
-      
-      if (found && typeof currentValue === 'string') {
-        return currentValue;
-      }
-    }
-    
-    // Try to get the value from the default language
-    let defaultValue: any = defaultLocale;
-    if (defaultValue) {
-      let found = true;
-      for (const k of keys) {
-        if (defaultValue && defaultValue[k] !== undefined) {
-          defaultValue = defaultValue[k];
-        } else {
-          found = false;
-          break;
-        }
-      }
-      
-      if (found && typeof defaultValue === 'string') {
-        return defaultValue;
-      }
-    }
-    
-    // Return the key as fallback
-    return key;
-  };
-
-  return React.createElement(
-    LanguageContext.Provider,
-    { 
-      value: {
-        language,
-        locale: locales[language] || defaultLocale,
-        dir,
-        changeLanguage,
-        t
-      } 
-    },
-    props.children
-  );
-};
-
-export const useLanguage = () => useContext(LanguageContext);
+}

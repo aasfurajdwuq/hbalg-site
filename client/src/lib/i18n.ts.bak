@@ -1,0 +1,141 @@
+import { createContext, useContext, useState, useEffect, ReactNode } from "react";
+import { locales, defaultLocale, type Locale } from "@/locales";
+
+// Define language settings
+const rtlLanguages = ["ar", "ar-dz", "ur"];
+const LANG_STORAGE_KEY = "harvestBrothersLanguage";
+
+// Define context type
+type LanguageContextType = {
+  language: string;
+  locale: Locale;
+  dir: "ltr" | "rtl";
+  changeLanguage: (lang: string) => void;
+  t: (key: string) => string;
+};
+
+// Create default context
+const LanguageContext = createContext<LanguageContextType>({
+  language: "en",
+  locale: defaultLocale,
+  dir: "ltr",
+  changeLanguage: () => {},
+  t: (key: string) => key,
+});
+
+// Language Provider Component
+export const LanguageProvider = (props: {children: ReactNode}) => {
+  // Language detection logic
+  const detectLanguage = (): string => {
+    try {
+      // 1. First check URL parameter (highest priority)
+      const params = new URLSearchParams(window.location.search);
+      const langParam = params.get('lang');
+      if (langParam && Object.keys(locales).includes(langParam)) {
+        console.log("Using language from URL:", langParam);
+        return langParam;
+      }
+      
+      // 2. Then check localStorage
+      const storedLang = localStorage.getItem(LANG_STORAGE_KEY);
+      if (storedLang && Object.keys(locales).includes(storedLang)) {
+        console.log("Using stored language:", storedLang);
+        return storedLang;
+      }
+      
+      // 3. Finally check browser language
+      const browserLang = navigator.language.split('-')[0];
+      if (browserLang && Object.keys(locales).includes(browserLang)) {
+        return browserLang;
+      }
+    } catch (error) {
+      console.error("Error detecting language:", error);
+    }
+    
+    // Default to English
+    return "en";
+  };
+
+  // State management
+  const [language, setLanguage] = useState(detectLanguage());
+  const [dir, setDir] = useState<"ltr" | "rtl">(rtlLanguages.includes(language) ? "rtl" : "ltr");
+
+  // Update document direction and language
+  useEffect(() => {
+    document.documentElement.dir = dir;
+    document.documentElement.lang = language;
+    localStorage.setItem(LANG_STORAGE_KEY, language);
+  }, [dir, language]);
+
+  // Change language function
+  const changeLanguage = (lang: string) => {
+    if (locales[lang]) {
+      setLanguage(lang);
+      setDir(rtlLanguages.includes(lang) ? "rtl" : "ltr");
+      localStorage.setItem(LANG_STORAGE_KEY, lang);
+      
+      // Update URL without full page reload
+      const url = new URL(window.location.href);
+      url.searchParams.set('lang', lang);
+      window.history.pushState({}, '', url.toString());
+    }
+  };
+
+  // Translation function
+  const t = (key: string): string => {
+    // Direct text keys for critical navigation items to fix translation issues
+    const directTextMappings: {[key: string]: string} = {
+      "nav.home": "Home",
+      "nav.about": "About Us",
+      "nav.services": "Services",
+      "nav.investors": "Investors",
+      "nav.contact": "Contact",
+      "home.hero.contactCTA": "Contact Us",
+      "home.hero.investorCTA": "Investment Opportunities"
+    };
+    
+    // First check if we have a direct mapping
+    if (directTextMappings[key]) {
+      return directTextMappings[key];
+    }
+    
+    if (!key) return '';
+    
+    const keys = key.split('.');
+    
+    // Get from current language
+    let value: any = locales[language];
+    for (const k of keys) {
+      if (value && typeof value === 'object' && k in value) {
+        value = value[k];
+      } else {
+        // Key not found in current language, try default language
+        value = defaultLocale;
+        for (const defaultK of keys) {
+          if (value && typeof value === 'object' && defaultK in value) {
+            value = value[defaultK];
+          } else {
+            return key; // Return key as fallback
+          }
+        }
+        break;
+      }
+    }
+    
+    return typeof value === 'string' ? value : key;
+  };
+
+  return (
+    <LanguageContext.Provider value={{ 
+        language, 
+        locale: locales[language] || defaultLocale,
+        dir, 
+        changeLanguage,
+        t
+      }}>
+      {props.children}
+    </LanguageContext.Provider>
+  );
+};
+
+export const useLanguage = () => useContext(LanguageContext);
