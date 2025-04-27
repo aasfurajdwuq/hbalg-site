@@ -1,7 +1,6 @@
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
 import { useLanguage } from "@/lib/i18n";
 import { FaChevronDown } from "react-icons/fa";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 
 type LanguageSwitcherProps = {
   isMobile?: boolean;
@@ -21,61 +20,109 @@ const languages = [
 const LanguageSwitcher = ({ isMobile = false, isFooter = false }: LanguageSwitcherProps) => {
   const { language, changeLanguage, t } = useLanguage();
   const [isOpen, setIsOpen] = useState(false);
+  const dropdownRef = useRef<HTMLDivElement>(null);
 
-  const handleLanguageChange = (value: string) => {
-    changeLanguage(value);
+  // Close dropdown when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+        setIsOpen(false);
+      }
+    };
+    
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
+
+  const handleLanguageChange = (code: string) => {
+    changeLanguage(code);
+    setIsOpen(false);
   };
 
   // Different styling for footer
   if (isFooter) {
     return (
-      <Select value={language} onValueChange={handleLanguageChange}>
-        <SelectTrigger className={`w-full bg-charcoal-light text-stone-dark rounded border border-charcoal-light`}>
-          <SelectValue placeholder={languages.find(lang => lang.code === language)?.name} />
-        </SelectTrigger>
-        <SelectContent>
-          {languages.map((lang) => (
-            <SelectItem key={lang.code} value={lang.code} className={language === lang.code ? "bg-charcoal-light" : ""}>
-              <span lang={lang.code}>{lang.name}</span>
-            </SelectItem>
-          ))}
-        </SelectContent>
-      </Select>
+      <div className="relative" ref={dropdownRef}>
+        <button
+          className="w-full bg-charcoal-light text-stone-dark rounded border border-charcoal-light px-4 py-2 flex justify-between items-center"
+          onClick={() => setIsOpen(!isOpen)}
+        >
+          <span>{languages.find(lang => lang.code === language)?.name}</span>
+          <FaChevronDown className="text-xs ml-2" />
+        </button>
+        {isOpen && (
+          <div className="absolute left-0 right-0 mt-1 bg-white rounded-md shadow-lg py-1 z-50">
+            {languages.map((lang) => (
+              <button
+                key={lang.code}
+                className={`block w-full text-left px-4 py-2 text-sm text-charcoal hover:bg-stone-light ${language === lang.code ? 'bg-stone-light' : ''}`}
+                onClick={() => handleLanguageChange(lang.code)}
+              >
+                <span lang={lang.code}>{lang.name}</span>
+              </button>
+            ))}
+          </div>
+        )}
+      </div>
     );
   }
 
   // For mobile dropdown
   if (isMobile) {
     return (
-      <Select value={language} onValueChange={handleLanguageChange}>
-        <SelectTrigger className="bg-stone-light rounded w-32 px-2 py-1 text-sm text-charcoal">
-          <SelectValue placeholder={languages.find(lang => lang.code === language)?.name} />
-        </SelectTrigger>
-        <SelectContent>
-          {languages.map((lang) => (
-            <SelectItem key={lang.code} value={lang.code}>
-              <span lang={lang.code}>{lang.name}</span>
-            </SelectItem>
-          ))}
-        </SelectContent>
-      </Select>
+      <div className="relative" ref={dropdownRef}>
+        <button
+          className="bg-stone-light rounded w-32 px-3 py-2 text-sm text-charcoal flex justify-between items-center"
+          onClick={() => setIsOpen(!isOpen)}
+        >
+          <span>{languages.find(lang => lang.code === language)?.name}</span>
+          <FaChevronDown className="text-xs ml-2" />
+        </button>
+        {isOpen && (
+          <div className="absolute right-0 mt-1 w-48 bg-white rounded-md shadow-lg py-1 z-50">
+            {languages.map((lang) => (
+              <button
+                key={lang.code}
+                className={`block w-full text-left px-4 py-2 text-sm text-charcoal hover:bg-stone-light ${language === lang.code ? 'bg-stone-light' : ''}`}
+                onClick={() => handleLanguageChange(lang.code)}
+              >
+                <span lang={lang.code}>{lang.name}</span>
+              </button>
+            ))}
+          </div>
+        )}
+      </div>
     );
   }
 
-  // Desktop dropdown - simplified version using Select component instead of custom dropdown
+  // Desktop dropdown
   return (
-    <Select value={language} onValueChange={handleLanguageChange}>
-      <SelectTrigger className="w-auto bg-transparent border-none shadow-none hover:text-wheat-dark text-charcoal">
-        <SelectValue placeholder={languages.find(lang => lang.code === language)?.name} />
-      </SelectTrigger>
-      <SelectContent className="w-48 z-50">
-        {languages.map((lang) => (
-          <SelectItem key={lang.code} value={lang.code}> 
-            <span lang={lang.code}>{lang.name}</span>
-          </SelectItem>
-        ))}
-      </SelectContent>
-    </Select>
+    <div className="relative" ref={dropdownRef}>
+      <button
+        className="flex items-center space-x-1 text-sm text-charcoal hover:text-wheat-dark transition pr-2"
+        onClick={() => setIsOpen(!isOpen)}
+        aria-haspopup="true"
+        aria-expanded={isOpen}
+      >
+        <span>{languages.find(lang => lang.code === language)?.name}</span>
+        <FaChevronDown className="text-xs ml-1" />
+      </button>
+      {isOpen && (
+        <div className="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1 z-50">
+          {languages.map((lang) => (
+            <button
+              key={lang.code}
+              className={`block w-full text-left px-4 py-2 text-sm text-charcoal hover:bg-stone-light ${language === lang.code ? 'bg-stone-light' : ''}`}
+              onClick={() => handleLanguageChange(lang.code)}
+            >
+              <span lang={lang.code}>{lang.name}</span>
+            </button>
+          ))}
+        </div>
+      )}
+    </div>
   );
 };
 
