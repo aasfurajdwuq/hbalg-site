@@ -135,7 +135,7 @@ const HeroSection = () => {
                   whileHover={{ opacity: [1, 0.8, 1], y: [0, -3, 0] }}
                   transition={{ duration: 1, repeat: Infinity, ease: "easeInOut" }}
                 >
-                  {t('home.hero.contactCTA')}
+                  Get in Touch
                 </motion.span>
               </motion.div>
             </Link>
@@ -155,7 +155,7 @@ const HeroSection = () => {
                   whileHover={{ opacity: [1, 0.8, 1], y: [0, -3, 0] }}
                   transition={{ duration: 1, repeat: Infinity, ease: "easeInOut" }}
                 >
-                  {t('home.hero.investorCTA')}
+                  Investment Opportunities
                 </motion.span>
               </motion.div>
             </Link>
