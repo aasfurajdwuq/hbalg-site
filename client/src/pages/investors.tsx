@@ -399,24 +399,22 @@ export default function Investors() {
             transition={{ duration: 0.8, delay: 0.6 }}
             className="flex flex-col sm:flex-row justify-center gap-4"
           >
-            <Link href="#investment-options-section">
-              <motion.button
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.98 }}
-                className="px-8 py-4 bg-green-600 text-white rounded-lg font-bold shadow-lg hover:bg-green-700 transition-colors"
-              >
-                Explore Options
-              </motion.button>
-            </Link>
-            <Link href="#investment-calculator">
-              <motion.button
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.98 }}
-                className="px-8 py-4 bg-amber-600 text-white rounded-lg font-bold shadow-lg hover:bg-amber-700 transition-colors"
-              >
-                Calculate Returns
-              </motion.button>
-            </Link>
+            <motion.a
+              href="#investment-options-section"
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.98 }}
+              className="px-8 py-4 bg-green-600 text-white rounded-lg font-bold shadow-lg hover:bg-green-700 transition-colors text-center"
+            >
+              Explore Options
+            </motion.a>
+            <motion.a
+              href="#investment-calculator"
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.98 }}
+              className="px-8 py-4 bg-amber-600 text-white rounded-lg font-bold shadow-lg hover:bg-amber-700 transition-colors text-center"
+            >
+              Calculate Returns
+            </motion.a>
           </motion.div>
         </div>
         
