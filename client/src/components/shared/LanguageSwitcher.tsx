@@ -37,8 +37,12 @@ const LanguageSwitcher = ({ isMobile = false, isFooter = false }: LanguageSwitch
   }, []);
 
   const handleLanguageChange = (code: string) => {
+    console.log("Changing language to:", code);
     changeLanguage(code);
     setIsOpen(false);
+    
+    // Force page reload to ensure all components update with the new language
+    window.location.reload();
   };
 
   // Different styling for footer
