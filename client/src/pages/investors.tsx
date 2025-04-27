@@ -578,8 +578,110 @@ export default function Investors() {
         </div>
       </section>
       
+      {/* Market Overview Section */}
+      <section className="py-20 bg-white">
+        <div className="container mx-auto px-4">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.8 }}
+            className="text-center mb-16"
+          >
+            <h2 className="text-3xl md:text-4xl font-bold mb-6">Algerian Agricultural Market Overview</h2>
+            <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+              A strategic analysis of the growing agricultural sector in Algeria and its investment potential
+            </p>
+          </motion.div>
+          
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+            <motion.div
+              initial={{ opacity: 0, x: -30 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+              viewport={{ once: true, margin: "-100px" }}
+            >
+              <div className="rounded-lg overflow-hidden shadow-lg bg-stone-light p-6">
+                <h3 className="text-2xl font-bold mb-4 text-earth-dark">Market Growth Indicators</h3>
+                <div className="space-y-4">
+                  <div className="flex justify-between items-center">
+                    <span className="font-medium">Agricultural GDP Growth</span>
+                    <span className="font-bold text-leaf-dark">+12.8% (Year over Year)</span>
+                  </div>
+                  <div className="w-full bg-stone-dark/10 h-2 rounded-full">
+                    <div className="bg-gradient-to-r from-green-600 to-amber-500 h-2 rounded-full" style={{ width: '68%' }}></div>
+                  </div>
+                  
+                  <div className="flex justify-between items-center">
+                    <span className="font-medium">Export Volume Increase</span>
+                    <span className="font-bold text-leaf-dark">+18.5% (Last 2 Years)</span>
+                  </div>
+                  <div className="w-full bg-stone-dark/10 h-2 rounded-full">
+                    <div className="bg-gradient-to-r from-green-600 to-amber-500 h-2 rounded-full" style={{ width: '76%' }}></div>
+                  </div>
+                  
+                  <div className="flex justify-between items-center">
+                    <span className="font-medium">Land Development</span>
+                    <span className="font-bold text-leaf-dark">+7.2% (Annual)</span>
+                  </div>
+                  <div className="w-full bg-stone-dark/10 h-2 rounded-full">
+                    <div className="bg-gradient-to-r from-green-600 to-amber-500 h-2 rounded-full" style={{ width: '52%' }}></div>
+                  </div>
+                  
+                  <div className="flex justify-between items-center">
+                    <span className="font-medium">Water Infrastructure</span>
+                    <span className="font-bold text-leaf-dark">+21.3% (Investment)</span>
+                  </div>
+                  <div className="w-full bg-stone-dark/10 h-2 rounded-full">
+                    <div className="bg-gradient-to-r from-green-600 to-amber-500 h-2 rounded-full" style={{ width: '82%' }}></div>
+                  </div>
+                </div>
+              </div>
+            </motion.div>
+            
+            <motion.div
+              initial={{ opacity: 0, x: 30 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+              viewport={{ once: true, margin: "-100px" }}
+              className="space-y-6"
+            >
+              <h3 className="text-2xl font-bold mb-4 text-earth-dark">Strategic Advantages</h3>
+              <p className="text-gray-700">
+                Algeria's agricultural sector is experiencing unprecedented growth driven by strategic government investments, modernized irrigation systems, and expanding global export markets.
+              </p>
+              <ul className="space-y-4">
+                {[
+                  "Government incentives including 5-10 year tax exemptions for agricultural ventures",
+                  "Fertile land available at competitive rates compared to European markets",
+                  "Expanding international trade agreements with EU, MENA, and African regions",
+                  "Growing domestic consumption creating stable local demand",
+                  "Strategic location providing access to European, Mediterranean, and African markets"
+                ].map((item, i) => (
+                  <motion.li 
+                    key={i}
+                    initial={{ opacity: 0, x: 10 }}
+                    whileInView={{ opacity: 1, x: 0 }}
+                    transition={{ delay: 0.2 + (i * 0.1), duration: 0.6 }}
+                    viewport={{ once: true }}
+                    className="flex items-start"
+                  >
+                    <div className="w-6 h-6 rounded-full bg-green-100 flex items-center justify-center mr-3 flex-shrink-0 mt-0.5">
+                      <svg className="w-3 h-3 text-green-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" />
+                      </svg>
+                    </div>
+                    <span className="text-gray-700">{item}</span>
+                  </motion.li>
+                ))}
+              </ul>
+            </motion.div>
+          </div>
+        </div>
+      </section>
+      
       {/* ROI Calculator Section */}
-      <section id="investment-calculator" ref={calculatorRef} className="py-20 bg-white">
+      <section id="investment-calculator" ref={calculatorRef} className="py-20 bg-gray-50">
         <div className="container mx-auto px-4">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -589,7 +691,7 @@ export default function Investors() {
           >
             <h2 className="text-3xl md:text-4xl font-bold mb-6">Calculate Your Investment Growth</h2>
             <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-              Use our interactive calculator to see how your investment can grow over time
+              Use our interactive calculator to see how your investment can grow over time with Harvest Brothers
             </p>
           </motion.div>
           
@@ -597,8 +699,12 @@ export default function Investors() {
             initial={{ opacity: 0, y: 20 }}
             animate={isCalculatorInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
             transition={{ duration: 0.8, delay: 0.2 }}
-            className="max-w-4xl mx-auto"
+            className="max-w-4xl mx-auto bg-white p-8 rounded-xl shadow-lg"
           >
+            <div className="mb-6 bg-amber-50 p-4 border-l-4 border-amber-500 rounded">
+              <h4 className="font-bold text-amber-800 mb-1">Premium Investment Benefits</h4>
+              <p className="text-amber-700">Our agricultural investments consistently deliver 5-10% annual returns while maintaining low risk profiles and supporting sustainable farming practices.</p>
+            </div>
             <ROICalculator />
           </motion.div>
         </div>
@@ -665,7 +771,7 @@ export default function Investors() {
             <motion.a
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.97 }}
-              href="#investment-options"
+              href="#investment-options-section"
               className="px-8 py-4 rounded-lg bg-white text-green-800 font-semibold shadow-lg hover:shadow-xl transition-all duration-300"
             >
               View Options

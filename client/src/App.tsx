@@ -1,4 +1,4 @@
-import { Switch, Route, useLocation } from "wouter";
+import { Switch, Route, useLocation, Redirect } from "wouter";
 import { queryClient } from "./lib/queryClient";
 import { QueryClientProvider } from "@tanstack/react-query";
 import { Toaster } from "@/components/ui/toaster";
@@ -8,13 +8,6 @@ import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
 import Home from "@/pages/home";
 import About from "@/pages/about";
-import Services from "@/pages/services";
-import SaharanCrops from "@/pages/services/saharan-crops";
-import AgriculturalResearch from "@/pages/services/agricultural-research";
-import IrrigationSystems from "@/pages/services/irrigation-systems";
-import DiversePortfolio from "@/pages/services/diverse-portfolio";
-import SustainablePractices from "@/pages/services/sustainable-practices";
-import GlobalDistribution from "@/pages/services/global-distribution";
 import Investors from "@/pages/investors";
 import PremiumReturns from "@/pages/investments/premium-returns";
 import StrategicPartnerships from "@/pages/investments/strategic-partnerships";
@@ -73,13 +66,27 @@ function Router() {
     <Switch>
       <Route path="/" component={Home} />
       <Route path="/about" component={About} />
-      <Route path="/services" component={Services} />
-      <Route path="/services/saharan-crops" component={SaharanCrops} />
-      <Route path="/services/agricultural-research" component={AgriculturalResearch} />
-      <Route path="/services/irrigation-systems" component={IrrigationSystems} />
-      <Route path="/services/diverse-portfolio" component={DiversePortfolio} />
-      <Route path="/services/sustainable-practices" component={SustainablePractices} />
-      <Route path="/services/global-distribution" component={GlobalDistribution} />
+      <Route path="/services">
+        {() => <Redirect to="/investors" />}
+      </Route>
+      <Route path="/services/saharan-crops">
+        {() => <Redirect to="/investors" />}
+      </Route>
+      <Route path="/services/agricultural-research">
+        {() => <Redirect to="/investors" />}
+      </Route>
+      <Route path="/services/irrigation-systems">
+        {() => <Redirect to="/investors" />}
+      </Route>
+      <Route path="/services/diverse-portfolio">
+        {() => <Redirect to="/investors" />}
+      </Route>
+      <Route path="/services/sustainable-practices">
+        {() => <Redirect to="/investors" />}
+      </Route>
+      <Route path="/services/global-distribution">
+        {() => <Redirect to="/investors" />}
+      </Route>
       <Route path="/investments/premium-returns" component={PremiumReturns} />
       <Route path="/investments/strategic-partnerships" component={StrategicPartnerships} />
       <Route path="/investments/sustainable-growth" component={SustainableGrowth} />
