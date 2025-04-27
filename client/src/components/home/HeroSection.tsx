@@ -104,12 +104,14 @@ const HeroSection = () => {
             animate="visible"
             className="mb-10"
           >
-            <TypewriterMultiple 
-              phrases={headingPhrases}
-              typingSpeed={60}
-              pauseTime={4000}
-              className="max-w-4xl mx-auto"
-            />
+            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-white mb-4">
+              <TypewriterMultiple 
+                phrases={headingPhrases}
+                typingSpeed={60}
+                pauseTime={4000}
+                className="text-white bg-gradient-to-r from-amber-100 to-yellow-200 bg-clip-text text-transparent"
+              />
+            </h1>
           </motion.div>
           
           {/* CTA buttons with advanced animation effects */}
