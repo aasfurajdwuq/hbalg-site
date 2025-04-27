@@ -92,17 +92,15 @@ export const LanguageProvider = (props: {children: ReactNode}) => {
     if (locales[lang]) {
       console.log("Changing language to:", lang);
       
-      // Update URL with new language
+      // Force a hard refresh with the new language parameter
       const url = new URL(window.location.href);
       url.searchParams.set('lang', lang);
-      window.history.pushState({}, '', url);
       
-      // Store in localStorage as backup
+      // Store in localStorage as backup before navigation
       localStorage.setItem("preferredLanguage", lang);
       
-      // Update UI language and direction
-      setLanguage(lang);
-      setDir(rtlLanguages.includes(lang) ? "rtl" : "ltr");
+      // Redirect to the new URL (this causes a full page reload)
+      window.location.href = url.toString();
     }
   };
 
