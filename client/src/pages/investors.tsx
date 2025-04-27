@@ -4,6 +4,7 @@ import { motion, useInView } from "framer-motion";
 import { Link } from "wouter";
 import { FaChartLine, FaHandHoldingUsd, FaUserTie, FaLeaf, FaMoneyBillWave, FaChartBar } from "react-icons/fa";
 import EmailJSForm from "@/components/forms/EmailJSForm";
+import ROICalculator from "@/components/investors/ROICalculator";
 
 // Animated Statistic Card Component
 const StatCard = ({ icon, title, value, description, delay = 0, isInView }) => {
@@ -121,12 +122,14 @@ export default function Investors() {
   const statsRef = useRef(null);
   const teamRef = useRef(null);
   const investmentOptionsRef = useRef(null);
+  const calculatorRef = useRef(null);
   const formRef = useRef(null);
   
   // Check if sections are in view
   const isStatsInView = useInView(statsRef, { once: true, amount: 0.2 });
   const isTeamInView = useInView(teamRef, { once: true, amount: 0.2 });
   const isInvestmentOptionsInView = useInView(investmentOptionsRef, { once: true, amount: 0.2 });
+  const isCalculatorInView = useInView(calculatorRef, { once: true, amount: 0.2 });
   const isFormInView = useInView(formRef, { once: true, amount: 0.2 });
   
   // Statistics data
