@@ -22,15 +22,41 @@ const LanguageContext = createContext<LanguageContextType>({
 
 export const LanguageProvider = (props: {children: ReactNode}) => {
   const detectBrowserLanguage = (): string => {
-    // First check if we have a stored preference
-    const storedLang = localStorage.getItem("preferredLanguage");
-    if (storedLang && locales[storedLang]) {
-      return storedLang;
+    try {
+      // First check if we have a stored preference
+      const storedLang = localStorage.getItem("preferredLanguage");
+      console.log("Stored language found:", storedLang);
+      
+      if (storedLang) {
+        // Check if it's a valid language code that we support
+        if (Object.keys(locales).includes(storedLang)) {
+          console.log("Using stored language:", storedLang);
+          return storedLang;
+        }
+      }
+      
+      // Otherwise detect from browser
+      const browserLang = navigator.language;
+      console.log("Browser language detected:", browserLang);
+      
+      // Try exact match first (e.g., "ar-dz")
+      if (Object.keys(locales).includes(browserLang)) {
+        return browserLang;
+      }
+      
+      // Try language part only (e.g., "ar" from "ar-DZ")
+      const langPart = browserLang.split("-")[0];
+      if (Object.keys(locales).includes(langPart)) {
+        return langPart;
+      }
+      
+      // Default to English if no match
+      console.log("Defaulting to English");
+      return "en";
+    } catch (error) {
+      console.error("Error detecting language:", error);
+      return "en";
     }
-    
-    // Otherwise detect from browser
-    const browserLang = navigator.language.split("-")[0];
-    return locales[browserLang] ? browserLang : "en";
   };
 
   const [language, setLanguage] = useState(detectBrowserLanguage());
