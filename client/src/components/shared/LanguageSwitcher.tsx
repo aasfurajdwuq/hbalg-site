@@ -39,19 +39,9 @@ const LanguageSwitcher = ({ isMobile = false, isFooter = false }: LanguageSwitch
   const handleLanguageChange = (code: string) => {
     console.log("Changing language to:", code);
     
-    // First save to localStorage directly to ensure it persists
-    localStorage.setItem("preferredLanguage", code);
-    console.log("Language saved to localStorage:", code);
-    
-    // Then call the context function to update the state
+    // Call the context function to update the state and update URL
     changeLanguage(code);
     setIsOpen(false);
-    
-    // Force page reload to ensure all components update with the new language
-    setTimeout(() => {
-      console.log("Reloading page...");
-      window.location.reload();
-    }, 100); // Small delay to ensure localStorage is updated
   };
 
   // Different styling for footer

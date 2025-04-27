@@ -1,4 +1,4 @@
-import { createContext, useContext, useState, ReactNode } from "react";
+import { createContext, useContext, useState, useEffect, ReactNode } from "react";
 import React from "react";
 import { locales, defaultLocale, type Locale } from "@/locales";
 
@@ -20,10 +20,30 @@ const LanguageContext = createContext<LanguageContextType>({
   t: (key: string) => key,
 });
 
+// Get language from URL or use default
+const getLanguageFromUrl = (): string | null => {
+  try {
+    const params = new URLSearchParams(window.location.search);
+    const langParam = params.get('lang');
+    
+    if (langParam && Object.keys(locales).includes(langParam)) {
+      console.log("Using language from URL:", langParam);
+      return langParam;
+    }
+  } catch (error) {
+    console.error("Error getting language from URL:", error);
+  }
+  return null;
+};
+
 export const LanguageProvider = (props: {children: ReactNode}) => {
-  const detectBrowserLanguage = (): string => {
+  const detectLanguage = (): string => {
     try {
-      // First check if we have a stored preference
+      // First check URL parameter
+      const urlLang = getLanguageFromUrl();
+      if (urlLang) return urlLang;
+      
+      // Then check localStorage
       const storedLang = localStorage.getItem("preferredLanguage");
       console.log("Stored language found:", storedLang);
       
@@ -59,13 +79,29 @@ export const LanguageProvider = (props: {children: ReactNode}) => {
     }
   };
 
-  const [language, setLanguage] = useState(detectBrowserLanguage());
+  const [language, setLanguage] = useState(detectLanguage());
   const [dir, setDir] = useState<"ltr" | "rtl">(rtlLanguages.includes(language) ? "rtl" : "ltr");
+
+  // Set the document dir attribute
+  useEffect(() => {
+    document.documentElement.dir = dir;
+    document.documentElement.lang = language;
+  }, [dir, language]);
 
   const changeLanguage = (lang: string) => {
     if (locales[lang]) {
-      setLanguage(lang);
+      console.log("Changing language to:", lang);
+      
+      // Update URL with new language
+      const url = new URL(window.location.href);
+      url.searchParams.set('lang', lang);
+      window.history.pushState({}, '', url);
+      
+      // Store in localStorage as backup
       localStorage.setItem("preferredLanguage", lang);
+      
+      // Update UI language and direction
+      setLanguage(lang);
       setDir(rtlLanguages.includes(lang) ? "rtl" : "ltr");
     }
   };
