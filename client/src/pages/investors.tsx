@@ -1,594 +1,451 @@
-import { useRef, useState } from "react";
+import { useRef } from "react";
 import { Helmet } from "react-helmet";
-import { motion, useScroll, useTransform, useInView, AnimatePresence } from "framer-motion";
-import { useLanguage } from "@/lib/i18n";
-import { bestInAlgeriaBadge } from '@/assets/image-imports';
-import { FaChartLine, FaLeaf, FaHandshake, FaUsers } from "react-icons/fa";
+import { motion, useInView } from "framer-motion";
+import { Link } from "wouter";
+import { FaChartLine, FaHandHoldingUsd, FaUserTie, FaLeaf, FaMoneyBillWave, FaChartBar } from "react-icons/fa";
+import EmailJSForm from "@/components/forms/EmailJSForm";
 
-// Animated Chart Component
-const AnimatedChart = ({ inView }) => {
-  const yieldData = [
-    { year: "2023", value: 6.0, color: "#4CAF50" },
-    { year: "2024", value: 7.5, color: "#66BB6A" },
-    { year: "2025", value: 8.5, color: "#81C784" },
-    { year: "2026", value: 9.5, color: "#A5D6A7", projected: true }
-  ];
-
-  return (
-    <div className="bg-white rounded-2xl shadow-xl p-8 h-full">
-      <h3 className="text-2xl font-bold mb-8 text-center">Yield Performance</h3>
-      
-      <div className="w-full flex flex-col">
-        {/* Chart */}
-        <div className="grid grid-cols-4 gap-4 mb-6">
-          {yieldData.map((item, i) => (
-            <motion.div 
-              key={i}
-              className="flex flex-col items-center"
-              initial={{ opacity: 0, y: 20 }}
-              animate={inView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
-              transition={{ 
-                duration: 0.6,
-                delay: 0.2 + (i * 0.1),
-              }}
-            >
-              <div className="w-full h-[180px] flex items-end justify-center mb-4">
-                <motion.div
-                  className="w-20 rounded-t-lg relative flex items-center justify-center"
-                  style={{ 
-                    backgroundColor: item.color,
-                    height: `${(item.value / 10) * 100}%`
-                  }}
-                  initial={{ height: 0 }}
-                  animate={inView ? { height: `${(item.value / 10) * 100}%` } : { height: 0 }}
-                  transition={{ 
-                    duration: 0.8,
-                    delay: 0.4 + (i * 0.1),
-                  }}
-                >
-                  <motion.div
-                    className="absolute -top-10 text-center"
-                    initial={{ opacity: 0 }}
-                    animate={inView ? { opacity: 1 } : { opacity: 0 }}
-                    transition={{ delay: 0.8 + (i * 0.1) }}
-                  >
-                    <div className="text-2xl font-bold text-gray-800">{item.value}%</div>
-                  </motion.div>
-                </motion.div>
-              </div>
-              <div className="text-center">
-                <div className="font-medium text-lg">{item.year}</div>
-                {item.projected && (
-                  <div className="text-sm text-gray-500 mt-1">(Projected)</div>
-                )}
-              </div>
-            </motion.div>
-          ))}
-        </div>
-        
-        {/* Horizontal line */}
-        <div className="w-full h-px bg-gray-200 mb-4"></div>
-        
-        {/* Caption */}
-        <div className="text-center text-gray-500">
-          <p>Annual yield performance from 2023 to 2026 (projected)</p>
-        </div>
-      </div>
-    </div>
-  );
-};
-
-// Animated Number Counter
-const CountUp = ({ end, suffix = "", duration = 2, inView }) => {
-  const [count, setCount] = useState(0);
-  
-  const nodeRef = useRef(null);
-  
-  // Animate the count when in view
-  useState(() => {
-    if (!inView) return;
-    
-    let startTime;
-    let requestId;
-    
-    const countUp = (timestamp) => {
-      if (!startTime) startTime = timestamp;
-      const progress = Math.min((timestamp - startTime) / (duration * 1000), 1);
-      setCount(Math.floor(progress * end));
-      
-      if (progress < 1) {
-        requestId = requestAnimationFrame(countUp);
-      }
-    };
-    
-    requestId = requestAnimationFrame(countUp);
-    
-    return () => cancelAnimationFrame(requestId);
-  }, [inView, end, duration]);
-  
-  return (
-    <motion.span
-      ref={nodeRef}
-      className="text-5xl font-bold text-amber-600"
-    >
-      {count}{suffix}
-    </motion.span>
-  );
-};
-
-// ROI Calculator Component
-const ROICalculator = ({ inView }) => {
-  const [investment, setInvestment] = useState(100000);
-  const [years, setYears] = useState(5);
-  
-  const calculateROI = () => {
-    // Projected annual return: 5-10%
-    const annualReturn = 0.07; // Using 7% average
-    return Math.round(investment * Math.pow(1 + annualReturn, years));
-  };
-  
+// Animated Statistic Card Component
+const StatCard = ({ icon, title, value, description, delay = 0, isInView }) => {
   return (
     <motion.div
       initial={{ opacity: 0, y: 30 }}
-      animate={inView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
-      transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-      className="bg-white rounded-2xl shadow-xl p-8"
+      animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
+      transition={{ duration: 0.8, delay, ease: [0.16, 1, 0.3, 1] }}
+      className="bg-white rounded-2xl shadow-lg p-8 text-center"
     >
-      <h3 className="text-2xl font-bold mb-6">Investment Calculator</h3>
-      
-      <div className="space-y-6">
-        <div>
-          <label className="block mb-2 text-sm font-medium text-gray-700">Investment Amount ($)</label>
-          <motion.input 
-            type="range" 
-            min="10000" 
-            max="1000000" 
-            step="10000" 
-            value={investment}
-            onChange={(e) => setInvestment(parseInt(e.target.value))}
-            className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer"
-            whileTap={{ scale: 1.1 }}
-          />
-          <div className="flex justify-between text-sm text-gray-600 mt-1">
-            <span>$10,000</span>
-            <span className="font-medium text-amber-600">${investment.toLocaleString()}</span>
-            <span>$1,000,000</span>
-          </div>
+      <div className="inline-flex items-center justify-center w-16 h-16 bg-amber-100 rounded-full mb-6">
+        {icon}
+      </div>
+      <h3 className="text-4xl font-bold text-amber-700 mb-2">{value}</h3>
+      <h4 className="text-xl font-semibold mb-3">{title}</h4>
+      <p className="text-gray-600">{description}</p>
+    </motion.div>
+  );
+};
+
+// Team Member Card Component
+const TeamMemberCard = ({ name, title, image, description, delay = 0, isInView }) => {
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 30 }}
+      animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
+      transition={{ duration: 0.8, delay, ease: [0.16, 1, 0.3, 1] }}
+      className="bg-white rounded-2xl shadow-lg overflow-hidden"
+    >
+      <div className="h-48 bg-gradient-to-r from-amber-400 to-amber-600 flex items-center justify-center">
+        <div className="w-28 h-28 rounded-full bg-white flex items-center justify-center">
+          <FaUserTie className="text-amber-600 text-5xl" />
         </div>
-        
-        <div>
-          <label className="block mb-2 text-sm font-medium text-gray-700">Investment Period (Years)</label>
-          <motion.input 
-            type="range" 
-            min="1" 
-            max="10" 
-            value={years}
-            onChange={(e) => setYears(parseInt(e.target.value))}
-            className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer"
-            whileTap={{ scale: 1.1 }}
-          />
-          <div className="flex justify-between text-sm text-gray-600 mt-1">
-            <span>1 year</span>
-            <span className="font-medium text-amber-600">{years} years</span>
-            <span>10 years</span>
-          </div>
-        </div>
-        
-        <motion.div 
-          className="bg-gradient-to-r from-amber-50 to-green-50 p-6 rounded-xl text-center"
-          initial={{ scale: 0.9 }}
-          whileInView={{ scale: 1 }}
-          transition={{ duration: 0.5 }}
-        >
-          <div className="text-lg mb-2">Projected Return</div>
-          <motion.div 
-            initial={{ scale: 0.9, opacity: 0 }}
-            animate={{ scale: 1, opacity: 1 }}
-            key={`${investment}-${years}`} // Trigger animation on value change
-            transition={{ duration: 0.5 }}
-            className="text-4xl font-bold text-green-700"
-          >
-            ${calculateROI().toLocaleString()}
-          </motion.div>
-          <div className="text-sm text-gray-600 mt-2">Based on 5-10% projected annual yield</div>
-        </motion.div>
+      </div>
+      <div className="p-6">
+        <h3 className="text-xl font-bold mb-1">{name}</h3>
+        <p className="text-amber-600 font-medium mb-4">{title}</p>
+        <p className="text-gray-600">{description}</p>
       </div>
     </motion.div>
   );
 };
 
-// Investor Testimonial Card Component
-const TestimonialCard = ({ quote, author, company, delay, inView }) => (
-  <motion.div
-    initial={{ opacity: 0, y: 30 }}
-    animate={inView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
-    transition={{ delay, duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-    className="bg-white p-6 rounded-2xl shadow-md"
-  >
-    <div className="mb-4 text-amber-400">
-      {Array(5).fill(0).map((_, i) => (
-        <span key={i} className="mr-1">★</span>
+// Investment Card Component
+const InvestmentCard = ({ title, description, roi, features, delay = 0, isInView }) => {
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 30 }}
+      animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
+      transition={{ duration: 0.8, delay, ease: [0.16, 1, 0.3, 1] }}
+      className="bg-white rounded-2xl shadow-lg p-8"
+    >
+      <div className="mb-6">
+        <span className="inline-block px-4 py-2 rounded-full bg-amber-100 text-amber-700 font-semibold mb-4">
+          Up to {roi}% ROI
+        </span>
+        <h3 className="text-2xl font-bold mb-3">{title}</h3>
+        <p className="text-gray-600 mb-6">{description}</p>
+      </div>
+
+      <ul className="space-y-3">
+        {features.map((feature, i) => (
+          <li key={i} className="flex items-start">
+            <svg className="w-5 h-5 text-amber-500 mr-2 flex-shrink-0 mt-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+            </svg>
+            <span className="text-gray-700">{feature}</span>
+          </li>
+        ))}
+      </ul>
+
+      <div className="mt-8">
+        <Link href="/contact">
+          <a className="block w-full py-3 rounded-lg bg-amber-600 text-white text-center font-medium hover:bg-amber-700 transition-colors">
+            Learn More
+          </a>
+        </Link>
+      </div>
+    </motion.div>
+  );
+};
+
+// Animated Particles Background
+const ParticlesBackground = () => {
+  return (
+    <div className="absolute inset-0 overflow-hidden pointer-events-none">
+      {Array.from({ length: 30 }).map((_, i) => (
+        <motion.div
+          key={i}
+          className="absolute rounded-full bg-amber-400/30"
+          style={{
+            width: Math.random() * 8 + 4,
+            height: Math.random() * 8 + 4,
+            top: `${Math.random() * 100}%`,
+            left: `${Math.random() * 100}%`,
+          }}
+          animate={{
+            y: [0, Math.random() * 100 - 50],
+            x: [0, Math.random() * 100 - 50],
+            opacity: [0, 0.5, 0],
+          }}
+          transition={{
+            duration: 10 + Math.random() * 20,
+            repeat: Infinity,
+            delay: Math.random() * 5,
+          }}
+        />
       ))}
     </div>
-    <p className="text-gray-700 mb-4 italic">"{quote}"</p>
-    <div className="flex items-center">
-      <div className="w-12 h-12 rounded-full bg-gradient-to-br from-amber-400 to-amber-600 flex items-center justify-center text-white font-bold text-xl">
-        {author.charAt(0)}
-      </div>
-      <div className="ml-3">
-        <div className="font-medium">{author}</div>
-        <div className="text-sm text-gray-500">{company}</div>
-      </div>
-    </div>
-  </motion.div>
-);
+  );
+};
 
-// Main Component
-const Investors = () => {
-  const { t } = useLanguage();
-  
+export default function Investors() {
   // References for scroll animations
-  const headerRef = useRef(null);
   const statsRef = useRef(null);
-  const chartRef = useRef(null);
-  const benefitsRef = useRef(null);
-  const testimonialsRef = useRef(null);
-  const contactRef = useRef(null);
+  const teamRef = useRef(null);
+  const investmentOptionsRef = useRef(null);
+  const formRef = useRef(null);
   
-  // Check if elements are in view
-  const isStatsInView = useInView(statsRef, { once: true, amount: 0.3 });
-  const isChartInView = useInView(chartRef, { once: true, amount: 0.3 });
-  const isBenefitsInView = useInView(benefitsRef, { once: true, amount: 0.3 });
-  const isTestimonialsInView = useInView(testimonialsRef, { once: true, amount: 0.3 });
-  const isContactInView = useInView(contactRef, { once: true, amount: 0.3 });
+  // Check if sections are in view
+  const isStatsInView = useInView(statsRef, { once: true, amount: 0.2 });
+  const isTeamInView = useInView(teamRef, { once: true, amount: 0.2 });
+  const isInvestmentOptionsInView = useInView(investmentOptionsRef, { once: true, amount: 0.2 });
+  const isFormInView = useInView(formRef, { once: true, amount: 0.2 });
   
-  // Parallax for header
-  const { scrollYProgress } = useScroll({
-    target: headerRef,
-    offset: ["start start", "end start"]
-  });
+  // Statistics data
+  const stats = [
+    {
+      icon: <FaChartLine className="text-amber-600 text-2xl" />,
+      title: "Average ROI",
+      value: "7%",
+      description: "Annual return on investment across our agricultural portfolio",
+      delay: 0
+    },
+    {
+      icon: <FaLeaf className="text-amber-600 text-2xl" />,
+      title: "Hectares",
+      value: "3,200+",
+      description: "Total farmland under management in prime Algerian locations",
+      delay: 0.2
+    },
+    {
+      icon: <FaUserTie className="text-amber-600 text-2xl" />,
+      title: "Jobs Created",
+      value: "100+",
+      description: "Employment opportunities generated for local communities",
+      delay: 0.4
+    },
+    {
+      icon: <FaMoneyBillWave className="text-amber-600 text-2xl" />,
+      title: "Total Investment",
+      value: "$10M+",
+      description: "Capital deployed across various agricultural initiatives",
+      delay: 0.6
+    },
+  ];
   
-  const headerY = useTransform(scrollYProgress, [0, 1], [0, 150]);
-  const headerScale = useTransform(scrollYProgress, [0, 1], [1, 1.1]);
-  const headerOpacity = useTransform(scrollYProgress, [0, 0.8], [1, 0]);
+  // Team members data
+  const teamMembers = [
+    {
+      name: "Karim Hamdani",
+      title: "Founder & CEO",
+      description: "With over 15 years in agribusiness, Karim leads our mission to transform Algerian agriculture through sustainable practices and innovative technologies.",
+      delay: 0
+    },
+    {
+      name: "Adam Benali",
+      title: "Vice President",
+      description: "Adam oversees operations and strategic initiatives, bringing his expertise in agricultural economics and international market development.",
+      delay: 0.2
+    },
+    {
+      name: "Slimane Bouaziz",
+      title: "Finance Director",
+      description: "Slimane manages our investor relations and financial planning, with a background in agricultural finance and commodity markets.",
+      delay: 0.4
+    }
+  ];
+  
+  // Investment options data
+  const investmentOptions = [
+    {
+      title: "Premium Crop Program",
+      description: "Direct investment in our premium desert crop cultivation, with priority access to harvest profits.",
+      roi: "5-8",
+      features: [
+        "Minimum investment: $25,000",
+        "2-year minimum commitment",
+        "Quarterly dividend payments",
+        "Annual performance reports",
+        "Farm visit opportunities"
+      ],
+      delay: 0
+    },
+    {
+      title: "Expansion Partnership",
+      description: "Strategic partnership for expanding our cultivation to new regions with proven agricultural potential.",
+      roi: "6-9",
+      features: [
+        "Minimum investment: $100,000",
+        "3-year minimum commitment",
+        "Semi-annual dividend payments",
+        "Detailed project progress reports",
+        "Named recognition at farm sites"
+      ],
+      delay: 0.2
+    },
+    {
+      title: "Innovation Fund",
+      description: "Investment in our agricultural technology initiatives, including irrigation systems and sustainable farming methods.",
+      roi: "7-10",
+      features: [
+        "Minimum investment: $50,000",
+        "2-year minimum commitment",
+        "Technology licensing opportunities",
+        "Quarterly progress meetings",
+        "Early access to new developments"
+      ],
+      delay: 0.4
+    }
+  ];
+  
+  // EmailJS configuration for investor form
+  const serviceId = "service_7rtmy0o";
+  const templateId = "template_jkkcq1l";
+  const publicKey = "rjdn_Wt8FhMSIEIvQ";
+  const toEmail = "support@hbalg.com";
   
   return (
     <>
       <Helmet>
         <title>Investment Opportunities | Harvest Brothers</title>
-        <meta name="description" content="Discover premium investment opportunities in sustainable Algerian agriculture with industry-leading returns and ecological benefits." />
+        <meta name="description" content="Discover premium investment opportunities in agricultural operations with Harvest Brothers. Enjoy attractive returns while supporting sustainable farming in Algeria." />
       </Helmet>
       
-      {/* Parallax Header */}
-      <motion.section
-        ref={headerRef}
-        className="relative h-[80vh] overflow-hidden flex items-center justify-center bg-black"
-      >
-        <motion.div 
-          className="absolute inset-0 z-0"
-          style={{ 
-            y: headerY,
-            scale: headerScale,
-            opacity: headerOpacity
-          }}
-        >
-          <div className="absolute inset-0 bg-gradient-to-b from-black/70 to-black/40 z-10" />
-          <img 
-            src="https://images.unsplash.com/photo-1620213391001-df610d89c4e3?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=90" 
-            alt="Agricultural investment" 
-            className="w-full h-full object-cover"
-          />
-        </motion.div>
+      {/* Hero Section */}
+      <section className="relative py-20 bg-gradient-to-r from-amber-700 to-amber-900 text-white overflow-hidden">
+        <ParticlesBackground />
         
-        <div className="container mx-auto px-4 relative z-20 text-white">
-          <div className="max-w-3xl mx-auto text-center">
-            <motion.img 
-              src={bestInAlgeriaBadge}
-              alt="Best in Algeria"
-              className="w-24 h-24 mx-auto mb-6"
-              initial={{ opacity: 0, scale: 0.8, rotate: -10 }}
-              animate={{ opacity: 1, scale: 1, rotate: 0 }}
-              transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-            />
-            
-            <motion.h1 
+        <div className="container mx-auto px-4 relative z-10">
+          <div className="max-w-4xl mx-auto text-center">
+            <motion.h1
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.2, duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+              transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
               className="text-4xl md:text-6xl font-bold mb-6 tracking-tight"
             >
-              Premium Agricultural Investments
+              Premium Investment Opportunities
             </motion.h1>
             
             <motion.p
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.4, duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-              className="text-xl font-light mb-8"
+              transition={{ delay: 0.2, duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+              className="text-xl md:text-2xl font-light mb-10"
             >
-              Join our growing community of investors who are transforming agriculture while earning exceptional returns
+              Partner with Harvest Brothers to cultivate sustainable growth and premium returns through innovative agricultural investments.
             </motion.p>
             
             <motion.div
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.6, duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+              transition={{ delay: 0.4, duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
             >
-              <a href="#contact-form">
-                <button className="bg-white text-green-800 py-4 px-8 rounded-full font-medium shadow-lg hover:bg-opacity-90 transition-all duration-300">
-                  Get Investment Proposal
-                </button>
-              </a>
+              <Link href="#investment-form">
+                <a className="inline-block px-8 py-4 bg-white text-amber-700 rounded-lg font-bold shadow-lg hover:bg-gray-100 transition-colors">
+                  Explore Opportunities
+                </a>
+              </Link>
             </motion.div>
           </div>
         </div>
-        
-        {/* Subtle scroll hint */}
-        <motion.div
-          className="absolute bottom-8 left-1/2 transform -translate-x-1/2"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 1, duration: 0.6 }}
-        >
-          <motion.div 
-            animate={{ y: [0, 10, 0] }}
-            transition={{ duration: 1.5, repeat: Infinity, repeatType: "loop" }}
-          >
-            <svg width="40" height="40" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path d="M12 5L12 19M12 19L19 12M12 19L5 12" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-            </svg>
-          </motion.div>
-        </motion.div>
-      </motion.section>
+      </section>
       
       {/* Statistics Section */}
-      <section ref={statsRef} className="py-20 bg-white">
+      <section ref={statsRef} className="py-20 bg-gray-50">
         <div className="container mx-auto px-4">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-10">
-            {[
-              { value: 7, suffix: "%", label: "Average Annual Return", icon: <FaChartLine className="text-amber-500 text-5xl mb-4" /> },
-              { value: 500, suffix: "+", label: "Hectares Under Management", icon: <FaLeaf className="text-green-500 text-5xl mb-4" /> },
-              { value: 10, suffix: "M", label: "Total Investment Managed", icon: <FaHandshake className="text-blue-500 text-5xl mb-4" /> }
-            ].map((stat, i) => (
-              <motion.div
-                key={i}
-                initial={{ opacity: 0, y: 30 }}
-                animate={isStatsInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
-                transition={{ 
-                  delay: i * 0.2,
-                  duration: 0.8, 
-                  ease: [0.16, 1, 0.3, 1]
-                }}
-                className="bg-white rounded-2xl p-8 text-center shadow-md border border-gray-100"
-              >
-                {stat.icon}
-                <div className="h-16 flex items-center justify-center">
-                  {isStatsInView && <CountUp end={stat.value} suffix={stat.suffix} inView={isStatsInView} />}
-                </div>
-                <div className="text-lg text-gray-600">{stat.label}</div>
-              </motion.div>
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={isStatsInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
+            transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+            className="text-center mb-16"
+          >
+            <h2 className="text-3xl font-bold mb-6 tracking-tight">Our Investment Performance</h2>
+            <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+              Since our founding in 2022, we've consistently delivered attractive returns while expanding our agricultural operations
+            </p>
+          </motion.div>
+          
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+            {stats.map((stat, i) => (
+              <StatCard 
+                key={i} 
+                icon={stat.icon} 
+                title={stat.title} 
+                value={stat.value} 
+                description={stat.description} 
+                delay={stat.delay}
+                isInView={isStatsInView}
+              />
             ))}
           </div>
         </div>
       </section>
       
-      {/* Chart Section */}
-      <section ref={chartRef} className="py-20 bg-gray-50">
+      {/* Team Section */}
+      <section ref={teamRef} className="py-20 bg-white">
         <div className="container mx-auto px-4">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
-            animate={isChartInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
+            animate={isTeamInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
             transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
             className="text-center mb-16"
           >
-            <h2 className="text-4xl font-bold mb-6 tracking-tight">Performance Analytics</h2>
+            <h2 className="text-3xl font-bold mb-6 tracking-tight">Meet Our Leadership Team</h2>
             <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-              Tracking our consistent growth and exceptional yield performance
-            </p>
-          </motion.div>
-          
-          <div className="flex flex-col md:flex-row gap-10">
-            <div className="md:w-1/2">
-              <AnimatedChart inView={isChartInView} />
-            </div>
-            <div className="md:w-1/2">
-              <ROICalculator inView={isChartInView} />
-            </div>
-          </div>
-        </div>
-      </section>
-      
-      {/* Investment Benefits */}
-      <section ref={benefitsRef} className="py-20 bg-gradient-to-r from-amber-50 to-green-50">
-        <div className="container mx-auto px-4">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={isBenefitsInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
-            transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-            className="text-center mb-16"
-          >
-            <h2 className="text-4xl font-bold mb-6 tracking-tight">Investment Benefits</h2>
-            <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-              More than just financial returns—sustainable impact with tangible benefits
-            </p>
-          </motion.div>
-          
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-y-16 gap-x-8">
-            {[
-              {
-                title: "Strong Financial Returns",
-                description: "5-10% average annual return, significantly outperforming traditional agricultural investments.",
-                icon: <motion.div whileHover={{ scale: 1.1, rotate: 5 }} className="w-16 h-16 rounded-full bg-amber-100 flex items-center justify-center">
-                  <svg className="w-8 h-8 text-amber-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                  </svg>
-                </motion.div>
-              },
-              {
-                title: "Diversification Benefits",
-                description: "Agricultural investments have shown low correlation with traditional asset classes, providing portfolio diversification.",
-                icon: <motion.div whileHover={{ scale: 1.1, rotate: -5 }} className="w-16 h-16 rounded-full bg-blue-100 flex items-center justify-center">
-                  <svg className="w-8 h-8 text-blue-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
-                  </svg>
-                </motion.div>
-              },
-              {
-                title: "Inflation Protection",
-                description: "Agricultural commodities typically appreciate during inflationary periods, providing a natural hedge.",
-                icon: <motion.div whileHover={{ scale: 1.1, rotate: 5 }} className="w-16 h-16 rounded-full bg-green-100 flex items-center justify-center">
-                  <svg className="w-8 h-8 text-green-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
-                  </svg>
-                </motion.div>
-              },
-              {
-                title: "Environmental Impact",
-                description: "Our sustainable practices sequester carbon, protect biodiversity, and preserve water resources.",
-                icon: <motion.div whileHover={{ scale: 1.1, rotate: -5 }} className="w-16 h-16 rounded-full bg-emerald-100 flex items-center justify-center">
-                  <svg className="w-8 h-8 text-emerald-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                  </svg>
-                </motion.div>
-              }
-            ].map((benefit, i) => (
-              <motion.div
-                key={i}
-                initial={{ opacity: 0, y: 20 }}
-                animate={isBenefitsInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
-                transition={{ 
-                  delay: 0.2 + (i * 0.1),
-                  duration: 0.6, 
-                }}
-                className="flex"
-              >
-                <div className="mr-6">
-                  {benefit.icon}
-                </div>
-                <div>
-                  <h3 className="text-xl font-bold mb-2">{benefit.title}</h3>
-                  <p className="text-gray-600">{benefit.description}</p>
-                </div>
-              </motion.div>
-            ))}
-          </div>
-        </div>
-      </section>
-      
-      {/* Testimonials */}
-      <section ref={testimonialsRef} className="py-20 bg-white">
-        <div className="container mx-auto px-4">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={isTestimonialsInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
-            transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-            className="text-center mb-16"
-          >
-            <h2 className="text-4xl font-bold mb-6 tracking-tight">Investor Testimonials</h2>
-            <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-              Hear from our community of investors who have experienced the benefits firsthand
+              Our experienced team combines agricultural expertise with financial acumen to deliver consistent results
             </p>
           </motion.div>
           
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            <TestimonialCard 
-              quote="My investment in Harvest Brothers has consistently outperformed my traditional portfolio. Their transparent reporting and sustainable practices give me confidence in both the financial and ecological returns."
-              author="Mohammed Al-Fasi"
-              company="Private Investor"
-              delay={0}
-              inView={isTestimonialsInView}
-            />
-            <TestimonialCard 
-              quote="As someone deeply concerned about climate change, I was looking for investments that aligned with my values. Harvest Brothers delivers exceptional returns while regenerating the land—exactly what I was searching for."
-              author="Amina Khalidi"
-              company="Green Capital Partners"
-              delay={0.2}
-              inView={isTestimonialsInView}
-            />
-            <TestimonialCard 
-              quote="The team's agricultural expertise is impressive. They've transformed desert lands into productive farmland and my investment has grown substantially. Their regular updates and farm visits make me feel connected to the project."
-              author="Ahmed Benali"
-              company="Sustainable Growth Fund"
-              delay={0.4}
-              inView={isTestimonialsInView}
-            />
+            {teamMembers.map((member, i) => (
+              <TeamMemberCard 
+                key={i} 
+                name={member.name} 
+                title={member.title} 
+                description={member.description} 
+                delay={member.delay}
+                isInView={isTeamInView}
+              />
+            ))}
           </div>
         </div>
       </section>
       
-      {/* Contact Form */}
-      <section id="contact-form" ref={contactRef} className="py-20 bg-gradient-to-r from-green-800 to-amber-700 text-white">
+      {/* Investment Options Section */}
+      <section ref={investmentOptionsRef} className="py-20 bg-gray-50">
         <div className="container mx-auto px-4">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={isInvestmentOptionsInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
+            transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+            className="text-center mb-16"
+          >
+            <h2 className="text-3xl font-bold mb-6 tracking-tight">Investment Opportunities</h2>
+            <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+              Choose from our curated selection of investment options tailored to different objectives and commitment levels
+            </p>
+          </motion.div>
+          
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            {investmentOptions.map((option, i) => (
+              <InvestmentCard 
+                key={i} 
+                title={option.title} 
+                description={option.description} 
+                roi={option.roi} 
+                features={option.features} 
+                delay={option.delay}
+                isInView={isInvestmentOptionsInView}
+              />
+            ))}
+          </div>
+        </div>
+      </section>
+      
+      {/* Investment Form Section */}
+      <section id="investment-form" ref={formRef} className="py-20 bg-white">
+        <div className="container mx-auto px-4">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={isFormInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
+            transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+            className="text-center mb-16"
+          >
+            <h2 className="text-3xl font-bold mb-6 tracking-tight">Begin Your Investment Journey</h2>
+            <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+              Fill out the form below to express your interest, and our investment team will contact you to discuss opportunities tailored to your goals
+            </p>
+          </motion.div>
+          
           <div className="max-w-3xl mx-auto">
             <motion.div
               initial={{ opacity: 0, y: 20 }}
-              animate={isContactInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
-              transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-              className="text-center mb-12"
+              animate={isFormInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
+              transition={{ delay: 0.2, duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
             >
-              <h2 className="text-4xl font-bold mb-6 tracking-tight">Become an Investor</h2>
-              <p className="text-xl font-light">
-                Complete the form below to receive our detailed investment prospectus and schedule a consultation
-              </p>
-            </motion.div>
-            
-            <motion.div
-              initial={{ opacity: 0, y: 30 }}
-              animate={isContactInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
-              transition={{ delay: 0.3, duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-              className="bg-white text-gray-800 rounded-2xl p-8 shadow-xl"
-            >
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
-                <div>
-                  <label className="block mb-2 text-sm font-medium">Full Name</label>
-                  <input 
-                    type="text" 
-                    className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-amber-500 focus:border-transparent"
-                    placeholder="Your name"
-                  />
-                </div>
-                <div>
-                  <label className="block mb-2 text-sm font-medium">Email Address</label>
-                  <input 
-                    type="email" 
-                    className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-amber-500 focus:border-transparent"
-                    placeholder="your.email@example.com"
-                  />
-                </div>
-              </div>
-              
-              <div className="mb-6">
-                <label className="block mb-2 text-sm font-medium">Investment Interest</label>
-                <select className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-amber-500 focus:border-transparent">
-                  <option value="" disabled selected>Select your investment range</option>
-                  <option value="10k-50k">$10,000 - $50,000</option>
-                  <option value="50k-100k">$50,000 - $100,000</option>
-                  <option value="100k-500k">$100,000 - $500,000</option>
-                  <option value="500k+">$500,000+</option>
-                </select>
-              </div>
-              
-              <div className="mb-6">
-                <label className="block mb-2 text-sm font-medium">Message (Optional)</label>
-                <textarea 
-                  className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-amber-500 focus:border-transparent h-32"
-                  placeholder="Any specific questions or interests?"
-                ></textarea>
-              </div>
-              
-              <motion.button
-                whileHover={{ scale: 1.02 }}
-                whileTap={{ scale: 0.98 }}
-                className="w-full py-4 bg-gradient-to-r from-amber-600 to-amber-700 text-white font-medium rounded-lg shadow-md transition-all duration-300"
-              >
-                Request Investment Information
-              </motion.button>
+              <EmailJSForm 
+                serviceId={serviceId}
+                templateId={templateId}
+                publicKey={publicKey}
+                toEmail={toEmail}
+                formType="investor"
+                title="Investor Information"
+              />
             </motion.div>
           </div>
         </div>
       </section>
+      
+      {/* Call to Action */}
+      <section className="py-20 bg-gradient-to-r from-amber-600 to-amber-800 text-white">
+        <div className="container mx-auto px-4">
+          <motion.div 
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, amount: 0.2 }}
+            transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+            className="text-center mb-16"
+          >
+            <h2 className="text-3xl md:text-4xl font-bold mb-6">Ready to Grow with Us?</h2>
+            <p className="text-xl text-white/80 max-w-3xl mx-auto">
+              Join our community of investors who are cultivating returns while supporting sustainable agricultural development in Algeria.
+            </p>
+          </motion.div>
+          
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, amount: 0.2 }}
+            transition={{ delay: 0.3, duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+            className="flex flex-wrap justify-center gap-6"
+          >
+            <motion.a
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.97 }}
+              href="#investment-form"
+              className="px-8 py-4 rounded-lg bg-white text-amber-700 font-semibold shadow-lg hover:shadow-xl transition-all duration-300"
+            >
+              Start Investing Now
+            </motion.a>
+            <motion.a
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.97 }}
+              href="/contact"
+              className="px-8 py-4 rounded-lg bg-amber-900 text-white font-semibold shadow-lg hover:shadow-xl transition-all duration-300"
+            >
+              Contact Our Team
+            </motion.a>
+          </motion.div>
+        </div>
+      </section>
     </>
   );
-};
-
-export default Investors;
+}
