@@ -10,7 +10,7 @@ type LanguageContextType = {
   t: (key: string) => string;
 };
 
-const rtlLanguages = ["ar", "ur"];
+const rtlLanguages = ["ar", "ar-dz", "ur"];
 
 const LanguageContext = createContext<LanguageContextType>({
   language: "en",

@@ -10,10 +10,12 @@ type LanguageSwitcherProps = {
 
 const languages = [
   { code: "en", name: "English" },
-  { code: "ar", name: "العربية" },
+  { code: "ar", name: "العربية" },  // Standard Arabic
+  { code: "ar-dz", name: "الدارجة الجزائرية" },  // Algerian Arabic
   { code: "fr", name: "Français" },
-  { code: "ur", name: "اردو" },
-  { code: "es", name: "Español" }
+  { code: "es", name: "Español" },
+  { code: "ur", name: "اردو" },  // Urdu
+  { code: "it", name: "Italiano" }  // Italian
 ];
 
 const LanguageSwitcher = ({ isMobile = false, isFooter = false }: LanguageSwitcherProps) => {
