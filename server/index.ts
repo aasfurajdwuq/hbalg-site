@@ -1,6 +1,11 @@
 import express, { type Request, Response, NextFunction } from "express";
 import { registerRoutes } from "./routes";
 import { setupVite, serveStatic, log } from "./vite";
+import { connectToDatabase } from "./db/mongodb";
+import dotenv from "dotenv";
+
+// Load environment variables
+dotenv.config();
 
 const app = express();
 app.use(express.json());
@@ -37,6 +42,17 @@ app.use((req, res, next) => {
 });
 
 (async () => {
+  try {
+    // Connect to MongoDB
+    log('Initializing MongoDB connection...', 'server');
+    await connectToDatabase();
+    log('MongoDB connected successfully', 'server');
+  } catch (error) {
+    log(`ERROR: Failed to connect to MongoDB: ${error}`, 'server');
+    // Continue with in-memory storage if MongoDB connection fails
+    log('Falling back to in-memory storage', 'server');
+  }
+  
   const server = await registerRoutes(app);
 
   app.use((err: any, _req: Request, res: Response, _next: NextFunction) => {
