@@ -8,6 +8,7 @@ on:
 jobs:
   deploy:
     runs-on: ubuntu-latest
+
     steps:
       - name: Check out repository
         uses: actions/checkout@v3
@@ -17,13 +18,11 @@ jobs:
           sudo apt-get update
           sudo apt-get install -y sshpass
 
-      - name: Deploy via rsync over SFTP
+      - name: Sync via rsync over SFTP
         run: |
-          # Prepare SFTP command
-          SSH_CMD="sshpass -p '${{ secrets.FTP_PASSWORD }}' ssh -o StrictHostKeyChecking=no -p 22"
-          export RSYNC_RSH="$SSH_CMD"
-          # Sync repo root to remote /htdocs/
+          # configure SFTP transport with sshpass
+          export RSYNC_RSH="sshpass -p '${{ secrets.FTP_PASSWORD }}' ssh -o StrictHostKeyChecking=no -p 22"
+          # one-line rsync invocation so the host string isn’t broken
           rsync -avz --delete --omit-dir-times \
-            --exclude '.git/' \
-            --exclude '.github/' \
+            --exclude '.git/' --exclude '.github/' \
             ./ "${{ secrets.FTP_USER }}@${{ secrets.FTP_HOST }}:/htdocs/"
