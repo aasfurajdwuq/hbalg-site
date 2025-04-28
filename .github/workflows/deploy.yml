@@ -22,6 +22,11 @@ jobs:
       - name: Install sshpass
         run: sudo apt-get update && sudo apt-get install -y sshpass
 
+      - name: Debug SFTP vars
+        run: |
+          echo "SSH_USER=${{ secrets.FTP_USER }}"
+          echo "SSH_HOST=${{ secrets.FTP_HOST }}"
+
       - name: Deploy dist via rsync+SFTP
         run: |
           export RSYNC_RSH="sshpass -p '${{ secrets.FTP_PASSWORD }}' ssh -o StrictHostKeyChecking=no -p 22"
