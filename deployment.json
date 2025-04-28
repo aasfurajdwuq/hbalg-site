@@ -1,0 +1,21 @@
+{
+  "name": "harvest-brothers",
+  "version": "1.0.0",
+  "build": {
+    "command": "npm run build"
+  },
+  "run": {
+    "command": "PORT=8080 NODE_ENV=production node dist/index.js || PORT=8080 NODE_ENV=production node server.js || PORT=8080 NODE_ENV=production node server.cjs"
+  },
+  "env": {
+    "NODE_ENV": "production",
+    "PORT": "8080"
+  },
+  "static": {
+    "directory": "dist/public"
+  },
+  "healthCheck": {
+    "path": "/health",
+    "port": 8080
+  }
+}
