@@ -17,7 +17,11 @@ jobs:
 
       - name: Sync via rsync over SFTP
         run: |
+          # configure SFTP transport
           export RSYNC_RSH="sshpass -p '${{ secrets.FTP_PASSWORD }}' ssh -o StrictHostKeyChecking=no -p 22"
-          # Single-line rsync—no backslashes or quotes around the remote
-          rsync -avz --delete --omit-dir-times --exclude '.git/' --exclude '.github/' \
-            ./ ${{ secrets.FTP_USER }}@${{ secrets.FTP_HOST }}:/htdocs/
+          # build remote target as one variable
+          REMOTE="\${{ secrets.FTP_USER }}@\${{ secrets.FTP_HOST }}:/htdocs/"
+          # run rsync in one go, quoting the remote
+          rsync -avz --delete --omit-dir-times \
+            --exclude '.git/' --exclude '.github/' \
+            ./ "\$REMOTE"
