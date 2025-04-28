@@ -1,4 +1,4 @@
-name: Deploy Static Site to IONOS via SFTP
+name: Build & Deploy to IONOS via SFTP
 
 on:
   push:
@@ -8,20 +8,24 @@ on:
 jobs:
   deploy:
     runs-on: ubuntu-latest
+
     steps:
       - name: Check out repository
         uses: actions/checkout@v3
 
+      - name: Build client
+        run: |
+          cd client
+          npm ci
+          npm run build
+
       - name: Install sshpass
         run: sudo apt-get update && sudo apt-get install -y sshpass
 
-      - name: Sync via rsync over SFTP
+      - name: Deploy dist via rsync+SFTP
         run: |
-          # configure SFTP transport
           export RSYNC_RSH="sshpass -p '${{ secrets.FTP_PASSWORD }}' ssh -o StrictHostKeyChecking=no -p 22"
-          # build remote target as one variable
-          REMOTE="\${{ secrets.FTP_USER }}@\${{ secrets.FTP_HOST }}:/htdocs/"
-          # run rsync in one go, quoting the remote
+          REMOTE="${{ secrets.FTP_USER }}@${{ secrets.FTP_HOST }}:/htdocs/"
           rsync -avz --delete --omit-dir-times \
             --exclude '.git/' --exclude '.github/' \
-            ./ "\$REMOTE"
+            client/dist/ "$REMOTE"
