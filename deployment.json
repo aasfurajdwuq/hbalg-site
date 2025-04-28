@@ -5,14 +5,15 @@
     "command": "npm run build"
   },
   "run": {
-    "command": "PORT=8080 NODE_ENV=production node dist/index.js || PORT=8080 NODE_ENV=production node server.js || PORT=8080 NODE_ENV=production node server.cjs"
+    "command": "PORT=8080 NODE_ENV=production node dist/index.js"
   },
   "env": {
     "NODE_ENV": "production",
-    "PORT": "8080"
+    "PORT": "8080",
+    "SESSION_SECRET": "${SESSION_SECRET}"
   },
   "static": {
-    "directory": "dist/public"
+    "directory": "dist"
   },
   "healthCheck": {
     "path": "/health",

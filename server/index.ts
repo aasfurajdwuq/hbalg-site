@@ -1,7 +1,7 @@
 import express, { type Request, Response, NextFunction } from "express";
 import { registerRoutes } from "./routes";
 import { setupVite, serveStatic, log } from "./vite";
-import { ensureProductionDirectories, logProductionStatus } from "./production-helpers";
+import { ensureProductionDirectories, logProductionStatus, configureStaticServing } from "./production-helpers";
 import dotenv from "dotenv";
 import path from "path";
 import fs from "fs";
@@ -140,20 +140,61 @@ app.use((req, res, next) => {
       } catch (error) {
         console.error('ERROR setting up static file serving:', error);
         
-        // Emergency fallback for static file serving
+        // Primary fallback using our enhanced configureStaticServing helper
         try {
-          console.log('Attempting emergency fallback for static file serving');
-          const distPath = path.resolve(process.cwd(), 'dist');
-          if (fs.existsSync(distPath)) {
-            app.use(express.static(distPath));
-            console.log('Fallback static serving from:', distPath);
-            
-            // Universal handler for client-side routing
-            app.get('*', (_req, res) => {
-              res.sendFile(path.join(distPath, 'index.html'));
-            });
+          console.log('Attempting first fallback using configureStaticServing helper');
+          if (configureStaticServing(app)) {
+            console.log('Successfully configured static file serving with enhanced helper');
           } else {
-            console.error('CRITICAL: Cannot find static files directory');
+            // Secondary emergency fallback for static file serving
+            console.log('Attempting second emergency fallback for static file serving');
+            const distPath = path.resolve(process.cwd(), 'dist');
+            if (fs.existsSync(distPath)) {
+              app.use(express.static(distPath));
+              console.log('Secondary fallback static serving from:', distPath);
+              
+              // Universal handler for client-side routing
+              app.get('*', (_req, res) => {
+                try {
+                  const indexPath = path.join(distPath, 'index.html');
+                  if (fs.existsSync(indexPath)) {
+                    res.sendFile(indexPath);
+                  } else {
+                    throw new Error('index.html not found');
+                  }
+                } catch (e) {
+                  // Last resort fallback if we can't find index.html
+                  res.send(`
+                    <!DOCTYPE html>
+                    <html lang="en">
+                    <head>
+                      <meta charset="UTF-8">
+                      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+                      <title>Harvest Brothers</title>
+                      <style>
+                        body { font-family: system-ui, -apple-system, sans-serif; margin: 0; padding: 32px; }
+                        .container { max-width: 800px; margin: 0 auto; }
+                        h1 { color: #38a169; }
+                        .message { background: #f7fafc; border-left: 4px solid #38a169; padding: 16px; margin: 16px 0; }
+                      </style>
+                    </head>
+                    <body>
+                      <div class="container">
+                        <h1>Harvest Brothers</h1>
+                        <div class="message">
+                          <p><strong>Maintenance Notice:</strong></p>
+                          <p>The application is currently being deployed or undergoing maintenance.</p>
+                          <p>Please check back shortly. If the issue persists, contact support@hbalg.com.</p>
+                        </div>
+                      </div>
+                    </body>
+                    </html>
+                  `);
+                }
+              });
+            } else {
+              console.error('CRITICAL: Cannot find static files directory');
+            }
           }
         } catch (fbError) {
           console.error('CRITICAL: Failed to set up fallback static serving:', fbError);
@@ -166,17 +207,21 @@ app.use((req, res, next) => {
     }
 
     // Server configuration with enhanced error handling
-    // Always respect PORT environment variable when provided (for deployment)
-    // Use explicit port values to avoid parsing errors
+    // In production, ALWAYS use port 8080 for Replit Deployments
+    // In development, use port 5000 to match workflow configuration
     let PORT: number;
-    if (process.env.PORT) {
+    if (process.env.NODE_ENV === 'production') {
+      // Force port 8080 for production (Replit deployments)
+      PORT = 8080;
+      console.log('Production mode detected - forcing PORT=8080 for Replit Deployments');
+    } else if (process.env.PORT) {
       PORT = parseInt(process.env.PORT, 10);
       if (isNaN(PORT)) {
-        console.warn(`Invalid PORT value: "${process.env.PORT}", using default`);
-        PORT = process.env.NODE_ENV === 'production' ? 8080 : 5000;
+        console.warn(`Invalid PORT value: "${process.env.PORT}", using default 5000`);
+        PORT = 5000;
       }
     } else {
-      PORT = process.env.NODE_ENV === 'production' ? 8080 : 5000;
+      PORT = 5000;
     }
       
     // Always bind to all interfaces for proper deployment
