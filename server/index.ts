@@ -86,14 +86,19 @@ app.use((req, res, next) => {
     await setupVite(app, server);
   }
 
-  // ALWAYS serve the app on port 5000
-  // this serves both the API and the client.
-  // It is the only port that is not firewalled.
+  // Server configuration for both local development and cloud deployment
+  // Port 5000 is used for local development, but Cloud Run may assign a different port via PORT env variable
   const port = parseInt(process.env.PORT || '5000');
+  
+  // Explicitly bind to 0.0.0.0 to listen on all network interfaces
+  // This is essential for cloud deployments like Cloud Run
   server.listen(port, '0.0.0.0', () => {
     log(`Server running on http://0.0.0.0:${port}`);
-    log(`Environment: ${process.env.NODE_ENV}`);
+    log(`Environment: ${process.env.NODE_ENV || 'development'}`);
     log(`Using SESSION_SECRET: ${process.env.SESSION_SECRET ? 'Configured' : 'Missing!'}`);
     log(`Using SENDGRID_API_KEY: ${process.env.SENDGRID_API_KEY ? 'Configured' : 'Missing!'}`);
+    
+    // Additional logging to help with cloud deployment
+    log(`Listening on port ${port} and bound to 0.0.0.0 (all interfaces)`);
   });
 })();
