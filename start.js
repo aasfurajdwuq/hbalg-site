@@ -1,9 +1,11 @@
 // Production startup script that creates necessary directories
 // and starts the server with proper environment variables
 
-const fs = require('fs');
-const path = require('path');
-//const { execSync } = require('child_process'); // No longer needed
+import { fileURLToPath } from 'url';
+import { dirname, join } from 'path';
+import fs from 'fs';
+
+const __dirname = dirname(fileURLToPath(import.meta.url));
 
 console.log('=== PRODUCTION STARTUP SCRIPT ===');
 console.log(`Node.js version: ${process.version}`);
@@ -57,12 +59,8 @@ if (!fs.existsSync(indexPath)) {
   fs.writeFileSync(indexPath, html);
 }
 
-// Start the server using ESM/CJS compatible import
+// Start the server using ESM import
 console.log('Starting server...');
-// ESM/CJS compatibility wrapper for production
-import { createRequire } from 'module';
-const require = createRequire(import.meta.url);
-
 try {
   await import('./dist/index.js');
 } catch (err) {
