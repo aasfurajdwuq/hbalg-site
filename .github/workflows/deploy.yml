@@ -13,17 +13,12 @@ jobs:
 
       - name: Deploy via SFTP (scp)
         uses: appleboy/scp-action@v0.1.2
-          rm: true
-          overwrite: true
-          rm: true
-          overwrite: true
         with:
           host: ${{ secrets.FTP_HOST }}
           username: ${{ secrets.FTP_USER }}
           password: ${{ secrets.FTP_PASSWORD }}
           port: 22
-          source: "./"         # Upload everything in the repo root
+          source: "./"
           target: "/"
-          exclude: |
-            .github/**
-            node_modules/**
+          rm: true
+          overwrite: true
