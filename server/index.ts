@@ -73,7 +73,9 @@ app.use((req, res, next) => {
   }
 
   // Server configuration optimized for both development and cloud deployment
+  // IMPORTANT: In production, we MUST use port 80 for Replit deployment
   const port = process.env.NODE_ENV === "production" ? 80 : 5000;
+  // Always bind to all interfaces
   const host = '0.0.0.0';
   
   // Environment checks moved to app initialization
