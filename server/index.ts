@@ -87,7 +87,7 @@ app.use((req, res, next) => {
   }
 
   // Server configuration for both local development and cloud deployment
-  const port = process.env.PORT ? parseInt(process.env.PORT) : 5000;
+  const port = parseInt(process.env.PORT || "5000", 10);
   
   // Explicitly bind to 0.0.0.0 to listen on all network interfaces
   server.listen(port, '0.0.0.0', () => {
