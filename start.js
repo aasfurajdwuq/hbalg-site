@@ -3,7 +3,7 @@
 
 const fs = require('fs');
 const path = require('path');
-const { execSync } = require('child_process');
+//const { execSync } = require('child_process'); // No longer needed
 
 console.log('=== PRODUCTION STARTUP SCRIPT ===');
 console.log(`Node.js version: ${process.version}`);
@@ -57,34 +57,15 @@ if (!fs.existsSync(indexPath)) {
   fs.writeFileSync(indexPath, html);
 }
 
-// Start the server
+// Start the server using ESM/CJS compatible import
 console.log('Starting server...');
+// ESM/CJS compatibility wrapper for production
+import { createRequire } from 'module';
+const require = createRequire(import.meta.url);
+
 try {
-  // Check which server file exists and run it
-  const serverFiles = [
-    path.join(distPath, 'index.js'),
-    path.join(process.cwd(), 'server.js'),
-    path.join(process.cwd(), 'server.cjs')
-  ];
-  
-  let serverFile = null;
-  for (const file of serverFiles) {
-    if (fs.existsSync(file)) {
-      serverFile = file;
-      console.log(`Found server file: ${file}`);
-      break;
-    }
-  }
-  
-  if (serverFile) {
-    console.log(`Starting server with: node ${serverFile}`);
-    // Use require instead of execSync for better process handling
-    require(serverFile);
-  } else {
-    console.error('No server file found! Checked:', serverFiles);
-    process.exit(1);
-  }
-} catch (error) {
-  console.error('Error starting server:', error);
+  await import('./dist/index.js');
+} catch (err) {
+  console.error('Error starting server:', err);
   process.exit(1);
 }
