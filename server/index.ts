@@ -122,10 +122,10 @@ app.use((req, res, next) => {
       const message = process.env.NODE_ENV === 'production' 
         ? 'Internal Server Error' 
         : (err.message || 'Internal Server Error');
-      
+
       console.error('Server error:', err);
       res.status(status).json({ message });
-      
+
       if (process.env.NODE_ENV !== 'production') {
         console.error(err.stack);
       }
@@ -139,7 +139,7 @@ app.use((req, res, next) => {
         console.log('Static file serving configured successfully');
       } catch (error) {
         console.error('ERROR setting up static file serving:', error);
-        
+
         // Primary fallback using our enhanced configureStaticServing helper
         try {
           console.log('Attempting first fallback using configureStaticServing helper');
@@ -152,7 +152,7 @@ app.use((req, res, next) => {
             if (fs.existsSync(distPath)) {
               app.use(express.static(distPath));
               console.log('Secondary fallback static serving from:', distPath);
-              
+
               // Universal handler for client-side routing
               app.get('*', (_req, res) => {
                 try {
@@ -210,41 +210,38 @@ app.use((req, res, next) => {
     // In production, ALWAYS use port 8080 for Replit Deployments
     // In development, use port 5000 to match workflow configuration
     let PORT: number;
-    if (process.env.NODE_ENV === 'production') {
-      // Force port 8080 for production (Replit deployments)
-      PORT = 8080;
-      console.log('Production mode detected - forcing PORT=8080 for Replit Deployments');
-    } else if (process.env.PORT) {
+    if (process.env.PORT) {
       PORT = parseInt(process.env.PORT, 10);
       if (isNaN(PORT)) {
-        console.warn(`Invalid PORT value: "${process.env.PORT}", using default 5000`);
-        PORT = 5000;
+        console.warn(`Invalid PORT value: "${process.env.PORT}", using default 8080`);
+        PORT = 8080;
       }
     } else {
-      PORT = 5000;
+      PORT = process.env.NODE_ENV === 'production' ? 8080 : 5000;
     }
-      
+    console.log(`Using PORT ${PORT} (${process.env.NODE_ENV} mode)`);
+
     // Always bind to all interfaces for proper deployment
     const HOST = '0.0.0.0';
-    
+
     // Start the server with comprehensive logging
     server.listen(PORT, HOST, () => {
       console.log('=== SERVER STARTED SUCCESSFULLY ===');
       // Log this specific message to notify Replit that the server is ready
       console.log(`> Server is listening on port ${PORT}`);
-      
+
       log(`Server running on port ${PORT}`);
       log(`PORT environment variable: ${process.env.PORT || 'not set (using fallback)'}`);
       log(`Environment: ${process.env.NODE_ENV || 'development'}`);
       log(`Bound to interface: ${HOST}`);
       log(`Process ID: ${process.pid}`);
       log(`Working directory: ${process.cwd()}`);
-      
+
       // Send an HTTP request to ourselves to signal the workflow system
       if (process.env.NODE_ENV === 'development') {
         try {
           console.log('Sending self-check request to trigger workflow detection...');
-          
+
           // Wait a second before sending the request to ensure the server is ready
           setTimeout(() => {
             const options = {
@@ -253,41 +250,41 @@ app.use((req, res, next) => {
               path: '/health',
               method: 'GET',
             };
-            
+
             const req = http.request(options, () => {
               console.log('Self-check complete - workflow should detect the server now');
             });
-            
+
             req.on('error', (e: Error) => {
               console.error('Self-check failed:', e.message);
             });
-            
+
             req.end();
           }, 1000);
         } catch (e) {
           console.error('Failed to send self-check request:', e);
         }
       }
-      
+
       // In production, log detailed status
       if (process.env.NODE_ENV === 'production') {
         logProductionStatus();
       }
-      
+
       log('======================================');
     }).on('error', (err: Error & {code?: string}) => {
       console.error('=== SERVER FAILED TO START ===');
       console.error(`Error: ${err.message}`);
-      
+
       if (err.code === 'EADDRINUSE') {
         console.error(`Port ${PORT} is already in use`);
       }
-      
+
       // Try an alternative port if the primary port is in use
       if (err.code === 'EADDRINUSE' && process.env.NODE_ENV === 'production') {
         const alternatePort = 3000;
         console.log(`Attempting to use alternate port: ${alternatePort}`);
-        
+
         server.listen(alternatePort, HOST, () => {
           console.log(`Server started on alternate port ${alternatePort}`);
         }).on('error', (altErr) => {
