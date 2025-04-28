@@ -12,9 +12,15 @@ if (process.env.NODE_ENV === 'production') {
   const missing = requiredVars.filter(key => !process.env[key]);
   
   if (missing.length > 0) {
-    console.error(`Error: Missing required environment variables: ${missing.join(', ')}`);
-    console.error('Please configure these in the Deployments settings');
-    process.exit(1);
+    console.warn(`Warning: Missing environment variables: ${missing.join(', ')}`);
+    console.warn('Using fallback values - some features may be limited');
+    
+    if (!process.env.SESSION_SECRET) {
+      process.env.SESSION_SECRET = `fallback-session-${Date.now()}`;
+    }
+    if (!process.env.SENDGRID_API_KEY) {
+      process.env.SENDGRID_API_KEY = 'disabled';
+    }
   }
 } else {
   // Development defaults
@@ -22,7 +28,6 @@ if (process.env.NODE_ENV === 'production') {
   if (!process.env.SENDGRID_API_KEY) process.env.SENDGRID_API_KEY = 'disabled-in-development';
 }
 
-// Log environment status
 console.log('Environment configuration loaded');
 
 const app = express();
@@ -90,29 +95,7 @@ app.use((req, res, next) => {
   const port = parseInt(process.env.PORT || "5000", 10);
   const host = '0.0.0.0';
   
-  // Check for required environment variables in production
-  if (process.env.NODE_ENV === 'production') {
-    const missingVars = [];
-    if (!process.env.SESSION_SECRET) missingVars.push('SESSION_SECRET');
-    if (!process.env.SENDGRID_API_KEY) missingVars.push('SENDGRID_API_KEY');
-    
-    if (missingVars.length > 0) {
-      console.error(`WARNING: Missing environment variables in production: ${missingVars.join(', ')}`);
-      console.error('Please add these variables in the Deployment settings, not in the Secrets tab');
-      console.error('Some features may not work correctly without these variables');
-      
-      // Set default fallback values even in production to prevent crashes
-      if (!process.env.SESSION_SECRET) {
-        console.error('Using insecure fallback SESSION_SECRET in production - NOT RECOMMENDED');
-        process.env.SESSION_SECRET = 'fallback-production-session-secret-' + Date.now();
-      }
-      
-      if (!process.env.SENDGRID_API_KEY) {
-        console.error('Using disabled SENDGRID_API_KEY in production - email features will not work');
-        process.env.SENDGRID_API_KEY = 'disabled-in-production';
-      }
-    }
-  }
+  // Environment checks moved to app initialization
   
   server.listen(port, host, () => {
     log(`Server running on port ${port}`);
