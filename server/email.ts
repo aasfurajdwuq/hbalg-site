@@ -4,11 +4,23 @@ import sgMail from '@sendgrid/mail';
 const SENDGRID_API_KEY = process.env.SENDGRID_API_KEY;
 
 // Initialize SendGrid if API key is available
-if (SENDGRID_API_KEY) {
-  sgMail.setApiKey(SENDGRID_API_KEY);
-  console.log('SendGrid API initialized successfully');
+if (SENDGRID_API_KEY && SENDGRID_API_KEY !== 'disabled-in-development') {
+  try {
+    sgMail.setApiKey(SENDGRID_API_KEY);
+    console.log('SendGrid API initialized successfully');
+  } catch (error) {
+    console.error('Failed to initialize SendGrid API:', error);
+    if (process.env.NODE_ENV === 'production') {
+      console.error('CRITICAL: Email functionality will not work in production!');
+    }
+  }
 } else {
-  console.warn('SENDGRID_API_KEY not set - email features will be disabled');
+  if (process.env.NODE_ENV === 'production') {
+    console.error('CRITICAL: SENDGRID_API_KEY not set in production - email features will not work!');
+    console.error('Please add SENDGRID_API_KEY in the Deployment settings');
+  } else {
+    console.warn('SENDGRID_API_KEY not set in development - email features will simulate success');
+  }
 }
 
 // Email address to receive notifications
@@ -31,7 +43,14 @@ interface InvestorFormData extends ContactFormData {
 }
 
 export async function sendContactEmail(data: ContactFormData): Promise<boolean> {
-  // Validate API key is present before attempting to send
+  // Handle development mode differently
+  if (process.env.NODE_ENV !== 'production') {
+    console.log('DEVELOPMENT MODE: Simulating successful contact email send');
+    console.log('Email would be sent with data:', JSON.stringify(data, null, 2));
+    return true;
+  }
+  
+  // Validate API key is present before attempting to send in production
   if (!SENDGRID_API_KEY) {
     console.error('ERROR: Cannot send contact email - SendGrid API key is not configured');
     return false;
@@ -128,7 +147,14 @@ You can reply directly to this email to respond to ${data.name}.
 }
 
 export async function sendInvestorEmail(data: InvestorFormData): Promise<boolean> {
-  // Validate API key is present before attempting to send
+  // Handle development mode differently
+  if (process.env.NODE_ENV !== 'production') {
+    console.log('DEVELOPMENT MODE: Simulating successful investor email send');
+    console.log('Investor email would be sent with data:', JSON.stringify(data, null, 2));
+    return true;
+  }
+  
+  // Validate API key is present before attempting to send in production
   if (!SENDGRID_API_KEY) {
     console.error('ERROR: Cannot send investor email - SendGrid API key is not configured');
     return false;

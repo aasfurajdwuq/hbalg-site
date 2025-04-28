@@ -6,18 +6,22 @@ import dotenv from "dotenv";
 // Load environment variables
 dotenv.config();
 
-// Set default environment variables
+// IMPORTANT: In production, these must be set in the Deployment settings
+// SESSION_SECRET - Used for session security
+// SENDGRID_API_KEY - Used for email sending
+// For development, we'll use fallback values
+
+// Set default environment variables without conditional checks
+// This ensures the app can start regardless of environment configuration
 const defaults = {
-  SESSION_SECRET: process.env.NODE_ENV === 'production' ? process.env.SESSION_SECRET : 'temporary-secret',
-  SENDGRID_API_KEY: process.env.NODE_ENV === 'production' ? process.env.SENDGRID_API_KEY : 'disabled'
+  SESSION_SECRET: 'temporary-development-secret',
+  SENDGRID_API_KEY: 'disabled-in-development'
 };
 
-// Set environment variables with fallbacks
+// Set environment variables with fallbacks - simplified approach
 Object.entries(defaults).forEach(([key, defaultValue]) => {
-  if (!process.env[key]) {
-    if (process.env.NODE_ENV === 'production') {
-      console.warn(`Warning: ${key} not set in production. Some features may be disabled.`);
-    }
+  // Only set fallbacks in development, never in production
+  if (!process.env[key] && process.env.NODE_ENV !== 'production') {
     process.env[key] = defaultValue;
   }
 });
@@ -89,12 +93,39 @@ app.use((req, res, next) => {
   // Server configuration for both local development and cloud deployment
   const port = parseInt(process.env.PORT || "5000", 10);
   
+  // Check for required environment variables in production
+  if (process.env.NODE_ENV === 'production') {
+    const missingVars = [];
+    if (!process.env.SESSION_SECRET) missingVars.push('SESSION_SECRET');
+    if (!process.env.SENDGRID_API_KEY) missingVars.push('SENDGRID_API_KEY');
+    
+    if (missingVars.length > 0) {
+      console.error(`CRITICAL ERROR: Missing required environment variables in production: ${missingVars.join(', ')}`);
+      console.error('Please add these variables in the Deployment settings, not in the Secrets tab');
+      console.error('Application cannot start safely in production without these variables');
+      // In production, we should fail fast if environment variables are missing
+      if (process.env.NODE_ENV === 'production') {
+        // Wait a moment to ensure logs are flushed before exiting
+        setTimeout(() => process.exit(1), 100);
+        return;
+      }
+    }
+  }
+  
   // Explicitly bind to 0.0.0.0 to listen on all network interfaces
   server.listen(port, '0.0.0.0', () => {
     log(`Server running on http://0.0.0.0:${port}`);
     log(`Environment: ${process.env.NODE_ENV || 'development'}`);
-    log(`Using SESSION_SECRET: ${process.env.SESSION_SECRET ? 'Configured' : 'Missing!'}`);
-    log(`Using SENDGRID_API_KEY: ${process.env.SENDGRID_API_KEY ? 'Configured' : 'Missing!'}`);
+    
+    if (process.env.NODE_ENV === 'production') {
+      // In production, just log if the variables are configured
+      log(`SESSION_SECRET: ${process.env.SESSION_SECRET ? 'Configured' : 'MISSING - APPLICATION MAY BE INSECURE'}`);
+      log(`SENDGRID_API_KEY: ${process.env.SENDGRID_API_KEY ? 'Configured' : 'MISSING - EMAIL FUNCTIONALITY DISABLED'}`);
+    } else {
+      // In development, we use fallbacks
+      log(`Using SESSION_SECRET: ${process.env.SESSION_SECRET ? 'Custom Value' : 'Default Development Value'}`);
+      log(`Using SENDGRID_API_KEY: ${process.env.SENDGRID_API_KEY ? 'Custom Value' : 'Disabled in Development'}`);
+    }
   }).on('error', (err) => {
     console.error('Server failed to start:', err);
     process.exit(1);
