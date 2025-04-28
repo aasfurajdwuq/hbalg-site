@@ -90,6 +90,7 @@ app.use((req, res, next) => {
 
   // Server configuration for both local development and cloud deployment
   const port = parseInt(process.env.PORT || "5000", 10);
+  const host = process.env.NODE_ENV === 'production' ? '0.0.0.0' : 'localhost';
   
   // Check for required environment variables in production
   if (process.env.NODE_ENV === 'production') {
@@ -115,8 +116,7 @@ app.use((req, res, next) => {
     }
   }
   
-  // Explicitly bind to 0.0.0.0 to listen on all network interfaces
-  server.listen(port, '0.0.0.0', () => {
+  server.listen(port, host, () => {
     log(`Server running on port ${port}`);
     log(`Environment: ${process.env.NODE_ENV || 'development'}`);
     log(`Bound to interface: 0.0.0.0`);
