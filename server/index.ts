@@ -73,8 +73,8 @@ app.use((req, res, next) => {
   }
 
   // Server configuration optimized for both development and cloud deployment
-  // IMPORTANT: In production, we MUST use port 80 for Replit deployment
-  const port = process.env.NODE_ENV === "production" ? 80 : 5000;
+  // IMPORTANT: Always use PORT environment variable to support Replit deployment
+  const port = parseInt(process.env.PORT || "5000", 10);
   // Always bind to all interfaces
   const host = '0.0.0.0';
   
@@ -82,6 +82,7 @@ app.use((req, res, next) => {
   
   server.listen(port, host, () => {
     log(`Server running on port ${port}`);
+    log(`PORT environment variable: ${process.env.PORT || 'not set (using default)'}`);
     log(`Environment: ${process.env.NODE_ENV || 'development'}`);
     log(`Bound to interface: ${host}`);
     log('No API keys or secrets required - app is ready for deployment');
