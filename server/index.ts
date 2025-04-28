@@ -6,19 +6,25 @@ import dotenv from "dotenv";
 // Load environment variables
 dotenv.config();
 
-// Check required environment variables
-const requiredEnvVars = ['SESSION_SECRET', 'SENDGRID_API_KEY'];
-const missingVars = requiredEnvVars.filter(varName => !process.env[varName]);
+// Set default environment variables
+const defaults = {
+  SESSION_SECRET: process.env.NODE_ENV === 'production' ? '' : 'temporary-secret',
+  SENDGRID_API_KEY: process.env.NODE_ENV === 'production' ? '' : 'disabled',
+  MONGODB_URI: process.env.NODE_ENV === 'production' ? '' : 'mongodb://localhost:27017/harvest-brothers'
+};
 
-if (missingVars.length > 0) {
-  if (process.env.NODE_ENV === 'production') {
-    throw new Error(`Missing required environment variables: ${missingVars.join(', ')}. Please configure these in deployment settings.`);
-  } else {
-    console.warn(`Warning: Missing environment variables: ${missingVars.join(', ')}. Using development fallbacks.`);
-    if (!process.env.SESSION_SECRET) process.env.SESSION_SECRET = 'temporary-secret';
-    if (!process.env.SENDGRID_API_KEY) process.env.SENDGRID_API_KEY = 'disabled';
+// Set environment variables with fallbacks
+Object.entries(defaults).forEach(([key, defaultValue]) => {
+  if (!process.env[key]) {
+    if (process.env.NODE_ENV === 'production') {
+      console.warn(`Warning: ${key} not set in production. Some features may be disabled.`);
+    }
+    process.env[key] = defaultValue;
   }
-}
+});
+
+// Log environment status
+console.log('Environment configuration loaded');
 
 const app = express();
 app.use(express.json());
