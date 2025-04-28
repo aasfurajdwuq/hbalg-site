@@ -5,7 +5,7 @@
     "command": "npm run build"
   },
   "run": {
-    "command": "PORT=8080 NODE_ENV=production node dist/index.js"
+    "command": "node start.js"
   },
   "env": {
     "NODE_ENV": "production",

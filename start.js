@@ -1,133 +1,90 @@
-// Combined startup script for both development and production environments (ES Module version)
-import express from 'express';
-import path from 'path';
-import fs from 'fs';
-import { spawn } from 'child_process';
-import { fileURLToPath } from 'url';
+// Production startup script that creates necessary directories
+// and starts the server with proper environment variables
 
-// ES Module fixes
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
+const fs = require('fs');
+const path = require('path');
+const { execSync } = require('child_process');
 
-// Determine environment
-const isDev = process.env.NODE_ENV !== 'production';
-console.log(`Starting server in ${isDev ? 'DEVELOPMENT' : 'PRODUCTION'} mode`);
+console.log('=== PRODUCTION STARTUP SCRIPT ===');
+console.log(`Node.js version: ${process.version}`);
+console.log(`Current directory: ${process.cwd()}`);
 
-// Force port 5000 in development mode to match workflow configuration
-if (isDev) {
-  process.env.PORT = '5000';
+// Set environment variables
+process.env.NODE_ENV = 'production';
+process.env.PORT = '8080';
+
+// Ensure dist directory exists
+const distPath = path.join(process.cwd(), 'dist');
+if (!fs.existsSync(distPath)) {
+  console.log(`Creating dist directory: ${distPath}`);
+  fs.mkdirSync(distPath, { recursive: true });
 }
 
-// Set port - use environment variable or default based on environment
-const PORT = parseInt(process.env.PORT || (isDev ? '5000' : '8080'), 10);
-const HOST = '0.0.0.0';
+// Ensure dist/public directory exists
+const publicPath = path.join(distPath, 'public');
+if (!fs.existsSync(publicPath)) {
+  console.log(`Creating dist/public directory: ${publicPath}`);
+  fs.mkdirSync(publicPath, { recursive: true });
+}
 
-if (isDev) {
-  console.log('Starting Vite development server');
+// Create empty index.html if it doesn't exist
+const indexPath = path.join(publicPath, 'index.html');
+if (!fs.existsSync(indexPath)) {
+  console.log(`Creating placeholder index.html: ${indexPath}`);
+  const html = `
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Harvest Brothers</title>
+  <style>
+    body { font-family: system-ui, sans-serif; margin: 0; padding: 32px; background-color: #f9fafb; }
+    .container { max-width: 800px; margin: 0 auto; }
+    h1 { color: #38a169; }
+    .message { background: #ffffff; border-left: 4px solid #38a169; padding: 16px; margin: 16px 0; box-shadow: 0 1px 3px rgba(0,0,0,0.1); }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Harvest Brothers</h1>
+    <div class="message">
+      <p>Loading application, please wait...</p>
+    </div>
+  </div>
+</body>
+</html>`;
+  fs.writeFileSync(indexPath, html);
+}
+
+// Start the server
+console.log('Starting server...');
+try {
+  // Check which server file exists and run it
+  const serverFiles = [
+    path.join(distPath, 'index.js'),
+    path.join(process.cwd(), 'server.js'),
+    path.join(process.cwd(), 'server.cjs')
+  ];
   
-  // Start a simple Express server first to signal the workflow
-  const app = express();
-  app.get('*', (req, res) => {
-    res.send('Development server starting...');
-  });
-  
-  const server = app.listen(PORT, HOST, () => {
-    console.log(`Server listening on port ${PORT}`);
-    // Output special message for Replit workflow detection
-    console.log(`> Ready on port ${PORT}`);
-    console.log('Starting development workflow...');
-    
-    // Start the actual development server as a child process
-    const devProcess = spawn('npm', ['run', 'dev'], {
-      stdio: 'inherit',
-      env: { ...process.env, PORT: PORT.toString() }
-    });
-    
-    devProcess.on('error', (err) => {
-      console.error('Failed to start development server:', err);
-    });
-  });
-} else {
-  // Production mode
-  console.log('Starting production server');
-  
-  // Create Express application
-  const app = express();
-  
-  // Add health check endpoint
-  app.get('/health', (req, res) => {
-    res.status(200).json({ 
-      status: 'ok', 
-      timestamp: new Date().toISOString(),
-      environment: process.env.NODE_ENV,
-      version: '1.0'
-    });
-  });
-  
-  // Check if dist directory exists
-  const distPublicPath = path.join(process.cwd(), 'dist', 'public');
-  const distPath = path.join(process.cwd(), 'dist');
-  
-  let staticPath = null;
-  
-  // Try to find a valid static files path
-  if (fs.existsSync(distPublicPath)) {
-    console.log(`Found static files directory at: ${distPublicPath}`);
-    staticPath = distPublicPath;
-  } else if (fs.existsSync(distPath)) {
-    console.log(`Found static files directory at: ${distPath}`);
-    staticPath = distPath;
-  } else {
-    console.error('ERROR: Could not find static files directory');
-    console.log('Check if the build process completed successfully');
-    // Fallback to current directory
-    staticPath = process.cwd();
-    console.log(`Using fallback static path: ${staticPath}`);
+  let serverFile = null;
+  for (const file of serverFiles) {
+    if (fs.existsSync(file)) {
+      serverFile = file;
+      console.log(`Found server file: ${file}`);
+      break;
+    }
   }
   
-  // Serve static files
-  app.use(express.static(staticPath));
-  
-  // Add fallback route for client-side routing
-  app.get('*', (req, res) => {
-    const indexPath = path.join(staticPath, 'index.html');
-    
-    if (fs.existsSync(indexPath)) {
-      res.sendFile(indexPath);
-    } else {
-      // Create an emergency index.html
-      res.send(`
-        <!DOCTYPE html>
-        <html>
-          <head>
-            <title>Harvest Brothers</title>
-            <meta charset="UTF-8">
-            <meta name="viewport" content="width=device-width, initial-scale=1.0">
-            <style>
-              body { font-family: system-ui, -apple-system, sans-serif; margin: 0; padding: 32px; }
-              .container { max-width: 800px; margin: 0 auto; }
-              h1 { color: #38a169; }
-              .message { background: #f7fafc; border-left: 4px solid #38a169; padding: 16px; margin: 16px 0; }
-            </style>
-          </head>
-          <body>
-            <div class="container">
-              <h1>Harvest Brothers</h1>
-              <div class="message">
-                <p><strong>Maintenance Notice:</strong></p>
-                <p>The application is currently being deployed or undergoing maintenance.</p>
-                <p>Please check back shortly. If the issue persists, contact support.</p>
-              </div>
-            </div>
-          </body>
-        </html>
-      `);
-    }
-  });
-  
-  // Start server
-  app.listen(PORT, HOST, () => {
-    console.log(`Server running at http://${HOST}:${PORT}/`);
-    console.log('=== SERVER STARTED SUCCESSFULLY ===');
-  });
+  if (serverFile) {
+    console.log(`Starting server with: node ${serverFile}`);
+    // Use require instead of execSync for better process handling
+    require(serverFile);
+  } else {
+    console.error('No server file found! Checked:', serverFiles);
+    process.exit(1);
+  }
+} catch (error) {
+  console.error('Error starting server:', error);
+  process.exit(1);
 }
