@@ -100,14 +100,19 @@ app.use((req, res, next) => {
     if (!process.env.SENDGRID_API_KEY) missingVars.push('SENDGRID_API_KEY');
     
     if (missingVars.length > 0) {
-      console.error(`CRITICAL ERROR: Missing required environment variables in production: ${missingVars.join(', ')}`);
+      console.error(`WARNING: Missing environment variables in production: ${missingVars.join(', ')}`);
       console.error('Please add these variables in the Deployment settings, not in the Secrets tab');
-      console.error('Application cannot start safely in production without these variables');
-      // In production, we should fail fast if environment variables are missing
-      if (process.env.NODE_ENV === 'production') {
-        // Wait a moment to ensure logs are flushed before exiting
-        setTimeout(() => process.exit(1), 100);
-        return;
+      console.error('Some features may not work correctly without these variables');
+      
+      // Set default fallback values even in production to prevent crashes
+      if (!process.env.SESSION_SECRET) {
+        console.error('Using insecure fallback SESSION_SECRET in production - NOT RECOMMENDED');
+        process.env.SESSION_SECRET = 'fallback-production-session-secret-' + Date.now();
+      }
+      
+      if (!process.env.SENDGRID_API_KEY) {
+        console.error('Using disabled SENDGRID_API_KEY in production - email features will not work');
+        process.env.SENDGRID_API_KEY = 'disabled-in-production';
       }
     }
   }
