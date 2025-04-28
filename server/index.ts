@@ -70,6 +70,9 @@ app.get('/health', (req, res) => {
 });
 
 // Request logging middleware
+// Get port from environment with fallback
+const PORT = process.env.PORT || '5000';
+
 app.use((req, res, next) => {
   const start = Date.now();
   const path = req.path;
