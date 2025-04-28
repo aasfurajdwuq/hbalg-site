@@ -45,7 +45,8 @@ app.use((req, res, next) => {
   next();
 });
 
-(async () => {
+// Self-invoking function with proper parentheses
+(async function() {
   // Using in-memory storage
   const server = await registerRoutes(app);
 
@@ -73,16 +74,17 @@ app.use((req, res, next) => {
   }
 
   // Server configuration optimized for both development and cloud deployment
-  // In production, use port 8080 to match Replit deployment configuration
+  // Always respect PORT environment variable when provided (for deployment)
+  // In production, use PORT environment variable with fallback to 8080
   // In development, use port 5000 to match workflow configuration
   const port = process.env.NODE_ENV === 'production' 
-    ? 8080  // Always use port 8080 in production
-    : 5000; // Always use port 5000 in development
+    ? (process.env.PORT ? parseInt(process.env.PORT, 10) : 8080)
+    : 5000;
+    
   // Always bind to all interfaces for proper deployment
   const host = '0.0.0.0';
   
-  // Environment checks moved to app initialization
-  
+  // Start the server
   server.listen(port, host, () => {
     log(`Server running on port ${port}`);
     log(`PORT environment variable: ${process.env.PORT || 'not set (using default)'}`);
