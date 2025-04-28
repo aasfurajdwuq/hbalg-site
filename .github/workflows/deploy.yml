@@ -14,7 +14,7 @@ jobs:
       - name: Install sshpass
         run: sudo apt-get update && sudo apt-get install -y sshpass
 
-      - name: Sync files to IONOS via rsync+SFTP
+      - name: Sync via rsync+SFTP
         run: |
-          RSYNC_RSH="sshpass -p '${{ secrets.FTP_PASSWORD }}' ssh -o StrictHostKeyChecking=no -p 22"
-          rsync -avz --delete --omit-dir-times ./ ${{ secrets.FTP_USER }}@${{ secrets.FTP_HOST }}:/htdocs/
+          export RSYNC_RSH="sshpass -p '${{ secrets.FTP_PASSWORD }}' ssh -o StrictHostKeyChecking=no -p 22"
+          rsync -avz --delete --omit-dir-times --exclude '.git/' --exclude '.github/' ./ ${{ secrets.FTP_USER }}@${{ secrets.FTP_HOST }}:/htdocs/
