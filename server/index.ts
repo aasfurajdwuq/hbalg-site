@@ -6,23 +6,21 @@ import dotenv from "dotenv";
 // Load environment variables
 dotenv.config();
 
-// IMPORTANT: In production, these must be set in the Deployment settings
-// SESSION_SECRET - Used for session security
-// SENDGRID_API_KEY - Used for email sending
-
-const defaults = {
-  SESSION_SECRET: 'temporary-development-secret',
-  SENDGRID_API_KEY: 'disabled-in-development'
-};
-
-Object.entries(defaults).forEach(([key, defaultValue]) => {
-  if (!process.env[key]) {
-    if (process.env.NODE_ENV === 'production') {
-      console.warn(`Warning: ${key} not set in production environment, using fallback`);
-    }
-    process.env[key] = defaultValue;
+// Environment variable configuration
+if (process.env.NODE_ENV === 'production') {
+  const requiredVars = ['SESSION_SECRET', 'SENDGRID_API_KEY'];
+  const missing = requiredVars.filter(key => !process.env[key]);
+  
+  if (missing.length > 0) {
+    console.error(`Error: Missing required environment variables: ${missing.join(', ')}`);
+    console.error('Please configure these in the Deployments settings');
+    process.exit(1);
   }
-});
+} else {
+  // Development defaults
+  if (!process.env.SESSION_SECRET) process.env.SESSION_SECRET = 'temporary-development-secret';
+  if (!process.env.SENDGRID_API_KEY) process.env.SENDGRID_API_KEY = 'disabled-in-development';
+}
 
 // Log environment status
 console.log('Environment configuration loaded');
