@@ -1,21 +1,15 @@
-name: Build & Deploy to IONOS via SFTP
+name: Deploy Static Site to IONOS via SFTP
 
 on:
   push:
     branches: [ main ]
 
 jobs:
-  ftp-deploy:
+  deploy:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
-
-      - name: Install dependencies
-        run: npm ci         # remove or change if you don't have a build step
-
-      - name: Build site
-        run: npm run build  # remove or change if you don't have a build step
 
       - name: Deploy via SFTP (scp)
         uses: appleboy/scp-action@v0.1.2
@@ -24,5 +18,8 @@ jobs:
           username: ${{ secrets.FTP_USER }}
           password: ${{ secrets.FTP_PASSWORD }}
           port: 22
-          source: "./build/"   # change to "./" if you have no build folder
+          source: "./"         # Upload everything in the repo root
           target: "/htdocs/"
+          exclude: |
+            .github/**
+            node_modules/**
