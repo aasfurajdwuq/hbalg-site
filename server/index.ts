@@ -5,7 +5,7 @@ import { ensureProductionDirectories, logProductionStatus, configureStaticServin
 import dotenv from "dotenv";
 import path from "path";
 import fs from "fs";
-import http from "http";
+import http, { createServer } from "http";
 
 // Start with extremely detailed logging to help debug deployment issues
 console.log('====================================================');
