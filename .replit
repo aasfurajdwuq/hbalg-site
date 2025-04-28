@@ -11,7 +11,7 @@ build = ["sh", "-c", "npm run build"]
 run = ["sh", "-c", "NODE_ENV=production PORT=8080 node dist/index.js"]
 
 [[deployment.ports]]
-localPort = 5000
+localPort = 8080
 externalPort = 80
 
 [workflows]

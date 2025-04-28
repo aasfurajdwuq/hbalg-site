@@ -90,7 +90,7 @@ app.use((req, res, next) => {
 
   // Server configuration for both local development and cloud deployment
   const port = parseInt(process.env.PORT || "5000", 10);
-  const host = process.env.NODE_ENV === 'production' ? '0.0.0.0' : 'localhost';
+  const host = '0.0.0.0';
   
   // Check for required environment variables in production
   if (process.env.NODE_ENV === 'production') {
