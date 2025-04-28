@@ -8,9 +8,9 @@ dotenv.config();
 
 // Set default environment variables
 const defaults = {
-  SESSION_SECRET: process.env.NODE_ENV === 'production' ? '' : 'temporary-secret',
-  SENDGRID_API_KEY: process.env.NODE_ENV === 'production' ? '' : 'disabled',
-  MONGODB_URI: process.env.NODE_ENV === 'production' ? '' : 'mongodb://localhost:27017/harvest-brothers'
+  SESSION_SECRET: process.env.NODE_ENV === 'production' ? process.env.SESSION_SECRET : 'temporary-secret',
+  SENDGRID_API_KEY: process.env.NODE_ENV === 'production' ? process.env.SENDGRID_API_KEY : 'disabled',
+  MONGODB_URI: process.env.NODE_ENV === 'production' ? process.env.MONGODB_URI : 'mongodb://localhost:27017/harvest-brothers'
 };
 
 // Set environment variables with fallbacks
@@ -94,5 +94,7 @@ app.use((req, res, next) => {
   server.listen(port, '0.0.0.0', () => {
     log(`Server running on http://0.0.0.0:${port}`);
     log(`Environment: ${process.env.NODE_ENV}`);
+    log(`Using SESSION_SECRET: ${process.env.SESSION_SECRET ? 'Configured' : 'Missing!'}`);
+    log(`Using SENDGRID_API_KEY: ${process.env.SENDGRID_API_KEY ? 'Configured' : 'Missing!'}`);
   });
 })();
