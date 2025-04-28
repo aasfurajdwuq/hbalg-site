@@ -3,30 +3,11 @@ import { registerRoutes } from "./routes";
 import { setupVite, serveStatic, log } from "./vite";
 import dotenv from "dotenv";
 
-// Load environment variables
+// Load environment variables but don't require any specific ones
 dotenv.config();
 
-// Environment variable configuration
-if (process.env.NODE_ENV === 'production') {
-  const requiredVars = ['SESSION_SECRET', 'SENDGRID_API_KEY'];
-  const missing = requiredVars.filter(key => !process.env[key]);
-  
-  if (missing.length > 0) {
-    console.warn(`Warning: Missing environment variables: ${missing.join(', ')}`);
-    console.warn('Using fallback values - some features may be limited');
-    
-    if (!process.env.SESSION_SECRET) {
-      process.env.SESSION_SECRET = `fallback-session-${Date.now()}`;
-    }
-    if (!process.env.SENDGRID_API_KEY) {
-      process.env.SENDGRID_API_KEY = 'disabled';
-    }
-  }
-} else {
-  // Development defaults
-  if (!process.env.SESSION_SECRET) process.env.SESSION_SECRET = 'temporary-development-secret';
-  if (!process.env.SENDGRID_API_KEY) process.env.SENDGRID_API_KEY = 'disabled-in-development';
-}
+// No environment variable requirements - the app works without any API keys
+console.log('Starting application with no external API requirements');
 
 console.log('Environment configuration loaded');
 
@@ -100,18 +81,9 @@ app.use((req, res, next) => {
   server.listen(port, host, () => {
     log(`Server running on port ${port}`);
     log(`Environment: ${process.env.NODE_ENV || 'development'}`);
-    log(`Bound to interface: 0.0.0.0`);
-    
-    // Log environment variable status
-    const envStatus = {
-      SESSION_SECRET: process.env.SESSION_SECRET ? 'Configured' : 'Using fallback',
-      SENDGRID_API_KEY: process.env.SENDGRID_API_KEY ? 'Configured' : 'Using fallback'
-    };
-    
-    Object.entries(envStatus).forEach(([key, status]) => {
-      log(`${key}: ${status}`);
-    });
-  }).on('error', (err) => {
+    log(`Bound to interface: ${host}`);
+    log('No API keys or secrets required - app is ready for deployment');
+  }).on('error', (err: Error & {code?: string}) => {
     console.error('Server failed to start:', err);
     if (err.code === 'EADDRINUSE') {
       console.error(`Port ${port} is already in use`);
