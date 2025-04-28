@@ -54,8 +54,9 @@ console.log(`NODE_ENV: ${process.env.NODE_ENV}`);
 console.log(`PORT: ${process.env.PORT}`);
 console.log('==================================');
 
-// Create Express application
+// Create Express application and HTTP server
 const app = express();
+const server = createServer(app);
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 

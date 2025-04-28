@@ -22,7 +22,7 @@ const investorFormSchema = z.object({
   message: z.string().min(10),
 });
 
-export async function registerRoutes(app: Express): Promise<Server> {
+export async function registerRoutes(app: Express): Promise<void> {
   // Contact form submission endpoint
   app.post('/api/contact', async (req: Request, res: Response) => {
     try {
@@ -99,7 +99,5 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  const httpServer = createServer(app);
-
-  return httpServer;
+  // Routes registered successfully
 }
