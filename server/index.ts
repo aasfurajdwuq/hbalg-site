@@ -73,9 +73,12 @@ app.use((req, res, next) => {
   }
 
   // Server configuration optimized for both development and cloud deployment
-  // IMPORTANT: Always use PORT environment variable to support Replit deployment
-  const port = parseInt(process.env.PORT || "5000", 10);
-  // Always bind to all interfaces
+  // In production, use port 8080 to match Replit deployment configuration
+  // In development, use port 5000 to match workflow configuration
+  const port = process.env.NODE_ENV === 'production' 
+    ? 8080  // Always use port 8080 in production
+    : 5000; // Always use port 5000 in development
+  // Always bind to all interfaces for proper deployment
   const host = '0.0.0.0';
   
   // Environment checks moved to app initialization
