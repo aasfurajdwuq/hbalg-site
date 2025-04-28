@@ -25,6 +25,6 @@ jobs:
         run: |
           lftp -u "${{ secrets.FTP_USER }},${{ secrets.FTP_PASSWORD }}" sftp://${{ secrets.FTP_HOST }} << 'LFTP'
             set sftp:connect-program "ssh -a -x -o StrictHostKeyChecking=no -p 22"
-            mirror -R --delete --verbose --ignore-errors dist/public /
+            mirror -R --verbose dist/public /
             bye
           LFTP
