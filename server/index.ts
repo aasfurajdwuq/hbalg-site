@@ -72,8 +72,8 @@ app.use((req, res, next) => {
     await setupVite(app, server);
   }
 
-  // Server configuration for both local development and cloud deployment
-  const port = parseInt(process.env.PORT || "5000", 10);
+  // Server configuration optimized for both development and cloud deployment
+  const port = process.env.NODE_ENV === "production" ? 80 : 5000;
   const host = '0.0.0.0';
   
   // Environment checks moved to app initialization
