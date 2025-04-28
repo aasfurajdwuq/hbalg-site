@@ -9,19 +9,17 @@ dotenv.config();
 // IMPORTANT: In production, these must be set in the Deployment settings
 // SESSION_SECRET - Used for session security
 // SENDGRID_API_KEY - Used for email sending
-// For development, we'll use fallback values
 
-// Set default environment variables without conditional checks
-// This ensures the app can start regardless of environment configuration
 const defaults = {
   SESSION_SECRET: 'temporary-development-secret',
   SENDGRID_API_KEY: 'disabled-in-development'
 };
 
-// Set environment variables with fallbacks - simplified approach
 Object.entries(defaults).forEach(([key, defaultValue]) => {
-  // Only set fallbacks in development, never in production
-  if (!process.env[key] && process.env.NODE_ENV !== 'production') {
+  if (!process.env[key]) {
+    if (process.env.NODE_ENV === 'production') {
+      console.warn(`Warning: ${key} not set in production environment, using fallback`);
+    }
     process.env[key] = defaultValue;
   }
 });
@@ -119,20 +117,24 @@ app.use((req, res, next) => {
   
   // Explicitly bind to 0.0.0.0 to listen on all network interfaces
   server.listen(port, '0.0.0.0', () => {
-    log(`Server running on http://0.0.0.0:${port}`);
+    log(`Server running on port ${port}`);
     log(`Environment: ${process.env.NODE_ENV || 'development'}`);
+    log(`Bound to interface: 0.0.0.0`);
     
-    if (process.env.NODE_ENV === 'production') {
-      // In production, just log if the variables are configured
-      log(`SESSION_SECRET: ${process.env.SESSION_SECRET ? 'Configured' : 'MISSING - APPLICATION MAY BE INSECURE'}`);
-      log(`SENDGRID_API_KEY: ${process.env.SENDGRID_API_KEY ? 'Configured' : 'MISSING - EMAIL FUNCTIONALITY DISABLED'}`);
-    } else {
-      // In development, we use fallbacks
-      log(`Using SESSION_SECRET: ${process.env.SESSION_SECRET ? 'Custom Value' : 'Default Development Value'}`);
-      log(`Using SENDGRID_API_KEY: ${process.env.SENDGRID_API_KEY ? 'Custom Value' : 'Disabled in Development'}`);
-    }
+    // Log environment variable status
+    const envStatus = {
+      SESSION_SECRET: process.env.SESSION_SECRET ? 'Configured' : 'Using fallback',
+      SENDGRID_API_KEY: process.env.SENDGRID_API_KEY ? 'Configured' : 'Using fallback'
+    };
+    
+    Object.entries(envStatus).forEach(([key, status]) => {
+      log(`${key}: ${status}`);
+    });
   }).on('error', (err) => {
     console.error('Server failed to start:', err);
+    if (err.code === 'EADDRINUSE') {
+      console.error(`Port ${port} is already in use`);
+    }
     process.exit(1);
   });
 })();
