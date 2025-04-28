@@ -31,6 +31,10 @@ const ENV_DEFAULTS = {
   NODE_ENV: 'production',
   // Use port 8080 for Replit deployment
   PORT: '8080',
+  // Secure session secret fallback
+  SESSION_SECRET: process.env.NODE_ENV === 'production' 
+    ? `secure-${Date.now()}-${Math.random().toString(36).slice(2)}`
+    : 'dev-secret'
 };
 
 // Apply defaults for any missing environment variables
@@ -117,7 +121,7 @@ app.use((req, res, next) => {
 
     // Using in-memory storage
     console.log('Initializing routes and storage');
-    const server = await registerRoutes(app);
+    await registerRoutes(app);
     console.log('Routes initialized successfully');
 
     // Global error handler

@@ -1,9 +1,12 @@
+
 // This file is no longer using SendGrid
 // Now using client-side EmailJS exclusively for email sending
 // All emails are handled directly in EmailJSForm.tsx on the client side
 
-// These functions now just log the form data and store it in our database
-// No external API or service is required
+// Add environment check
+if (!process.env.SENDGRID_API_KEY && process.env.NODE_ENV === 'production') {
+  console.log('Note: SENDGRID_API_KEY not set, using client-side EmailJS only');
+}
 
 interface ContactFormData {
   name: string;
