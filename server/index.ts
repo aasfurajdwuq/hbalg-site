@@ -11,9 +11,13 @@ const requiredEnvVars = ['SESSION_SECRET', 'SENDGRID_API_KEY'];
 const missingVars = requiredEnvVars.filter(varName => !process.env[varName]);
 
 if (missingVars.length > 0) {
-  console.warn(`Warning: Missing environment variables: ${missingVars.join(', ')}. Using fallback values.`);
-  if (!process.env.SESSION_SECRET) process.env.SESSION_SECRET = 'temporary-secret';
-  if (!process.env.SENDGRID_API_KEY) process.env.SENDGRID_API_KEY = 'disabled';
+  if (process.env.NODE_ENV === 'production') {
+    throw new Error(`Missing required environment variables: ${missingVars.join(', ')}. Please configure these in deployment settings.`);
+  } else {
+    console.warn(`Warning: Missing environment variables: ${missingVars.join(', ')}. Using development fallbacks.`);
+    if (!process.env.SESSION_SECRET) process.env.SESSION_SECRET = 'temporary-secret';
+    if (!process.env.SENDGRID_API_KEY) process.env.SENDGRID_API_KEY = 'disabled';
+  }
 }
 
 const app = express();
