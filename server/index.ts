@@ -95,8 +95,8 @@ app.use((req, res, next) => {
     log(`Environment: ${process.env.NODE_ENV || 'development'}`);
     log(`Using SESSION_SECRET: ${process.env.SESSION_SECRET ? 'Configured' : 'Missing!'}`);
     log(`Using SENDGRID_API_KEY: ${process.env.SENDGRID_API_KEY ? 'Configured' : 'Missing!'}`);
-    
-    // Additional logging to help with cloud deployment
-    log(`Listening on port ${port} and bound to 0.0.0.0 (all interfaces)`);
+  }).on('error', (err) => {
+    console.error('Server failed to start:', err);
+    process.exit(1);
   });
 })();
