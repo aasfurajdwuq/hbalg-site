@@ -87,11 +87,9 @@ app.use((req, res, next) => {
   }
 
   // Server configuration for both local development and cloud deployment
-  // Port 5000 is used for local development, but Cloud Run may assign a different port via PORT env variable
-  const port = parseInt(process.env.PORT || '5000');
+  const port = process.env.PORT ? parseInt(process.env.PORT) : 5000;
   
   // Explicitly bind to 0.0.0.0 to listen on all network interfaces
-  // This is essential for cloud deployments like Cloud Run
   server.listen(port, '0.0.0.0', () => {
     log(`Server running on http://0.0.0.0:${port}`);
     log(`Environment: ${process.env.NODE_ENV || 'development'}`);
